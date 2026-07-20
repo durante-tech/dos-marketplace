@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://www.duranteos.com/schemas/dos-phase-manifest-v1.json",
+  "title": "DOS Algorithm Phase Manifest (RFC-0006 §6.1)",
+  "description": "Declarative phase manifest. One per Algorithm phase. Compiles to a Markdown phase header block in v0.0.1.md. Required keys per RFC §6.1.",
+  "type": "object",
+  "required": [
+    "phase",
+    "sequence",
+    "header_emoji",
+    "voice_message",
+    "prd_updates",
+    "output_slots",
+    "gates",
+    "must_actions"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "phase": {
+      "description": "Phase identifier, lowercase. Matches the canonical phase name (observe, think, plan, build, execute, verify, learn).",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "sequence": {
+      "description": "Phase sequence label rendered in the header (e.g. '1/7').",
+      "type": "string",
+      "pattern": "^[0-9]+/[0-9]+$"
+    },
+    "header_emoji": {
+      "description": "Emoji prefixing the phase header line.",
+      "type": "string",
+      "minLength": 1
+    },
+    "voice_message": {
+      "description": "The exact string spoken when entering this phase. Surface contract — do not rewrite.",
+      "type": "string",
+      "minLength": 1
+    },
+    "prd_updates": {
+      "description": "PRD frontmatter fields the phase MUST update on entry. Each value may contain {{token}} placeholders the compiler renders verbatim into the phase header instructions.",
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "boolean", "number", "null"]
+      }
+    },
+    "output_slots": {
+      "description": "Ordered list of OUTPUT slots the phase emits. Compiler renders each as a labelled bullet line in the OUTPUT block.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "label", "template"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "template": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "gates": {
+      "description": "Per-phase gates the algorithm MUST satisfy before exiting the phase. Compiler may emit them as a checklist; type-specific encoding is implementation-defined.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type"],
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["ge", "le", "eq", "assertion"]
+          },
+          "field": {
+            "type": "string"
+          },
+          "threshold": {
+            "type": ["number", "string"]
+          },
+          "threshold_by_effort": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "rule": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "must_actions": {
+      "description": "Discrete must-actions the phase performs. Each is a stable identifier the compiler renders into the FIRST ACTION line.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "minItems": 1
+    },
+    "raw_frontmatter": {
+      "description": "Reserved escape hatch. Implementations MUST preserve any unknown top-level keys verbatim per RFC §7.1.3.",
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

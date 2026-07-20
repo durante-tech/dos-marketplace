@@ -1,0 +1,24 @@
+{
+  "_comment": "ILLUSTRATIVE ONLY — run-probe.ts generates the real file into a throwaway temp dir with a concrete counter path baked in. This sample shows the shape: one PostToolUse 'Edit' matcher group, 12 sentinel hooks, each a UNIQUE command (distinct pNN marker) so command-string dedup cannot collapse them. Replace /abs/counter.txt with the real path at generation time.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          { "type": "command", "command": "bash -c 'printf \"p01\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p02\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p03\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p04\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p05\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p06\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p07\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p08\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p09\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p10\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p11\\n\" >> \"/abs/counter.txt\"'" },
+          { "type": "command", "command": "bash -c 'printf \"p12\\n\" >> \"/abs/counter.txt\"'" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "pack": "scraping",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/scraping/src/"
+}

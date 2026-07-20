@@ -1,0 +1,9 @@
+{
+  "pack": "pragmatic",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/pragmatic/src/"
+}

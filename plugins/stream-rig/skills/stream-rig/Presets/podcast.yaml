@@ -1,0 +1,237 @@
+preset:
+  name: podcast
+  displayName: "Podcast / Talk Show"
+  description: >
+    Conversational interview format. Host + optional guest, segment-based
+    structure, transcript-heavy post-show pipeline. Reference preset for v0.1.
+  vertical: podcast
+  defaultVibe: studio-warm
+
+  phases:
+    - name: intro
+      label: "Intro"
+      colorToken: "--primary"
+      scene: "01_Intro"
+      marker: true
+    - name: segment-1
+      label: "Segment 1"
+      colorToken: "--primary"
+      scene: "02_Main"
+      marker: true
+    - name: break
+      label: "Break"
+      colorToken: "--accent"
+      scene: "03_Brb"
+      marker: true
+    - name: segment-2
+      label: "Segment 2"
+      colorToken: "--primary"
+      scene: "02_Main"
+      marker: true
+    - name: qa
+      label: "Q&A"
+      colorToken: "--accent"
+      scene: "02_Main"
+      marker: true
+    - name: outro
+      label: "Outro"
+      colorToken: "--primary"
+      scene: "04_Outro"
+      marker: true
+
+  scenes:
+    - name: "01_Intro"
+      sources:
+        - type: image
+          ref: "{BRAND}/intro-splash.png"
+          position: { x: 0, y: 0, width: 1920, height: 1080 }
+          layer: 0
+        - type: browser
+          ref: "{OVERLAYS}/Intro.html?n={N}&title={TITLE}&guest={GUEST}&topics={TOPICS}"
+          position: { x: 0, y: 0, width: 1920, height: 1080 }
+          layer: 1
+    - name: "02_Main"
+      sources:
+        - type: image
+          ref: "{BRAND}/intro-splash.png"
+          position: { x: 0, y: 0, width: 1920, height: 1080 }
+          layer: 0
+        - type: webcam
+          ref: "host-cam"
+          position: { x: 60, y: 120, width: 880, height: 660 }
+          layer: 1
+        - type: webcam
+          ref: "guest-cam"
+          position: { x: 980, y: 120, width: 880, height: 660 }
+          layer: 1
+        - type: browser
+          ref: "{OVERLAYS}/PodcastDualFrame.html?phase={PHASE}"
+          position: { x: 0, y: 0, width: 1920, height: 1080 }
+          layer: 2
+        - type: browser
+          ref: "{OVERLAYS}/LowerThird.html?name={GUEST_NAME}&handle={GUEST_HANDLE}&topic={CURRENT_TOPIC}"
+          position: { x: 0, y: 880, width: 1920, height: 200 }
+          layer: 3
+    - name: "03_Brb"
+      sources:
+        - type: image
+          ref: "{BRAND}/brb-card.png"
+          position: { x: 0, y: 0, width: 1920, height: 1080 }
+          layer: 0
+        - type: browser
+          ref: "{OVERLAYS}/Brb.html?backIn={BACK_IN_MIN}"
+          position: { x: 0, y: 0, width: 1920, height: 1080 }
+          layer: 1
+    - name: "04_Outro"
+      sources:
+        - type: image
+          ref: "{BRAND}/outro-card.png"
+          position: { x: 0, y: 0, width: 1920, height: 1080 }
+          layer: 0
+        - type: browser
+          ref: "{OVERLAYS}/Outro.html?n={N}&runtime={RUNTIME}&highlights={HIGHLIGHTS}&nextEp={NEXT_EP}"
+          position: { x: 0, y: 0, width: 1920, height: 1080 }
+          layer: 1
+
+  overlays:
+    - templateName: Intro
+      queryParams:
+        - { name: n,      type: number,    required: true }
+        - { name: title,  type: string,    required: true }
+        - { name: guest,  type: string,    required: false }
+        - { name: topics, type: pipe-list, required: false }
+      dimensions: { width: 1920, height: 1080 }
+      layer: 1
+      refreshOnPhase: false
+    - templateName: PodcastDualFrame
+      queryParams:
+        - { name: phase, type: string, required: true }
+      dimensions: { width: 1920, height: 1080 }
+      layer: 2
+      refreshOnPhase: true
+    - templateName: LowerThird
+      queryParams:
+        - { name: name,   type: string, required: true }
+        - { name: handle, type: string, required: false }
+        - { name: topic,  type: string, required: false }
+      dimensions: { width: 1920, height: 200, x: 0, y: 880 }
+      layer: 3
+      refreshOnPhase: false
+    - templateName: Brb
+      queryParams:
+        - { name: backIn, type: number, required: false, default: "5" }
+      dimensions: { width: 1920, height: 1080 }
+      layer: 1
+      refreshOnPhase: false
+    - templateName: Outro
+      queryParams:
+        - { name: n,          type: number,    required: true }
+        - { name: runtime,    type: string,    required: false }
+        - { name: highlights, type: pipe-list, required: false }
+        - { name: nextEp,     type: string,    required: false }
+      dimensions: { width: 1920, height: 1080 }
+      layer: 1
+      refreshOnPhase: false
+
+  assets:
+    - assetName: wordmark
+      mediaModel: GPTImage1
+      promptTemplate: >
+        Wordmark logo for podcast "{CHANNEL_NAME}". Style: {VIBE_MOOD}.
+        Primary color {PRIMARY_HEX}. Clean, broadcast-ready, readable at small sizes.
+        Transparent background. Vector-clean edges.
+      outputPath: wordmark.png
+      outputFormat: png
+      dimensions: { width: 1200, height: 400 }
+      transparentBg: true
+      regenTrigger: ["--primary", "--font-display", "channel-name"]
+      costEstimate: 1.5
+    - assetName: webcam-frame
+      mediaModel: NanoBanana
+      promptTemplate: >
+        Webcam overlay frame, {VIBE_MOOD} style, primary color {PRIMARY_HEX},
+        accent {ACCENT_HEX}. Transparent center with decorative border, top-right
+        corner reserved for wordmark placement. Empty center exactly 880x660 px.
+      outputPath: webcam-frame.png
+      outputFormat: png
+      dimensions: { width: 1920, height: 1080 }
+      transparentBg: true
+      regenTrigger: ["--primary", "--accent", "vibe"]
+      costEstimate: 2
+    - assetName: intro-splash
+      mediaModel: Flux
+      promptTemplate: >
+        Atmospheric backdrop for podcast intro. {VIBE_MOOD} mood, color palette
+        anchored on {PRIMARY_HEX} and {BG_HEX}. Subtle texture, generous negative
+        space in upper-left third for overlay text. No people, no faces, no logos.
+      outputPath: intro-splash.png
+      outputFormat: png
+      dimensions: { width: 1920, height: 1080 }
+      transparentBg: false
+      regenTrigger: ["--primary", "--bg", "vibe"]
+      costEstimate: 3
+    - assetName: outro-card
+      mediaModel: Flux
+      promptTemplate: >
+        Outro card for podcast. {VIBE_MOOD} mood. Calm closing tone. Color palette
+        {PRIMARY_HEX} on {BG_HEX}. Central bottom-third reserved for social handles
+        and next-episode preview text. No faces, no logos.
+      outputPath: outro-card.png
+      outputFormat: png
+      dimensions: { width: 1920, height: 1080 }
+      transparentBg: false
+      regenTrigger: ["--primary", "--bg", "vibe"]
+      costEstimate: 3
+    - assetName: brb-card
+      mediaModel: Flux
+      promptTemplate: >
+        Be-right-back screen. {VIBE_MOOD} mood. Soft, ambient. Color palette
+        {PRIMARY_HEX} on {BG_HEX}. Visual rhythm suggests waiting (e.g. soft
+        gradient, slow pattern). Central area reserved for "BACK IN N MIN" text.
+      outputPath: brb-card.png
+      outputFormat: png
+      dimensions: { width: 1920, height: 1080 }
+      transparentBg: false
+      regenTrigger: ["--primary", "--bg", "vibe"]
+      costEstimate: 3
+    - assetName: lower-third-bg
+      mediaModel: NanoBanana
+      promptTemplate: >
+        Lower-third banner background, {VIBE_MOOD} style. Primary color
+        {PRIMARY_HEX} with {ACCENT_HEX} accent. Translucent fade on top edge.
+        Empty 1920x200 strip with subtle pattern, no text.
+      outputPath: lower-third-bg.png
+      outputFormat: png
+      dimensions: { width: 1920, height: 200 }
+      transparentBg: true
+      regenTrigger: ["--primary", "--accent"]
+      costEstimate: 2
+
+  streamdeck:
+    device: Standard
+    pages:
+      - name: "Main"
+        buttons:
+          # Top row — scenes
+          - { position: { row: 0, col: 0 }, action: scene, arg: "01_Intro", icon: "streamdeck-icon-intro" }
+          - { position: { row: 0, col: 1 }, action: scene, arg: "02_Main",  icon: "streamdeck-icon-main"  }
+          - { position: { row: 0, col: 2 }, action: scene, arg: "03_Brb",   icon: "streamdeck-icon-brb"   }
+          - { position: { row: 0, col: 3 }, action: scene, arg: "04_Outro", icon: "streamdeck-icon-outro" }
+          - { position: { row: 0, col: 4 }, action: preshow, icon: "streamdeck-icon-preshow" }
+          # Middle row — phases
+          - { position: { row: 1, col: 0 }, action: phase, arg: "intro",     icon: "streamdeck-icon-phase-intro" }
+          - { position: { row: 1, col: 1 }, action: phase, arg: "segment-1", icon: "streamdeck-icon-phase-seg1" }
+          - { position: { row: 1, col: 2 }, action: phase, arg: "break",     icon: "streamdeck-icon-phase-break" }
+          - { position: { row: 1, col: 3 }, action: phase, arg: "segment-2", icon: "streamdeck-icon-phase-seg2" }
+          - { position: { row: 1, col: 4 }, action: phase, arg: "qa",        icon: "streamdeck-icon-phase-qa" }
+          # Bottom row — controls
+          - { position: { row: 2, col: 0 }, action: marker, arg: "highlight",                  icon: "streamdeck-icon-marker"  }
+          - { position: { row: 2, col: 1 }, action: mute,   arg: "Mic/Aux",                    icon: "streamdeck-icon-mute"    }
+          - { position: { row: 2, col: 2 }, action: custom, arg: "obs rec toggle",             icon: "streamdeck-icon-rec"     }
+          - { position: { row: 2, col: 3 }, action: custom, arg: "obs stream toggle",          icon: "streamdeck-icon-stream"  }
+          - { position: { row: 2, col: 4 }, action: endshow,                                   icon: "streamdeck-icon-endshow" }
+
+  endshowExtractor: manual
+  # Options: manual (operator supplies highlights array), outline (read from
+  # episode outline file), linear (pull completed Linear tickets in window).
+  # Podcast preset defaults to manual; build-in-public preset will use git-shipped.

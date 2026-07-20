@@ -1,0 +1,39 @@
+# Member shape:
+#   - `persistent: <SubagentTypeName>` references ~/.claude/agents/<Name>.md
+#     (full persona + voice ID + prosody + permissions stack).
+#     CouncilCommand.ts emits kind: "specialist" for these — orchestrator
+#     spawns via Task(subagent_type: <Name>), no composed prompt needed.
+#   - `traits: [...]` + `role: ...` is the legacy ad-hoc trait composition.
+#     CouncilCommand.ts emits kind: "composed" — orchestrator spawns via
+#     Task(subagent_type: "general-purpose") with the composed prompt.
+# Single source of truth for persistent specialists: MEMORY/CANONICAL/specialist-directory.md
+technical:
+  - persistent: Architect       # Serena Blackwood — system design, distributed systems
+  - persistent: Engineer        # Marcus Webb — implementation reality, tech debt
+  - role: Critic
+    traits: [security, contrarian, investigative]
+  - persistent: PerplexityResearcher  # data, precedent, evidence chains
+
+product:
+  - role: Strategist
+    traits: [product, analytical, thorough]
+  - persistent: Designer          # Aditi Sharma — UX angle, every product decision touches users
+  - role: Challenger
+    traits: [sales, contrarian, investigative]
+  - persistent: PerplexityResearcher  # market evidence, competitive landscape
+
+security:
+  - persistent: Pentester         # Rook Blackburn — vulnerability assessment, attack surface
+  - role: Red Team
+    traits: [security, contrarian, adversarial]
+  - persistent: Architect         # Serena Blackwood — system-level security review
+  - role: Compliance
+    traits: [legal, cautious, meticulous]
+
+brand:
+  - role: Strategist
+    traits: [brand, analytical, thorough]
+  - persistent: Designer          # Aditi Sharma — visual + UX as brand expression
+  - role: Market
+    traits: [sales, pragmatic, rapid]
+  - persistent: PerplexityResearcher  # competitor scans, market positioning evidence

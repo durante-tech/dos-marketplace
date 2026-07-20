@@ -1,0 +1,193 @@
+{
+  "_readme": "Idempotency contract — shared between DOS client (hooks/lib/dlq.ts, hooks/lib/streamEvent.ts) and Studio /api/v1 route handlers. Every POST declares the Idempotency-Key schema its clients must compute. {scope,schema} = iter-1 SessionEnd batch path. {scopeEvent,schemaEvent} = iter-2 streaming per-event path. syncModes lists which modes are supported. Placeholders resolve to values already present in the endpoint's Zod schema (see bindings). {digestOfBody} = lowercase hex sha256 of the canonical JSON of the body (@kit/database/idempotency-key → digestBody). Middleware withIdempotency validates that the client-sent Idempotency-Key header matches what keyFrom(body) produces; mismatch → 400. See Plans/Specs/studio-sync-resilience.md (Primitive #2) and Plans/Specs/studio-sync-streaming.md (Primitive #2).",
+  "$version": 2,
+  "endpoints": {
+    "/api/v1/artifacts": {
+      "schema": "artifacts:{sessionId}:{filePathDigest16}:{digestOfBody}",
+      "scope": "session",
+      "schemaEvent": "artifacts:{sessionId}:{toolCallId}:{artifactSeq}",
+      "scopeEvent": "event",
+      "syncModes": ["batch", "event"]
+    },
+    "/api/v1/inner-artifacts": {
+      "schema": "inner-artifacts:{filePathDigest16}:{digestOfBody}",
+      "scope": "global",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/sessions": {
+      "schema": "sessions:{sessionId}:{digestOfBody}",
+      "scope": "session",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/work": {
+      "schema": "work:{slug}:{phase}:{digestOfBody}",
+      "scope": "work-session",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/reflections": {
+      "schema": "reflection:{prdId}:{digestOfBody}",
+      "scope": "global",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/signals": {
+      "schema": "signal:{sessionId}:{digestOfBody}",
+      "scope": "session",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/kg/sync": {
+      "schema": "kg:{digestOfBody}",
+      "scope": "global",
+      "schemaEvent": "kg:{kgTxId}:{entitySha}",
+      "scopeEvent": "event",
+      "syncModes": ["batch", "event"]
+    },
+    "/api/v1/corrections": {
+      "schema": "correction:{sessionId}:{digestOfBody}",
+      "scope": "global",
+      "syncModes": ["batch", "event"]
+    },
+    "/api/v1/failures": {
+      "schema": "failure:{slug}:{digestOfBody}",
+      "scope": "daily",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/learnings": {
+      "schema": "learning:{category}:{fileName}:{digestOfBody}",
+      "scope": "global",
+      "syncModes": ["batch", "event"]
+    },
+    "/api/v1/memory/snapshots": {
+      "schema": "memsnap:{wing}:{digestOfBody}",
+      "scope": "hourly",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/hooks/metrics": {
+      "schema": "hookmetric:{digestOfBody}",
+      "scope": "batch",
+      "schemaEvent": "hookmetric:{sessionId}:{hookName}:{eventSeq}",
+      "scopeEvent": "event",
+      "syncModes": ["batch", "event"]
+    },
+    "/api/v1/voice/events": {
+      "schema": "voice:{digestOfBody}",
+      "scope": "session",
+      "schemaEvent": "voice:{sessionId}:{eventSeq}",
+      "scopeEvent": "event",
+      "syncModes": ["batch", "event"]
+    },
+    "/api/v1/security/events": {
+      "schema": "secevt:{digestOfBody}",
+      "scope": "global",
+      "schemaEvent": "secevt:{eventId}",
+      "scopeEvent": "event",
+      "syncModes": ["batch", "event"]
+    },
+    "/api/v1/relationships/notes": {
+      "schema": "relnote:{noteDate}:{digestOfBody}",
+      "scope": "daily",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/research": {
+      "schema": "research:{slug}:{digestOfBody}",
+      "scope": "vault",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/plans": {
+      "schema": "plan:{slug}:{digestOfBody}",
+      "scope": "plan",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/skills/activations": {
+      "schema": "skill-activation:{sessionId}:{skillName}:{timestamp}:{digestOfBody}",
+      "scope": "session",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/banner-fire": {
+      "schema": "banner-fire:{sessionId}:{turnUuid}:{digestOfBody}",
+      "scope": "session",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/deferrals": {
+      "schema": "deferrals:{digestOfBody}",
+      "scope": "global",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/commitments": {
+      "schema": "commitments:{digestOfBody}",
+      "scope": "global",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/telos": {
+      "schema": "telos:{digestOfBody}",
+      "scope": "global",
+      "syncModes": ["batch"]
+    },
+    "/api/v1/workflow/receipts": {
+      "schema": "wfreceipt:{runId}",
+      "scope": "global",
+      "syncModes": ["batch"]
+    }
+  },
+  "scopes": {
+    "session": "Keyed by a single DOS session (one Claude Code run). Collisions across sessions are impossible.",
+    "work-session": "Keyed by the work-session slug (MEMORY/WORK/{timestamp_slug}/). Spans multiple DOS sessions.",
+    "event": "Keyed by an individual tool call or streaming event within a session. Used by iter-2 streaming path.",
+    "global": "Keyed by an identity stable across all DOS installs and sessions (content digest, correction id, event id).",
+    "daily": "Keyed by a YYYY-MM-DD date plus a secondary identifier. Safe for per-day aggregates.",
+    "hourly": "Keyed by a YYYY-MM-DDTHH window or per-snapshot-time. Hourly cadence sync tools.",
+    "batch": "Keyed by a digest of the payload batch. Content-addressable — same payload → same key.",
+    "vault": "Keyed by a RESEARCH vault slug. Mid-vault partial syncs need distinct slugs.",
+    "plan": "Keyed by a plan slug. Mirrors the vault pattern for Plans."
+  },
+  "syncModeSet": {
+    "batch": "SessionEnd batch POST. One body can contain many rows. Used by iter-1 SessionEnd path.",
+    "event": "Per-event streaming POST mid-session. Single-row body. Used by iter-2 PostToolUse streaming path."
+  },
+  "streamableCount": 7,
+  "streamableEndpoints": [
+    "/api/v1/artifacts",
+    "/api/v1/voice/events",
+    "/api/v1/security/events",
+    "/api/v1/kg/sync",
+    "/api/v1/corrections",
+    "/api/v1/learnings",
+    "/api/v1/hooks/metrics"
+  ],
+  "bindings": {
+    "_readme": "Placeholder-to-field mapping. {source: 'payload'} fields must appear in the Zod schema for the corresponding endpoint. {source: 'computed'} fields are derived by the client before POSTing. {digestOfBody} = lowercase hex sha256 of canonical JSON of the entire body.",
+    "sessionId":    { "source": "payload",  "field": "sessionId",    "type": "string" },
+    "toolCallId":   { "source": "payload",  "field": "toolCallId",   "type": "string" },
+    "artifactSeq":  { "source": "payload",  "field": "artifactSeq",  "type": "integer" },
+    "filePath":     { "source": "payload",  "field": "filePath",     "type": "string" },
+    "filePathDigest16": { "source": "computed", "field": "sha256Hex(filePath).slice(0,16)", "type": "16-char lowercase hex string" },
+    "producedAt":   { "source": "payload",  "field": "producedAt",   "type": "ISO 8601 datetime string" },
+    "slug":         { "source": "payload",  "field": "slug",         "type": "string" },
+    "phase":        { "source": "payload",  "field": "phase",        "type": "string" },
+    "prdId":        { "source": "payload",  "field": "prdId",        "type": "string" },
+    "digestOfBody": { "source": "computed", "field": "sha256Hex(canonicalJson(body))", "type": "64-char lowercase hex string" },
+    "kgTxId":       { "source": "payload",  "field": "kgTxId",       "type": "string (iter-2 event mode only)" },
+    "entitySha":    { "source": "payload",  "field": "entitySha",    "type": "string (iter-2 event mode only)" },
+    "category":     { "source": "payload",  "field": "category",     "type": "string" },
+    "fileName":     { "source": "payload",  "field": "fileName",     "type": "string" },
+    "wing":         { "source": "payload",  "field": "wing",         "type": "string" },
+    "hookName":     { "source": "payload",  "field": "hookName",     "type": "string (iter-2 event mode only)" },
+    "eventSeq":     { "source": "payload",  "field": "eventSeq",     "type": "integer (iter-2 event mode only)" },
+    "eventId":      { "source": "payload",  "field": "eventId",      "type": "string (iter-2 event mode only)" },
+    "noteDate":     { "source": "payload",  "field": "noteDate",     "type": "ISO 8601 datetime string" },
+    "runId":        { "source": "payload",  "field": "run_id",       "type": "string" },
+    "skillName":    { "source": "payload",  "field": "skill_name",   "type": "string" },
+    "timestamp":    { "source": "payload",  "field": "timestamp",    "type": "ISO 8601 datetime string" },
+    "turnUuid":     { "source": "payload",  "field": "turn_uuid",    "type": "string" }
+  },
+  "conflictSemantics": {
+    "_readme": "Studio-side behavior when a POST arrives with an Idempotency-Key already seen. The contract test verifies each endpoint honors exactly one of these two patterns.",
+    "updateInPlace": "Server stored the payload on first receipt; replay returns the cached response body with the original status and header X-Idempotent-Replay: true.",
+    "reject409":     "Server returns 409 Conflict with body { error: 'duplicate_idempotency_key', key: '<original>' }. Used when the resource is immutable once created."
+  },
+  "header": {
+    "name": "Idempotency-Key",
+    "maxBytes": 256,
+    "regex": "^[A-Za-z0-9][A-Za-z0-9:._+-]{0,254}$",
+    "note": "Keys must match the corresponding endpoint's {schema} or {schemaEvent} after placeholder substitution. Studio rejects malformed keys with 400 (invalid_idempotency_key) and mismatched keys with 400 (idempotency_key_mismatch)."
+  }
+}

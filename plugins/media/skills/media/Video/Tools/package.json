@@ -1,0 +1,13 @@
+{
+  "name": "video-tools",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "replicate": "^1.4.0"
+  }
+}

@@ -1,0 +1,20 @@
+# GrowthProgram preset — Healthcare / medical (YMYL: "your money or your life")
+preset: healthcare-ymyl
+locale: en-US
+market: Healthcare / medical (YMYL)
+wedge_hint: clinically-credible clarity in a field full of noise and fear
+channels: [linkedin, youtube, clinically_reviewed_blog, newsletter]
+cadence:
+  linkedin: 3/week
+  youtube: 2/month         # education, clinician-fronted
+  clinically_reviewed_blog: 1/week
+  newsletter: 2/month
+signature_formats: [clinician explainer, evidence review, myth-vs-fact, patient education (no PII)]
+geo:
+  engines: [chatgpt, claude, perplexity, gemini]
+  corpus_targets: [peer-reviewed sources, medlineplus, clinician directories, authoritative health orgs]
+  note: E-E-A-T is everything; LLMs weight medical authority + citations hardest. Reviewed-by-clinician + sources, or you are excluded entirely.
+integrity:
+  reviews_pillar_gated_on: real, verifiable outcomes
+  do_not: [medical claims without citation, diagnosis/treatment/cure promises, patient PII (HIPAA), fearmongering]
+  must: [reviewed-by-clinician schema + byline, cite primary sources, FTC health-claim compliance, "not medical advice" where apt]

@@ -1,0 +1,69 @@
+# OBSERVE phase manifest — RFC-0006 §6.1
+# Canonical: ~/.claude/DOS/Algorithm/v0.0.1.md, OBSERVE phase header
+# Reference impl: ~/Durante/Tools/dos-compile.ts
+
+phase: observe
+sequence: "1/7"
+header_emoji: "👁️"
+voice_message: "Entering the Observe phase."
+
+# PRD frontmatter fields the phase MUST update on entry. Rendered as
+# `key: value` pairs into the FIRST ACTION sentence in source order.
+# OBSERVE is the entry phase — it updates `updated` only; it does NOT
+# write `phase: observe` here because the Algorithm-entry stub already
+# wrote that.
+prd_updates:
+  updated: "{timestamp}"
+
+# Suffix appended to the FIRST ACTION sentence after the PRD edit.
+# Phase-specific guidance that doesn't fit the mechanical schema —
+# captured verbatim so byte-stable compilation reproduces v0.0.1.md.
+first_action_suffix: "Then thinking-only, no tool calls except context recovery (Grep/Glob/Read <=34s)"
+
+# OUTPUT slots, rendered in the order declared.
+output_slots:
+  - name: profile
+    label: "📋 PROFILE"
+    template: "[task-profile-classifier-output]"
+  - name: prior_context
+    label: "🧠 PRIOR CONTEXT"
+    template: "[memory-recall-output]"
+  - name: reverse_engineering
+    label: "🔎 REVERSE ENGINEERING"
+    template: "[reverse-engineering-bullets]"
+  - name: effort_level
+    label: "💪🏼 EFFORT LEVEL"
+    template: "[effort-level] | [8-word reasoning]"
+  - name: capabilities
+    label: "🏹 CAPABILITIES SELECTED"
+    template: "[capability-list]"
+
+# Per-phase gates. The compiler renders them as a checklist appendix —
+# the gate semantics are interpreted by the runtime, not by the compiler.
+gates:
+  - id: isc_count_floor
+    type: ge
+    field: criteria_count
+    threshold_by_effort:
+      standard: 8
+      extended: 16
+      advanced: 24
+      deep: 40
+      xhigh: 50
+      comprehensive: 64
+  - id: capability_invocation_obligation
+    type: assertion
+    rule: "every selected capability must be invoked via Skill or Task tool"
+
+# Must-actions the phase performs. Surfaced in the FIRST ACTION line via
+# the human-readable voice_message + prd_updates above; this list is the
+# machine-checkable inventory used by the linter and downstream tooling.
+must_actions:
+  - announce_voice
+  - update_prd_frontmatter
+  - emit_phase_header
+
+# Reserved per RFC §7.1.3 — unknown frontmatter keys MUST survive
+# compile + eject unchanged. Empty for OBSERVE; populated only when
+# upstream Anthropic schema additions outpace this manifest schema.
+raw_frontmatter: {}

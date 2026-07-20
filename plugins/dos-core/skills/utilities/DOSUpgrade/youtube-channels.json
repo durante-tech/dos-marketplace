@@ -1,0 +1,53 @@
+{
+  "_docs": "Channels checked by DOSUpgrade Thread 2 / YouTube agent. Configure 5-10 channels for productive technique mining. Format: handle = '@channelhandle' (yt-dlp style); name = display label; check_frequency_days = how often to look for new videos. User overrides live in ~/.claude/DOS/USER/SKILLCUSTOMIZATIONS/DOSUpgrade/youtube-channels.json.",
+  "_audit_2026_05_28": {
+    "issue": "Root cause of the 2026-05-15 'empty fetch' was handle-correctness (HTTP 404 on handle resolution), NOT anti-bot rate-limiting. yt-dlp diagnosis: 404 = handle does not resolve; a rate-limit returns 200-empty or 429.",
+    "resolved_handles": [
+      { "old": "@AnthropicAI", "new": "@anthropic-ai", "verified": "lists videos: 'Project Glasswing', 'Translating Claude's thoughts'" },
+      { "old": "@RAmjadAI", "new": "@RAmjad", "verified": "channel 'Ray Amjad'; lists 'Claude Code Just Had Its Biggest Update in Months'" },
+      { "old": "@thursdaiAI", "new": "@altryne", "verified": "Alex Volkov / ThursdAI; lists weekly AI-news roundups" }
+    ],
+    "still_suspect": [
+      { "handle": "@AIJason", "concern": "resolves but to off-topic content (energy-drink review top video) — likely wrong creator; verify correct handle (@AIJasonZ?) next cycle. NOT a 404, so out of scope for the 2026-05-28 handle fix." }
+    ],
+    "remediation": "Handles corrected 2026-05-28 via yt-dlp ground-truth verification. AI Jason still needs handle confirmation."
+  },
+  "channels": [
+    {
+      "handle": "@anthropic-ai",
+      "name": "Anthropic (official)",
+      "check_frequency_days": 7,
+      "note": "Primary source for product announcements + research videos"
+    },
+    {
+      "handle": "@indydevdan",
+      "name": "Indy Dev Dan",
+      "check_frequency_days": 7,
+      "note": "Claude Code workflows + agent patterns + skill design"
+    },
+    {
+      "handle": "@AIJason",
+      "name": "AI Jason",
+      "check_frequency_days": 7,
+      "note": "AI agent patterns, multi-agent systems, autonomous workflows"
+    },
+    {
+      "handle": "@RAmjad",
+      "name": "R Amjad",
+      "check_frequency_days": 14,
+      "note": "Claude Code deep dives, hooks, MCP, advanced configuration"
+    },
+    {
+      "handle": "@altryne",
+      "name": "ThursdAI (Alex Volkov)",
+      "check_frequency_days": 7,
+      "note": "AI weekly news roundup; surface model releases + ecosystem moves"
+    },
+    {
+      "handle": "@fireshipio",
+      "name": "Fireship",
+      "check_frequency_days": 14,
+      "note": "Web dev news + tooling — surfaces TS/Bun/Next.js shifts relevant to DOS Studio"
+    }
+  ]
+}

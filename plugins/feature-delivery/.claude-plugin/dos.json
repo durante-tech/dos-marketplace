@@ -1,0 +1,9 @@
+{
+  "pack": "feature-delivery",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/feature-delivery/src/"
+}

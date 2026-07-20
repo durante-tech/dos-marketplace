@@ -1,0 +1,20 @@
+# GrowthProgram preset — Enterprise B2B (account-based)
+preset: enterprise-abm
+locale: en-US
+market: Enterprise B2B (account-based marketing)
+wedge_hint: a category POV + proof at enterprise scale (security, compliance, named references)
+channels: [linkedin, events_webinars, analyst_relations, exec_thought_leadership, pr]
+cadence:
+  linkedin: 4/week         # exec + company + ABM plays
+  events_webinars: 2/month
+  analyst_relations: ongoing
+  pr: 1/month
+signature_formats: [category POV, analyst briefing, approved customer story, exec byline, security/compliance proof]
+geo:
+  engines: [chatgpt, claude, gemini, perplexity]
+  corpus_targets: [gartner, forrester, g2_enterprise, gartner_peer_insights, idc, "leaders quadrant" coverage]
+  note: for enterprise the answer corpus is the ANALYST corpus (Magic Quadrant / Wave) + peer review — LLMs cite analysts for enterprise picks.
+integrity:
+  reviews_pillar_gated_on: enterprise references with logo + quote approval
+  do_not: [misrepresenting analyst ratings, unapproved customer logos/quotes, security claims without certification]
+  must: [cite analyst placement accurately, secure reference approval, back security claims with SOC2/ISO]

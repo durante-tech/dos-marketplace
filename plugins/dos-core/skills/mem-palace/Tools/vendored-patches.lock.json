@@ -1,0 +1,13 @@
+{
+  "doc": "Packs/mem-palace/VENDORED-PATCHES.md — expected DOS-PATCH state of the installed mempalace pip package. Maintainer-host pin; probeVendoredPatches() in dos-memory-status.ts compares installed reality against this manifest on every radiator run. Adding a patch = bump expected_markers + append to patches. Bumping the pip = update pinned_version AND re-apply patches per the Re-application log.",
+  "pinned_version": "3.6.0",
+  "target_file": "mcp_server.py",
+  "expected_markers": 4,
+  "patches": [
+    { "id": "P1r", "markers": 4, "desc": "list_drawers sort=recent on coalesce(authored_at, filed_at, timestamp) + schema property" }
+  ],
+  "retired": [
+    { "id": "P1", "retired": "2026-07-17", "reason": "upstream 3.6.0 absorbed since (+before) filtering (#1128); sort survives as P1r" },
+    { "id": "P2", "retired": "2026-07-17", "reason": "filed_at convention adopted — diary rows always carried filed_at; the UTC timestamp key's only consumer was old P1's sort, retired with it" }
+  ]
+}

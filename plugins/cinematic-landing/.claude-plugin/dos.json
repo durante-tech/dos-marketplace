@@ -1,0 +1,12 @@
+{
+  "pack": "cinematic-landing",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/cinematic-landing/src/",
+  "bridge": [
+    "add_kg_fact"
+  ]
+}

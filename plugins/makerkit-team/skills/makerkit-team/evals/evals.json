@@ -1,0 +1,147 @@
+{
+  "skill_name": "MakerkitTeam",
+  "evals": [
+    {
+      "id": "trigger-deliver-feature",
+      "prompt": "Deliver a team-invite feature to the kit — multi-tenant, email invites with role selection.",
+      "expected_output": "MakerkitTeam triggers and routes to Workflows/DeliverFeature.md: preflight capability probe, auto-classified scope recorded in the PRD, G1 spawn of PM/SM/UX/UI/Architect.",
+      "files": []
+    },
+    {
+      "id": "trigger-review-open-prs",
+      "prompt": "Review open PRs in the kit and give me team verdicts for each.",
+      "expected_output": "MakerkitTeam triggers and routes to Workflows/ReviewOpenPRs.md: PR sweep with kit-native roster reviewers, per-PR verdict + TODO artifact; empty PR set reports-and-exits before any spawn.",
+      "files": []
+    },
+    {
+      "id": "trigger-deep-review-single-pr",
+      "prompt": "Deep review pr #87 in kit — I want the full 13-agent take before we merge.",
+      "expected_output": "MakerkitTeam triggers and routes to Workflows/ReviewSinglePR.md: checks out the PR head, fans out reviewers per the L2 ladder, aggregates a typed verdict, posts one edit-last PR comment plus the TODO artifact JSON.",
+      "files": []
+    },
+    {
+      "id": "trigger-execute-todos",
+      "prompt": "execute todos for pr #42",
+      "expected_output": "MakerkitTeam triggers and routes to Workflows/ExecuteOpenTodos.md: cuts a fresh fix/pr-42-todos side branch, executes TODO batches serially with per-batch verify, stops at the merge boundary.",
+      "files": []
+    },
+    {
+      "id": "trigger-docs-refresh",
+      "prompt": "Refresh the kit docs — the billing section still describes the old checkout flow.",
+      "expected_output": "MakerkitTeam triggers and routes to Workflows/DocsRefresh.md: Phase 0 runs BuildDigest then VerifyDigest (exit 0/1/2, VACUOUS stops), then the Writer refreshes the scoped docs.",
+      "files": []
+    },
+    {
+      "id": "trigger-quick-fix-casual",
+      "prompt": "quick fix in the kit: theres a typo in the pricing page metadata title, 2 sec job",
+      "expected_output": "MakerkitTeam triggers and routes to Workflows/QuickFix.md: surgical <=2-file fix by the owning agent, QA validation, no full-team convening.",
+      "files": []
+    },
+    {
+      "id": "trigger-security-audit",
+      "prompt": "Run a security audit for the kit's auth surface — sessions, MFA, passkeys.",
+      "expected_output": "MakerkitTeam triggers and routes to Workflows/SecurityAudit.md: Security Engineer audit with the DB Engineer always running in parallel (Phase 1b memo), threat model + remediation list, no code writes.",
+      "files": []
+    },
+    {
+      "id": "trigger-feature-archaeology",
+      "prompt": "Feature archaeology in the kit: how does personal-account billing actually work end to end?",
+      "expected_output": "MakerkitTeam triggers and routes to Workflows/ExploreFeature.md: read-only parallel archaeology (architect/frontend/backend/database) mapping the feature surface.",
+      "files": []
+    },
+    {
+      "id": "trigger-pipeline-phrase",
+      "prompt": "Run the makerkit delivery pipeline for a notifications center in the saas kit.",
+      "expected_output": "MakerkitTeam triggers and routes to Workflows/DeliverFeature.md via the 'run delivery pipeline' / 'build feature in saas kit' triggers.",
+      "files": []
+    },
+    {
+      "id": "trigger-typo-ship",
+      "prompt": "can u ship a dark mode toggle featur to the kit, users keep askin",
+      "expected_output": "MakerkitTeam triggers despite the typos ('ship feature to kit') and routes to Workflows/DeliverFeature.md.",
+      "files": []
+    },
+    {
+      "id": "no-trigger-fastapi-deliver",
+      "prompt": "Deliver a rate-limiting feature in the starter — the FastAPI one.",
+      "expected_output": "MakerkitTeam does NOT trigger; FastAPIStarterTeam owns dos-fastapi-starter delivery motions.",
+      "files": []
+    },
+    {
+      "id": "no-trigger-fastapi-pipeline",
+      "prompt": "fastapi starter pipeline: add JWT refresh tokens and ship it",
+      "expected_output": "MakerkitTeam does NOT trigger; routes to FastAPIStarterTeam.",
+      "files": []
+    },
+    {
+      "id": "no-trigger-generic-nextjs",
+      "prompt": "Review my nextjs app, it's a side project I built last weekend.",
+      "expected_output": "MakerkitTeam does NOT trigger; a generic Next.js app outside the kit routes to /code-review or FeatureDelivery, not the kit roster.",
+      "files": []
+    },
+    {
+      "id": "no-trigger-github-pr-ops",
+      "prompt": "Comment on PR #12 in durante-tech/dotfiles and merge it if CI is green.",
+      "expected_output": "MakerkitTeam does NOT trigger; generic GitHub PR operations on a non-kit repo route to the github skill.",
+      "files": []
+    },
+    {
+      "id": "no-trigger-portfolio-landing",
+      "prompt": "Build a cinematic landing page for my personal portfolio site.",
+      "expected_output": "MakerkitTeam does NOT trigger; landing-page work routes to CinematicLanding / frontend-design, not the kit delivery team.",
+      "files": []
+    },
+    {
+      "id": "no-trigger-python-scraper",
+      "prompt": "theres a bug in my python scraper, it dies on pagination, can you fix it",
+      "expected_output": "MakerkitTeam does NOT trigger; a non-kit Python repo is generic bug-fix work (FeatureDelivery fallback or direct fix).",
+      "files": []
+    },
+    {
+      "id": "no-trigger-fastapi-scaffold",
+      "prompt": "Scaffold a brand new FastAPI project with auth and Postgres.",
+      "expected_output": "MakerkitTeam does NOT trigger; new FastAPI scaffolding routes to FastAPIStarterTeam or generic scaffolding, not the Makerkit roster.",
+      "files": []
+    },
+    {
+      "id": "no-trigger-express-review",
+      "prompt": "Code review this standalone express server before I deploy it to my VPS.",
+      "expected_output": "MakerkitTeam does NOT trigger; non-kit repos use /code-review or FeatureDelivery — the kit-qualified 'code review for kit' trigger does not match.",
+      "files": []
+    },
+    {
+      "id": "no-trigger-design-system",
+      "prompt": "Make me a design system for my react app — tokens, components, the works.",
+      "expected_output": "MakerkitTeam does NOT trigger; design-system creation routes to DesignSystem/Brand skills.",
+      "files": []
+    },
+    {
+      "id": "no-trigger-near-miss-saas",
+      "prompt": "I'm building a saas, what stack should I pick for auth and billing?",
+      "expected_output": "MakerkitTeam does NOT trigger; an advisory stack question with no kit repo in play is a plain answer, not a kit delivery motion.",
+      "files": []
+    }
+  ],
+  "trigger": [
+    { "id": "trigger-deliver-feature", "prompt": "Deliver a team-invite feature to the kit — multi-tenant, email invites with role selection.", "expected": "trigger", "workflow": "Workflows/DeliverFeature.md" },
+    { "id": "trigger-review-open-prs", "prompt": "Review open PRs in the kit and give me team verdicts for each.", "expected": "trigger", "workflow": "Workflows/ReviewOpenPRs.md" },
+    { "id": "trigger-deep-review-single-pr", "prompt": "Deep review pr #87 in kit — I want the full 13-agent take before we merge.", "expected": "trigger", "workflow": "Workflows/ReviewSinglePR.md" },
+    { "id": "trigger-execute-todos", "prompt": "execute todos for pr #42", "expected": "trigger", "workflow": "Workflows/ExecuteOpenTodos.md" },
+    { "id": "trigger-docs-refresh", "prompt": "Refresh the kit docs — the billing section still describes the old checkout flow.", "expected": "trigger", "workflow": "Workflows/DocsRefresh.md" },
+    { "id": "trigger-quick-fix-casual", "prompt": "quick fix in the kit: theres a typo in the pricing page metadata title, 2 sec job", "expected": "trigger", "workflow": "Workflows/QuickFix.md" },
+    { "id": "trigger-security-audit", "prompt": "Run a security audit for the kit's auth surface — sessions, MFA, passkeys.", "expected": "trigger", "workflow": "Workflows/SecurityAudit.md" },
+    { "id": "trigger-feature-archaeology", "prompt": "Feature archaeology in the kit: how does personal-account billing actually work end to end?", "expected": "trigger", "workflow": "Workflows/ExploreFeature.md" },
+    { "id": "trigger-pipeline-phrase", "prompt": "Run the makerkit delivery pipeline for a notifications center in the saas kit.", "expected": "trigger", "workflow": "Workflows/DeliverFeature.md" },
+    { "id": "trigger-typo-ship", "prompt": "can u ship a dark mode toggle featur to the kit, users keep askin", "expected": "trigger", "workflow": "Workflows/DeliverFeature.md" },
+    { "id": "no-trigger-fastapi-deliver", "prompt": "Deliver a rate-limiting feature in the starter — the FastAPI one.", "expected": "no_trigger", "route_instead": "FastAPIStarterTeam" },
+    { "id": "no-trigger-fastapi-pipeline", "prompt": "fastapi starter pipeline: add JWT refresh tokens and ship it", "expected": "no_trigger", "route_instead": "FastAPIStarterTeam" },
+    { "id": "no-trigger-generic-nextjs", "prompt": "Review my nextjs app, it's a side project I built last weekend.", "expected": "no_trigger", "route_instead": "/code-review or FeatureDelivery" },
+    { "id": "no-trigger-github-pr-ops", "prompt": "Comment on PR #12 in durante-tech/dotfiles and merge it if CI is green.", "expected": "no_trigger", "route_instead": "Github" },
+    { "id": "no-trigger-portfolio-landing", "prompt": "Build a cinematic landing page for my personal portfolio site.", "expected": "no_trigger", "route_instead": "CinematicLanding / frontend-design" },
+    { "id": "no-trigger-python-scraper", "prompt": "theres a bug in my python scraper, it dies on pagination, can you fix it", "expected": "no_trigger", "route_instead": "FeatureDelivery fallback / direct fix" },
+    { "id": "no-trigger-fastapi-scaffold", "prompt": "Scaffold a brand new FastAPI project with auth and Postgres.", "expected": "no_trigger", "route_instead": "FastAPIStarterTeam" },
+    { "id": "no-trigger-express-review", "prompt": "Code review this standalone express server before I deploy it to my VPS.", "expected": "no_trigger", "route_instead": "/code-review or FeatureDelivery" },
+    { "id": "no-trigger-design-system", "prompt": "Make me a design system for my react app — tokens, components, the works.", "expected": "no_trigger", "route_instead": "DesignSystem / Brand" },
+    { "id": "no-trigger-near-miss-saas", "prompt": "I'm building a saas, what stack should I pick for auth and billing?", "expected": "no_trigger", "route_instead": "direct answer" }
+  ]
+}

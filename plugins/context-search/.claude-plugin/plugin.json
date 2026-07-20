@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "context-search",
+  "displayName": "DOS context-search",
+  "description": "Search across prior DOS work and conversation history — search PRDs, git history, session names, and work directories with a single slash command, standalone or paired with a task.",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

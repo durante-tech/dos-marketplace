@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mempalace": {
+      "command": "uv",
+      "args": ["run", "--with", "mempalace>=3.4.1,<4", "python", "-m", "mempalace.mcp_server"]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "pack": "contract-review",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/contract-review/src/"
+}

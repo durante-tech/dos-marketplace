@@ -1,0 +1,9 @@
+{
+  "pack": "write-story",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/write-story/src/"
+}

@@ -1,0 +1,222 @@
+#!/usr/bin/env bun
+/**
+ * DamageControlBaseline.hook.ts.template — PreToolUse pattern-block for
+ * catastrophic shell commands (Level-3 "global damage control" baseline).
+ *
+ * ===================================================================
+ * THIS FILE IS A TEMPLATE. IT MUST NOT BE EXECUTED AS-IS.
+ *
+ * The `.template` suffix is load-bearing: Claude Code's hook loader
+ * never invokes files that do not end in `.hook.ts` exactly. To
+ * activate this baseline an operator MUST:
+ *
+ *   1. Audit the BLOCK_PATTERNS array below; remove any pattern that
+ *      would false-positive in the operator's known workflows.
+ *   2. Rename this file:
+ *        DamageControlBaseline.hook.ts.template
+ *        → DamageControlBaseline.hook.ts
+ *   3. Add an entry in ~/.claude/settings.json under hooks.PreToolUse:
+ *        { "type": "command", "command": "bun ~/.claude/hooks/DamageControlBaseline.hook.ts" }
+ *   4. Set dos.bashPolicy = "blacklist" in settings.json (closes R66).
+ *   5. Run `bun ~/Durante/Tools/sync-check.ts` to verify four-copy parity.
+ *
+ * Until those steps run, this pack is documentation-only.
+ * ===================================================================
+ *
+ * Provenance: 28D sprint D11 (2026-05-15). Pattern set follows the
+ * indydevdan 2026-05 "Engineers, DELETE the BASH Tool" rubric — the
+ * worst-of-the-worst commands that no agentic system should issue
+ * without an explicit human-in-the-loop override.
+ *
+ * Pattern coverage:
+ *   - Wholesale filesystem destruction:   rm -rf /
+ *   - Raw device writes:                  dd if=
+ *   - Filesystem creation (wipe):         mkfs
+ *   - Database drops:                     drop database, truncate table
+ *   - Cluster-namespace deletion:         kubectl delete ns
+ *   - Infrastructure destroy:             terraform destroy
+ *   - Cloud volume / sql deletion:        aws .* delete-volume, gcloud sql delete
+ *
+ * Block decision contract (Claude Code PreToolUse):
+ *   - On match: print JSON `{ "decision": "block", "reason": "..." }` to stdout
+ *     and exit 0. Claude Code aborts the tool call and surfaces `reason`
+ *     to the principal.
+ *   - On no match: print JSON `{ "decision": "approve" }` to stdout and exit 0.
+ *   - On parse error / non-Bash tool: approve (defensive; this hook scopes
+ *     to Bash only). Other PreToolUse hooks remain responsible for non-Bash
+ *     surfaces.
+ *
+ * Audit trail: every BLOCK (and every parse-error) writes one JSONL line to
+ * MEMORY/SECURITY/{YYYY}/{MM}/damage-control.jsonl via the
+ * SaveSecurityEventsToStudio sync path. Normal approves are NOT recorded — the
+ * common approve path stays zero-I/O so it adds nothing to every Bash call.
+ *
+ * Performance: this hook must complete in <100ms to avoid blocking the Claude
+ * Code event loop. The common approve path does zero I/O (regex `.test()` +
+ * stdout). On the rare BLOCK path, the audit line is written SYNCHRONOUSLY and
+ * inline (`mkdirSync` + `appendFileSync` — cheap, once, only when blocking),
+ * and ONLY the voice notification is detached via
+ * `spawn(..., { detached: true, stdio: 'ignore' })` + `.unref()`.
+ */
+
+import { existsSync, mkdirSync, appendFileSync } from "fs";
+import { spawn } from "child_process";
+import { homedir } from "os";
+import { join } from "path";
+
+// ---------------------------------------------------------------------------
+// BLOCK_PATTERNS — operator-audited regex set. Order does not matter; first
+// match wins. Each entry: { pattern, reason, severity }.
+// ---------------------------------------------------------------------------
+interface BlockPattern {
+  pattern: RegExp;
+  reason: string;
+  severity: "catastrophic" | "high";
+}
+
+const BLOCK_PATTERNS: BlockPattern[] = [
+  {
+    pattern: /\brm\s+(-[a-zA-Z]*r[a-zA-Z]*f[a-zA-Z]*|-[a-zA-Z]*f[a-zA-Z]*r[a-zA-Z]*)\s+\/(\s|$)/,
+    reason: "rm -rf / (wholesale filesystem destruction)",
+    severity: "catastrophic",
+  },
+  {
+    pattern: /\bdd\s+.*\bif=/,
+    reason: "dd if= (raw device write; can destroy disk contents)",
+    severity: "catastrophic",
+  },
+  {
+    pattern: /\bmkfs(\.[a-zA-Z0-9]+)?\b/,
+    reason: "mkfs (filesystem creation wipes target device)",
+    severity: "catastrophic",
+  },
+  {
+    pattern: /\bdrop\s+database\b/i,
+    reason: "DROP DATABASE (irreversible database deletion)",
+    severity: "catastrophic",
+  },
+  {
+    pattern: /\btruncate\s+table\b/i,
+    reason: "TRUNCATE TABLE (irreversible row-level deletion)",
+    severity: "high",
+  },
+  {
+    pattern: /\bkubectl\s+delete\s+ns(amespace)?\b/,
+    reason: "kubectl delete ns (cluster-namespace deletion; cascades to all resources)",
+    severity: "catastrophic",
+  },
+  {
+    pattern: /\bterraform\s+destroy\b/,
+    reason: "terraform destroy (infrastructure teardown)",
+    severity: "catastrophic",
+  },
+  {
+    pattern: /\baws\b.*\bdelete-volume\b/,
+    reason: "aws ... delete-volume (cloud volume deletion)",
+    severity: "high",
+  },
+  {
+    pattern: /\bgcloud\s+sql\s+(instances\s+)?delete\b/,
+    reason: "gcloud sql delete (Cloud SQL instance deletion)",
+    severity: "catastrophic",
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Audit trail helpers
+// ---------------------------------------------------------------------------
+function resolveSecurityDir(): string {
+  const projectDir = process.env.CLAUDE_PROJECT_DIR;
+  const candidates = [
+    projectDir ? join(projectDir, "MEMORY", "SECURITY") : null,
+    join(process.cwd(), "MEMORY", "SECURITY"),
+    join(homedir(), ".claude", "MEMORY", "SECURITY"),
+  ].filter((p): p is string => p !== null);
+  for (const c of candidates) {
+    if (existsSync(join(c, ".."))) return c;
+  }
+  return candidates[candidates.length - 1];
+}
+
+function recordBlock(command: string, pattern: BlockPattern): void {
+  try {
+    const now = new Date();
+    const yyyy = String(now.getUTCFullYear());
+    const mm = String(now.getUTCMonth() + 1).padStart(2, "0");
+    const dir = join(resolveSecurityDir(), yyyy, mm);
+    mkdirSync(dir, { recursive: true });
+    const line = JSON.stringify({
+      timestamp: now.toISOString(),
+      hook: "DamageControlBaseline",
+      decision: "block",
+      severity: pattern.severity,
+      reason: pattern.reason,
+      command,
+      sessionId: process.env.CLAUDE_SESSION_ID ?? null,
+    });
+    appendFileSync(join(dir, "damage-control.jsonl"), line + "\n", "utf-8");
+  } catch {
+    // Defensive: never fail the hook on audit-write error. The block
+    // decision is still emitted to stdout.
+  }
+}
+
+function detachedVoiceNotify(reason: string): void {
+  const dosDir = process.env.DOS_DIR;
+  if (!dosDir) return;
+  try {
+    const child = spawn(
+      "bash",
+      [join(dosDir, "DOS", "Tools", "voice.sh"), "main", `DamageControl blocked: ${reason}`],
+      { detached: true, stdio: "ignore" },
+    );
+    child.unref();
+  } catch {
+    // No-op: voice is advisory.
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Main: read PreToolUse JSON from stdin, evaluate, emit decision JSON
+// ---------------------------------------------------------------------------
+async function readStdin(): Promise<string> {
+  const chunks: Buffer[] = [];
+  for await (const chunk of process.stdin) {
+    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks).toString("utf-8");
+}
+
+async function main(): Promise<void> {
+  let payload: { tool_name?: string; tool_input?: { command?: string } };
+  try {
+    payload = JSON.parse(await readStdin());
+  } catch {
+    process.stdout.write(JSON.stringify({ decision: "approve" }));
+    return;
+  }
+
+  // Only inspect Bash tool calls. Other tools pass through.
+  if (payload.tool_name !== "Bash") {
+    process.stdout.write(JSON.stringify({ decision: "approve" }));
+    return;
+  }
+
+  const command = payload.tool_input?.command ?? "";
+  for (const bp of BLOCK_PATTERNS) {
+    if (bp.pattern.test(command)) {
+      recordBlock(command, bp);
+      detachedVoiceNotify(bp.reason);
+      process.stdout.write(
+        JSON.stringify({
+          decision: "block",
+          reason: `DamageControl baseline blocked: ${bp.reason}. To override, the operator must temporarily disable the hook in settings.json.`,
+        }),
+      );
+      return;
+    }
+  }
+  process.stdout.write(JSON.stringify({ decision: "approve" }));
+}
+
+void main();

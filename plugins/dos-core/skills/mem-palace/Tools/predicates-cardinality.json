@@ -1,0 +1,10 @@
+{
+  "_doc": "W2-3 predicate-cardinality registry (memory campaign, PREDICATES.md companion). Predicates listed under `single` hold at most ONE open object per subject: add_kg_fact warns on open rivals (or auto-supersedes when DOS_KG_AUTOSUPERSEDE=1). Conservative curation: only add a predicate here when a second open object is ALWAYS a contradiction, never a legitimate plurality. Unlisted predicates behave exactly as before.",
+  "single": [
+    "deal_stage",
+    "superseded_by",
+    "supersedes",
+    "phase",
+    "current_version"
+  ]
+}

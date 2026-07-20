@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "ref",
+  "displayName": "DOS ref",
+  "description": "Documentation lookup for libraries, frameworks, SDKs, and APIs — routed through Studio's credit-metered gateway. Search across public docs (and private if entitled) and read URLs as markdown via api.ref.tools.",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

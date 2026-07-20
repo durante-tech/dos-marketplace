@@ -1,0 +1,9 @@
+{
+  "pack": "ref",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/ref/src/"
+}

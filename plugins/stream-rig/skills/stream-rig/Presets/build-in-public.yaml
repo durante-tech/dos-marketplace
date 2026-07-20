@@ -1,0 +1,151 @@
+preset:
+  name: build-in-public
+  displayName: "Build-in-Public / Live Coding"
+  description: >
+    Solo developer livestream: live coding, terminal work, and AI/agent
+    building, narrated build-in-public. Mirrors the canonical DuranteOS
+    5-scene collection. Scenes are NOT rebuilt by this preset at runtime —
+    GoLive sets overlay query-params on the existing live sources via the
+    obs / dos-stream CLIs. This file is the contract those overlays speak.
+  vertical: build-in-public
+  defaultVibe: terminal-glow
+
+  # Runtime control state. Two phase families:
+  #  - SCENE phases switch the OBS program scene (intro/coding/terminal/break/outro)
+  #  - ALGO phases drive only the Terminal Frame overlay ?phase= (no scene change),
+  #    matching the dos-stream phase command (observe..learn).
+  phases:
+    - name: intro
+      label: "Intro"
+      family: scene
+      colorToken: "--primary"
+      scene: "01_Intro"
+      marker: true
+    - name: coding
+      label: "Coding"
+      family: scene
+      colorToken: "--primary"
+      scene: "02_Coding"
+      marker: true
+    - name: terminal
+      label: "Terminal"
+      family: scene
+      colorToken: "--accent"
+      scene: "03_Terminal_Only"
+      marker: true
+    - name: break
+      label: "Break / BRB"
+      family: scene
+      colorToken: "--accent"
+      scene: "04_Break"
+      marker: true
+    - name: outro
+      label: "Outro"
+      family: scene
+      colorToken: "--primary"
+      scene: "05_Outro"
+      marker: true
+    # ALGO phases — overlay-only, drive Terminal Frame ?phase=
+    - { name: observe, label: "Observe", family: algo, colorToken: "--cyan",   overlayParam: "phase=observe" }
+    - { name: think,   label: "Think",   family: algo, colorToken: "--cyan",   overlayParam: "phase=think" }
+    - { name: plan,    label: "Plan",    family: algo, colorToken: "--blue",   overlayParam: "phase=plan" }
+    - { name: build,   label: "Build",   family: algo, colorToken: "--amber",  overlayParam: "phase=build" }
+    - { name: execute, label: "Execute", family: algo, colorToken: "--amber",  overlayParam: "phase=execute" }
+    - { name: verify,  label: "Verify",  family: algo, colorToken: "--green",  overlayParam: "phase=verify" }
+    - { name: learn,   label: "Learn",   family: algo, colorToken: "--violet", overlayParam: "phase=learn" }
+
+  # The 5 live scenes. Source names + ids MUST match the live DuranteOS
+  # collection (GoLive addresses sources by these exact names; it never
+  # creates or drops them). 'overlay' refs point at the existing local
+  # HTML under ~/Durante/Overlays and declare the query-param contract.
+  scenes:
+    - name: "01_Intro"
+      sources:
+        - { name: "Intro Overlay", type: browser, ref: "{OVERLAYS}/intro.html", layer: 0,
+            queryParams: { n: int, in: int, agenda: pipe-list } }
+    - name: "02_Coding"
+      sources:
+        - { name: "Display (Main)", type: screen_capture, layer: 0 }
+        - { name: "Webcam",         type: av_capture_input, layer: 1, hidden: true }
+        - { name: "Webcam Frame",   type: browser, ref: "{OVERLAYS}/webcam-frame.html", layer: 2, hidden: true }
+        - { name: "Coding Frame",   type: browser, ref: "{OVERLAYS}/coding-frame.html", layer: 3 }
+        - { name: "Lower Third",    type: browser, ref: "{OVERLAYS}/lower-third.html", layer: 4, hidden: true,
+            queryParams: { name: string, handle: string } }
+        - { name: "Osmo3 Portrait", type: macos-avcapture, layer: 5 }
+    - name: "03_Terminal_Only"
+      sources:
+        - { name: "Display (Terminal)", type: screen_capture, layer: 0 }
+        - { name: "Terminal Frame",     type: browser, ref: "{OVERLAYS}/terminal-frame.html", layer: 1,
+            queryParams: { branch: "string", phase: "enum(observe|think|plan|build|execute|verify|learn)" } }
+    - name: "04_Break"
+      sources:
+        - { name: "Break Background", type: image, ref: "~/Pictures/Wallpapers/07-mempalace.jpg", layer: 0 }
+        - { name: "BRB Overlay",      type: browser, ref: "{OVERLAYS}/brb.html", layer: 1,
+            queryParams: { minutes: int } }
+    - name: "05_Outro"
+      sources:
+        - { name: "Outro Overlay", type: browser, ref: "{OVERLAYS}/outro.html", layer: 0,
+            queryParams: { n: int, shipped: pipe-list, runtime: "HH:MM:SS" } }
+
+  # Where overlay HTML lives on the operator's machine (not lifted into the skill in v1).
+  paths:
+    overlays: "~/Durante/Overlays"
+    recordingDir: "~/Documents/Durante Technologies/Recordings"
+
+  # ---- GoLive contract: the new build-in-public-specific block ----
+  golive:
+    # YouTube broadcast metadata generation. {SUBJECT}, {N}, {AGENDA}, {DATE},
+    # {CHANNEL}, {LINKS} are filled by the GoLive workflow.
+    youtube:
+      categoryId: "28"            # Science & Technology
+      titleTemplate: "{SUBJECT} — DuranteOS Build Log #{N}"
+      descriptionTemplate: |
+        Building DuranteOS in public — live.
+
+        Today: {SUBJECT}
+
+        Agenda:
+        {AGENDA_BULLETS}
+
+        Chapters added live via stream markers.
+
+        DuranteOS is an AI-native operating layer for software work.
+        {LINKS}
+
+        #buildinpublic #livecoding #ai #devtools
+      defaultTags: ["build in public", "live coding", "ai", "devtools", "duranteos", "agents", "typescript"]
+      defaultVisibility: public      # operator can override in the interview
+      latencyPreference: low
+      enableAutoStart: false         # operator starts the stream from OBS
+      enableAutoStop: false
+      links: |
+        Site: https://durante.tech
+        X: https://x.com/lucasgertel
+    # Thumbnail asset (media skill). 1280x720, on-brand, big subject text.
+    thumbnail:
+      model: flux-1.1-pro
+      dimensions: { width: 1280, height: 720 }
+      transparentBg: false
+      promptTemplate: >
+        YouTube thumbnail, 1280x720, dark terminal-glow aesthetic matching the
+        DuranteOS brand (cyan {--primary} / amber accents on near-black {--bg}),
+        bold condensed display type reading "{SUBJECT_SHORT}", a subtle code/terminal
+        texture, the DuranteOS fox wordmark bottom-right, high contrast, legible at
+        small sizes, no clutter.
+      brandWordmark: "~/Pictures/DuranteOS-BIP/wordmark.png"
+    # Announcement drafts (social-media skill — drafts only, never publishes).
+    announcements:
+      x:
+        template: |
+          Going live: {SUBJECT} 🔴
+          DuranteOS Build Log #{N} — {WHEN}
+          {WATCH_URL}
+          #buildinpublic
+      linkedin:
+        template: |
+          Streaming live today: {SUBJECT}.
+          Building DuranteOS in public — Build Log #{N}, {WHEN}.
+          Join here: {WATCH_URL}
+    # Show-notes / agenda doc written to the episode dir.
+    showNotes:
+      path: "~/.claude/MEMORY/STREAMRIG/Episodes/{N}/ShowNotes.md"

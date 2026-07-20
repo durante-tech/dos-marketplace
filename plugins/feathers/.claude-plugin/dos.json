@@ -1,0 +1,9 @@
+{
+  "pack": "feathers",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/feathers/src/"
+}

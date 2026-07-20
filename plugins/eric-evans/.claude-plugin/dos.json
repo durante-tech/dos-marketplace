@@ -1,0 +1,9 @@
+{
+  "pack": "eric-evans",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/eric-evans/src/"
+}

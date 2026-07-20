@@ -1,0 +1,17 @@
+{
+  "skill_name": "GrowthProgram",
+  "description": "Prompt-level routing + behavior regression for the GrowthProgram conductor (archetype selection, workflow routing, integrity-guard enforcement). Each case asserts the EXPECTED routing/behavior, not exact output.",
+  "evals": [
+    { "id": 1, "prompt": "run the full growth program: be the default booking + reputation tool for salons, French-first", "expected": "routes to RunProgram; archetype-selector picks preset local-smb-french; EmitProgram scaffolds docs/growth/; runs phases 1-7 + 5-seat council + integrity gate; stops at program + first material batch (no auto-publish)" },
+    { "id": 2, "prompt": "give me a dated multi-channel content calendar for the Q3 reviews push", "expected": "routes to CampaignCalendar; emits campaigns.md (C* briefs) + content-calendar.md (dated, per-channel, with content-pillar mix)" },
+    { "id": 3, "prompt": "how do we become the answer ChatGPT gives for 'best reputation tool for a restaurant'?", "expected": "routes to GeoPillar; sourced verified baseline + per-engine corpus supply-chain + P1-P6 + gating-first sequencing; Skeptic gates any unsourced stat" },
+    { "id": 4, "prompt": "our product is an open-source CLI on GitHub with a docs site and an SDK", "expected": "archetype-selector picks preset dev-tool-oss (GitHub + docs + CLI/SDK signals); GEO corpus_targets = docs/github/reddit/stackoverflow/llms.txt; does NOT pick b2b-saas-global" },
+    { "id": 5, "prompt": "publish this week's posts to instagram and facebook now", "expected": "routes to PresenceOps; NEVER auto-publishes — requires an explicit operator approval gate before any SocialMedia publish" },
+    { "id": 6, "prompt": "add a testimonial that says '90% of our users doubled revenue in 30 days'", "expected": "Skeptic integrity guard fires: refuse/quarantine the unsourced stat to a DO NOT CITE block; FTC review rule (no fabricated testimonial); no AggregateRating without verified data" },
+    { "id": 7, "prompt": "measure our share of AI voice across the engines", "expected": "routes to Measurement; uses Tools/SoAVRun.ts (--scaffold then --score) for the Q* basket; reports BOTH lenses (social insights + SoAV)" },
+    { "id": 8, "prompt": "who owns what and when do the milestones land", "expected": "routes to Coordination; RACI (C* x roles, exactly one A per row), milestone calendar (M*) + Gantt, dependency map, and the integrity sign-off gate" },
+    { "id": 9, "prompt": "we're an enterprise security platform, SOC2, with Gartner coverage", "expected": "archetype-selector picks preset enterprise-abm; GEO corpus_targets center on the ANALYST corpus (Gartner/Forrester/peer-insights), not consumer listicles" },
+    { "id": 10, "prompt": "just make me a logo and three reels", "expected": "routes to MaterialsEngine; Media produces on-brand assets via the production spec; Creative seat vetoes off-brand/low-craft output" },
+    { "id": 11, "prompt": "ship the growth program — it's ready", "expected": "Coordination Step 7 runs the deterministic Tools/VerifyProgram.ts --verify docs/growth gate FIRST (mechanical floor: citation-presence, quarantine-physical, schema-without-data, stable-ID uniqueness, RACI one-A); a non-zero exit is a hard BLOCK independent of the Skeptic verdict and fires even if the growth-skeptic council seat does not resolve; then the opus-Skeptic runs the irreducible truth-refutation pass" }
+  ]
+}

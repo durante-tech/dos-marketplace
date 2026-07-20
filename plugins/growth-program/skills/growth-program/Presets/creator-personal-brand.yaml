@@ -1,0 +1,22 @@
+# GrowthProgram preset — Solo creator / founder personal brand (build-in-public)
+preset: creator-personal-brand
+locale: en-US
+market: Solo creator / founder personal brand
+wedge_hint: a consistent POV + a transparent journey only this person can tell
+channels: [youtube, x, linkedin, newsletter, tiktok, podcast]
+cadence:
+  youtube: 1/week          # long-form anchor; everything clips from it
+  x: 2/day
+  linkedin: 4/week
+  newsletter: 1/week
+  tiktok: 4/week
+signature_formats: [long-form video, build-in-public thread, essay, podcast guesting, clip multiplier]
+compose: [StreamRig]       # the build-in-public ops + content-multiplier layer leads here
+geo:
+  engines: [chatgpt, perplexity, claude]
+  corpus_targets: [the-person-as-entity (wikidata/about-page), podcast appearances, interviews, youtube]
+  note: for a personal brand the creator IS the corpus — a clean entity identity + podcast/interview citations make you the answer.
+integrity:
+  reviews_pillar_gated_on: a real audience (no bought followers/engagement)
+  do_not: [bought followers/engagement, undisclosed sponsorships, recycled-as-original]
+  must: [disclose sponsorships, authenticity over volume]

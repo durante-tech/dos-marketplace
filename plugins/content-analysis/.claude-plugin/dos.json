@@ -1,0 +1,9 @@
+{
+  "pack": "content-analysis",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/content-analysis/src/"
+}

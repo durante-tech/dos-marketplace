@@ -1,0 +1,71 @@
+# THINK phase manifest - RFC-0006 Section 6.1
+# Canonical: ~/.claude/DOS/Algorithm/v0.0.1.md, THINK phase header
+# Reference impl: ~/Durante/Tools/dos-compile.ts
+# Phase 1 deliverable per Phase1 brief - parallel to live Algorithm; Phase 2 flips canonical.
+
+phase: think
+sequence: "2/7"
+header_emoji: "🧠"
+voice_message: "Entering the Think phase."
+
+# PRD frontmatter fields the phase MUST update on entry. THINK is the first
+# non-entry phase, so it sets phase: think AND bumps updated. Compiler
+# renders these as key: value pairs in source order; insertion order is
+# preserved by yaml@2.8.3 parsing into a JS object.
+prd_updates:
+  phase: think
+  updated: "{timestamp}"
+
+# Suffix appended to the FIRST ACTION sentence after the PRD edit. Captured
+# verbatim from v0.0.1.md so byte-identical compilation reproduces the live
+# THINK header. The trailing colon is part of v0.0.1.md's source - the THINK
+# block transitions immediately into the OUTPUT scaffolding.
+first_action_suffix: "Pressure test and enhance the ISC:"
+
+# OUTPUT slots, rendered in the order declared. THINK in v0.0.1.md emits
+# three brain-emoji lines. Note: v0.0.1.md inconsistently uses ':' after
+# RISKIEST ASSUMPTIONS but omits it after PREMORTEM and PREREQUISITES CHECK.
+# The compiler always emits ${label}: ${template} - the compiled OUTPUT
+# block is therefore an additive structural delta per RFC Section 6.4
+# (header + FIRST ACTION are the byte-identical surface; OUTPUT
+# consolidation is permitted).
+output_slots:
+  - name: riskiest_assumptions
+    label: "🧠 RISKIEST ASSUMPTIONS"
+    template: "[2-12 riskiest assumptions.]"
+  - name: premortem
+    label: "🧠 PREMORTEM"
+    template: "[2-12 ways you can see the current approach not working.]"
+  - name: prerequisites_check
+    label: "🧠 PREREQUISITES CHECK"
+    template: "[Pre-requisites that we may not have that will stop us from achieving ideal state.]"
+
+# Per-phase gates. Surfaces the Strategic Choice Detection + Reuse Scan
+# obligations the spec encodes as MANDATORY for Standard+ effort.
+gates:
+  - id: strategic_choice_detection
+    type: assertion
+    rule: "Council MUST be invoked before deep investigation when the task involves architecture, naming, scoping, prioritization, or any strategic trade-off (Standard+ effort)"
+  - id: redteam_for_unanimous_decisions
+    type: assertion
+    rule: "If a planned approach has decisions nobody disagreed with after Council, spawn a RedTeam agent to argue against it before exiting THINK"
+  - id: reuse_scan
+    type: assertion
+    rule: "Pre-Build Reuse Scan MUST run before BUILD when BUILD will produce code; findings surfaced in PRD ### Plan subsection"
+  - id: isc_refinement
+    type: assertion
+    rule: "Re-apply Splitting Test to every criterion; split any compound criteria; add criteria for premortem-revealed failure modes"
+
+# Must-actions the phase performs. The compiler does not render these into
+# the FIRST ACTION line beyond what voice_message + prd_updates already
+# describe; they form the machine-checkable inventory for the linter and
+# downstream tooling per RFC Section 5.3.
+must_actions:
+  - announce_voice
+  - update_prd_frontmatter
+  - emit_phase_header
+  - write_risks_subsection_to_prd
+
+# Reserved per RFC Section 7.1.3 - unknown frontmatter keys MUST survive
+# compile + eject unchanged. Empty for THINK.
+raw_frontmatter: {}

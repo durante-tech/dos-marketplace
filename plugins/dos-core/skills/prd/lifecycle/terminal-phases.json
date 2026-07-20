@@ -1,0 +1,38 @@
+{
+  "_doc": "Canonical PRD-lifecycle terminal-phase vocabulary. Single source of truth for Sentinel handlers + Tools that need to classify a PRD as terminal-closed. R-FW-6 (RFC-TBD, ratified 2026-05-18 via /goal sprint after audit PRD 20260518-025157_unchecked-isc-rootcause-framework-audit).",
+  "version": 1,
+  "generated_at": "2026-05-18T03:01:40Z",
+  "terminal": [
+    "done",
+    "complete",
+    "learn",
+    "ship",
+    "phase-a-complete"
+  ],
+  "excluded": {
+    "superseded": {
+      "via_closure_reason": true,
+      "note": "Explicit-abandonment phase; takes closure_reason: exemption path rather than the terminal-gate path. PRDs at phase: superseded SHOULD carry closure_reason: pointing at the superseding slug."
+    },
+    "retired": {
+      "via_closure_reason": true,
+      "note": "Explicit-abandonment phase (scope-cut). Takes closure_reason: exemption path. Zero-progress retired PRDs are Mode A (Scope Abandonment) per the audit."
+    }
+  },
+  "in_flight": [
+    "observe",
+    "think",
+    "plan",
+    "build",
+    "execute",
+    "verify",
+    "deliver",
+    "discovery",
+    "in-progress"
+  ],
+  "consumers": [
+    "Packs/sentinel/src/Tools/ConformanceChecks/handlers/R71-prd-closure-isc-parity.ts",
+    "Tools/build-closure-debt-baseline.ts",
+    "Packs/mem-palace/src/Tools/dos-memory-status.ts"
+  ]
+}

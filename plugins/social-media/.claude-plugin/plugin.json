@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "social-media",
+  "displayName": "DOS social-media",
+  "description": "Publish to and fetch analytics from Facebook Pages, Instagram Business accounts, and LinkedIn personal profiles via direct REST APIs (Graph v24.0 and LinkedIn /rest/posts).",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

@@ -1,0 +1,44 @@
+{
+  "_minted_by": "CrunchScaffold v0.1.0 | brief-hash: f2904c | 2026-05-20T15:02:51Z",
+  "_doc": "Config-as-data Surface definitions for the DepWatch Surface Crunch. The Survey workflow reads this file to know which Surfaces to enumerate. Operator overrides live in ~/.claude/DOS/USER/SKILLCUSTOMIZATIONS/DepWatch/sources.json. Pattern: MEMORY/CANONICAL/surface-crunch-pattern.md",
+  "domain": "dependency releases, CVEs and breaking changes in a project dependency tree",
+  "bifocal": "yes",
+  "tier_count": 4,
+  "tier_labels": "🔴 CRITICAL, 🟠 HIGH, 🟡 MEDIUM, 🟢 LOW",
+  "fan_out": 6,
+  "inward_surfaces": [
+    {
+      "id": "installed-deps",
+      "label": "Installed dependency set (package.json + lockfile)",
+      "locator": "<repo>/package.json plus the lockfile (package-lock.json | pnpm-lock.yaml | yarn.lock | bun.lock)",
+      "extraction_contract": "Enumerate name, ecosystem, current_version, dependency_type, declared_range per dependency — see Survey.md Step 1 Inward Extraction Contract. This inventory is the Target set every Outward Thread maps onto."
+    }
+  ],
+  "outward_surfaces": [
+    {
+      "id": "advisories",
+      "label": "npm + GitHub security advisories",
+      "locator": "GitHub Advisory Database (https://github.com/advisories) + the GitHub GraphQL securityVulnerabilities API; npm audit",
+      "check_frequency_days": 1,
+      "extraction_contract": "CVE/GHSA findings per installed dependency — id, severity, affected_range, fixed_version. kind=cve."
+    },
+    {
+      "id": "releases",
+      "label": "Dependency GitHub releases & changelogs",
+      "locator": "https://github.com/<owner>/<repo>/releases and CHANGELOG.md per installed dependency above current_version",
+      "check_frequency_days": 7,
+      "extraction_contract": "New release tags above current_version — version, breaking-change flag, one-line summary. kind=release or breaking."
+    },
+    {
+      "id": "deprecations",
+      "label": "npm deprecation notices",
+      "locator": "npm registry metadata (the 'deprecated' field) per installed package",
+      "check_frequency_days": 14,
+      "extraction_contract": "Deprecation notices — package, deprecated version range, suggested replacement. kind=deprecation."
+    }
+  ],
+  "state": {
+    "seen_file": "State/seen-extractions.json",
+    "dedup_key": "ecosystem:package:id"
+  }
+}

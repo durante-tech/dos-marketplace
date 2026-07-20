@@ -1,0 +1,9 @@
+{
+  "pack": "media",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/media/src/"
+}

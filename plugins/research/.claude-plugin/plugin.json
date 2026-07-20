@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "research",
+  "displayName": "DOS research",
+  "description": "Comprehensive research and content extraction — quick/standard/extensive/deep modes with multi-agent parallel research, content retrieval, AI trends analysis, library/SDK docs lookup via Ref, and 242+ Fabric patterns.",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

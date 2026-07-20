@@ -1,0 +1,9 @@
+{
+  "pack": "telos",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/telos/src/"
+}

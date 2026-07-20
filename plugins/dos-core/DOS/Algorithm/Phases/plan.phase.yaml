@@ -1,0 +1,62 @@
+# PLAN phase manifest - RFC-0006 Section 6.1
+# Canonical: ~/.claude/DOS/Algorithm/v0.0.1.md, PLAN phase header
+# Reference impl: ~/Durante/Tools/dos-compile.ts
+# Phase 1 deliverable per Phase1 brief - parallel to live Algorithm; Phase 2 flips canonical.
+
+phase: plan
+sequence: "3/7"
+header_emoji: "📋"
+voice_message: "Entering the Plan phase."
+
+# PRD frontmatter fields the phase MUST update on entry. PLAN bumps
+# phase: plan and updated. Compiler iteration preserves source order.
+prd_updates:
+  phase: plan
+  updated: "{timestamp}"
+
+# Suffix appended verbatim from v0.0.1.md so the compiled FIRST ACTION
+# sentence is byte-identical. The "Advanced+." token includes the period;
+# the compile.ts assembler emits "... `." then concatenates the suffix.
+first_action_suffix: "EnterPlanMode if EFFORT LEVEL is Advanced+."
+
+# OUTPUT slots, rendered in the order declared. PLAN in v0.0.1.md emits a
+# single PLANNING block followed by free-form prose. The compiled OUTPUT
+# block is permitted as an additive structural delta per RFC Section 6.4
+# (header + FIRST ACTION are the byte-identical surface; OUTPUT
+# consolidation is permitted, mirroring Phase 0's documented OBSERVE
+# precedent).
+output_slots:
+  - name: planning
+    label: "📐 PLANNING"
+    template: "[Prerequisite validation. Update ISC in PRD if necessary. Reanalyze CAPABILITIES to see if any need to be added.]"
+
+# Per-phase gates. Encodes PARALLELISM PRE-CHECK, DECISION ARTIFACT RULE,
+# 3-COLUMN ISC TEMPLATE, and ADVISOR WIRING obligations the spec marks
+# MANDATORY at PLAN. ADVISOR WIRING is captured as a defaults-provider
+# rule (per v0.0.1.md "Violation mode: none - rule is a default-provider,
+# not a gate"); included here for inventory + future linter coverage.
+gates:
+  - id: parallelism_pre_check
+    type: assertion
+    rule: "Three parallelism questions MUST be answered in PRD as PARALLELISM lines before BUILD can start (no/none must be stated explicitly - silence is not acceptable)"
+  - id: decision_artifact_rule
+    type: assertion
+    rule: "Any AskUserQuestion presenting >2 options MUST be preceded by a written decision artifact in the PRD (table / matrix / labeled list)"
+  - id: isc_three_column_template
+    type: assertion
+    rule: "Each ISC SHOULD capture (a) Pass criterion, (b) Anti-criterion, (c) Verification method. Council debate output should seed ISC where Council was invoked in THINK"
+  - id: advisor_wiring_default
+    type: assertion
+    rule: "AUTO advisor (model claude-opus-4-7, maxUses 3, executor claude-sonnet-4-6) is the default at PLAN for xhigh + comprehensive effort tiers; opt-out via advisor: null per call or /effort xhigh noadvisor per session"
+
+# Must-actions the phase performs. Inventory for linter / downstream tools.
+must_actions:
+  - announce_voice
+  - update_prd_frontmatter
+  - emit_phase_header
+  - enter_plan_mode_if_advanced_plus
+  - write_plan_subsection_to_prd
+
+# Reserved per RFC Section 7.1.3 - unknown frontmatter keys MUST survive
+# compile + eject unchanged. Empty for PLAN.
+raw_frontmatter: {}

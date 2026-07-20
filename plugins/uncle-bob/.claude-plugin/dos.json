@@ -1,0 +1,9 @@
+{
+  "pack": "uncle-bob",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/uncle-bob/src/"
+}

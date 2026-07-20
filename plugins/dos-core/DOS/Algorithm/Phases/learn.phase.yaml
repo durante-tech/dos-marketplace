@@ -1,0 +1,64 @@
+# LEARN phase manifest - RFC-0006 Section 6.1
+# Canonical: ~/.claude/DOS/Algorithm/v0.0.1.md, LEARN phase header (line 406)
+# Reference impl: ~/Durante/Tools/dos-compile.ts
+# Phase 2C deliverable per Phase 2 brief - parallel to live Algorithm.
+
+phase: learn
+sequence: "7/7"
+header_emoji: "📚"
+voice_message: "Entering the Learn phase."
+
+# PRD frontmatter fields the phase MUST update on entry. LEARN is the
+# terminal phase; on completion of reflection, the AI sets phase: complete
+# (captured in must_actions; not a prd_update because it happens at phase
+# EXIT, not entry).
+prd_updates:
+  phase: learn
+  updated: "{timestamp}"
+
+# Suffix appended verbatim from v0.0.1.md. The "After reflection..."
+# clause is part of the FIRST ACTION sentence, not the OUTPUT block - it
+# describes the post-reflection PRD action.
+first_action_suffix: "After reflection, set `phase: complete`. Algorithm reflection and improvement"
+
+# OUTPUT slots. LEARN in v0.0.1.md emits the 🧠 LEARNING block with four
+# Q1-Q4 reflection questions. The compiled OUTPUT block consolidates the
+# label + the four bracket templates as additive structural surface
+# (RFC Section 6.4).
+output_slots:
+  - name: q1_what_should_have_done_differently
+    label: "🧠 Q1"
+    template: "[What should I have done differently in the execution of the algorithm?]"
+  - name: q2_what_smarter_algorithm
+    label: "🧠 Q2"
+    template: "[What would a smarter algorithm have done instead?]"
+  - name: q3_capabilities_should_have_used
+    label: "🧠 Q3"
+    template: "[What capabilities from the skill index should I have used that I didn't?]"
+  - name: q4_smarter_ai_better_algorithm
+    label: "🧠 Q4"
+    template: "[What would a smarter AI have designed as a better algorithm for accomplishing this task?]"
+
+# Per-phase gates. LEARN's binding obligation is the reflection JSONL
+# write that feeds MineReflections, AlgorithmUpgrade, and Upgrade
+# workflows. Standard+ effort tier MUST emit the JSONL line.
+gates:
+  - id: reflection_jsonl_write
+    type: assertion
+    rule: "Standard+ effort: append a structured JSONL entry to ~/.claude/MEMORY/LEARNING/REFLECTIONS/algorithm-reflections.jsonl with timestamp, effort_level, task_description, criteria_count, criteria_passed, criteria_failed, prd_id, implied_sentiment (1-10 conversation-tone estimate), reflection_q1..q3, within_budget. Escape double quotes in reflection text with \\\""
+  - id: phase_complete_setter
+    type: assertion
+    rule: "On reflection completion, set frontmatter `phase: complete` in the PRD - this is the terminal state and signals Algorithm exit."
+
+# Must-actions the phase performs. Inventory for linter / downstream tools.
+must_actions:
+  - announce_voice
+  - update_prd_frontmatter
+  - emit_phase_header
+  - emit_q1_q4_reflections
+  - append_reflection_jsonl
+  - set_phase_complete_on_exit
+
+# Reserved per RFC Section 7.1.3 - unknown frontmatter keys MUST survive
+# compile + eject unchanged. Empty for LEARN.
+raw_frontmatter: {}

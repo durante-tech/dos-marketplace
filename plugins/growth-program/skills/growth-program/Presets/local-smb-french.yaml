@@ -1,0 +1,23 @@
+# GrowthProgram preset — local-SMB, French-first
+# A reusable channel-mix + locale profile (the altyaa-turbo#251 shape).
+preset: local-smb-french
+locale: fr-FR
+market: France (local SMB)
+channels:
+  - google_business_profile   # primary for local discovery
+  - instagram
+  - facebook
+  - tiktok
+  - linkedin                  # B2B/founder
+cadence:
+  instagram: 4/week
+  facebook: 3/week
+  tiktok: 3/week
+  google_business_profile: 2/week
+  linkedin: 2/week
+geo:
+  engines: [chatgpt, perplexity, gemini, claude, le_chat]
+  note: Le Chat (Mistral) is FR-biased / RGPD-native — DIY probe only, no SaaS tracker covers it
+integrity:
+  reviews_pillar_gated_on: real paying-customer base
+  do_not: [fake reviews, incentivized reviews, AggregateRating without verified data]

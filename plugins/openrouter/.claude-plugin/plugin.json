@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "openrouter",
+  "displayName": "DOS openrouter",
+  "description": "Multi-vendor LLM inference routed through Studio's credit-metered gateway. Chat completions + live model catalogue for 300+ models (Anthropic, OpenAI, Google, Meta, Mistral, xAI, etc.) via one unified endpoint.",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@dos/schema-check",
+  "private": true,
+  "type": "module",
+  "description": "SchemaCheck pack — structural validators (MVP: presence-only checks, no type validation)",
+  "dependencies": {
+    "yaml": "^2.8.3"
+  }
+}

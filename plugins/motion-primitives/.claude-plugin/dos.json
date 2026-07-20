@@ -1,0 +1,9 @@
+{
+  "pack": "motion-primitives",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/motion-primitives/src/"
+}

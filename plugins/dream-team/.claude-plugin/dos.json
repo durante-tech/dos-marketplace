@@ -1,0 +1,9 @@
+{
+  "pack": "dream-team",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/dream-team/src/"
+}

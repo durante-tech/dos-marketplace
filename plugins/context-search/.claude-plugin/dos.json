@@ -1,0 +1,12 @@
+{
+  "pack": "context-search",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/context-search/src/",
+  "bridge": [
+    "search"
+  ]
+}

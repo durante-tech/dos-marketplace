@@ -1,0 +1,423 @@
+{
+  "$schema_version": 1,
+  "fixture": "c3-detector-oracle",
+  "purpose": "Labeled acceptance corpus for the RFC-0120 C3 detector (the pure function: pack-procedure structure in -> {verdict, evidence} out). The detector MUST score every case in this file correctly before it ships. This is the ground-truth oracle the C3 acceptance test runs against.",
+  "rfc": "RFC-0120 (scaffolder) / RFC-0117 (the bar) / RFC-0121 (distribution)",
+  "owner_pack": "Packs/utilities/src/DOSUpgrade",
+  "capability_catalog": {
+    "purpose": "RedTeam reproducibility (P2): the catalog version the already-served-elsewhere leg was/should-be evaluated against. Regenerate with `bun Tools/capability-catalog.ts`; the detector must --check this hash and fail-closed on drift (Young), per RFC-0120 A.12.",
+    "generator": "Tools/capability-catalog.ts",
+    "catalog_hash": "5f2b81d8e7e191a712d6e6cb560bb1ced1fadf1315508380cf41e8b915a44f48",
+    "capability_count": 252,
+    "source_counts": {
+      "skill": 56,
+      "sync_tool": 22,
+      "tool": 171,
+      "workflow": 3
+    },
+    "stamped": "2026-05-29 (P2)",
+    "caveat": "RedTeam time-bomb: an EMIT/SKIP verdict on the already-served-elsewhere leg is only valid at THIS catalog hash. A new overlapping skill changes the hash → verdicts must be re-evaluated (the detector --checks and fails closed).",
+    "note_fix": "hash is codepoint-sorted (locale-independent) per /code-review finding — reproducible across hosts; superseded the locale-dependent 63e2c117 hash.",
+    "restamp_note": "Re-stamped 2026-05-30: superseded 173123e265c0214f... — adding the detector infra tools (capability-catalog.ts, workflow-detector.ts) to Tools/ changed the surface. The detector --check-catalog FAIL-CLOSED on the stale hash (RedTeam time-bomb fired benignly on day one; the gate works). Excluding detector-infra tools from the already-served catalog is an increment-2 refinement."
+  },
+  "provenance": {
+    "miner_run": "wf_b3fcf644-68e (workflow 'best-workflow-use-case', 2026-05-29T17:55:42Z)",
+    "miner_journal": "Releases/v0.0.18/.claude/projects/[REDACTED:operator-project-slug]/28476b48-6f28-4d22-8e99-37332baf509b/workflows/wf_b3fcf644-68e.json",
+    "miner_output": "15 mined -> 14 deduped candidates; verdicts: 1 clears-bar, 2 borderline, 11 below-bar",
+    "hand_authored_positives": "prd-isc-fanout (RFC-0123) + feature-discovery (RFC-0124) were added as hand-authored fixtures AFTER the miner run; they are NOT in the miner's 14 and carry a different provenance than the 13 miner-scored negatives. Recorded honestly so the detector is not trained against a silently-inconsistent label set."
+  },
+  "the_bar": "RFC-0117 §2.1 (conjunctive): a recurring task-shape JUSTIFIES a native .claude/workflows/<name>.js ONLY if repeatable AND fan-out-on-conditionals/loops AND long-running, with >=~10 independent units per run OR work that would overflow main context. Below the bar, model-orchestrated delegation (Delegation->TeamCreate, Task/Agent, Ensemble) is cheaper and correct.",
+  "headline_lesson": {
+    "unit_count_is_not_the_discriminator": "The literal '>=~10 units' leg INVERTS on the two most important cases. mempalace-bridge-parity-sync has units=12 (over the line) but is SKIP. dos-upgrade-scan has units=9 (under the line) but is EMIT. A detector keyed on unit-count would skip the only workflow we shipped and emit the highest-unit reject. The real discriminators are the QUALITATIVE legs: genuine independence of units, a deterministic merge/reduce core, and long-running/context-overflow.",
+    "positives_qualify_via_different_legs": "The 3 emits do NOT clear the bar the same way. dos-upgrade-scan clears via OVERFLOW (564K subagent tokens) with a fixed scatter and no loop. prd-isc-fanout clears via OVERFLOW (200+ ISCs) + a deterministic merge core. feature-discovery is the ONLY positive that exercises the fan-out-on-LOOP leg (completeness-loop-until-dry). The detector cannot pass by checking a single leg.",
+    "borderlines_are_where_review_fatigue_lives": "The 2 borderline cases (doctrine-rfc-ratify-panel, design-bundle-fork-pipeline) both resolve to SKIP, but they are the cases where a weak detector emits false positives. Defensible evidence output matters most here.",
+    "atom_episode_triple_counted": "The miner produced 3 candidates (atom-primitive-redgreen-batch / -red-green-flip / -red-first-green-flip) from ONE episode (commits 7da020e2 + e08a0035). All SKIP; they are not 3 independent negatives. The 13-negative set is ~11 distinct episodes. Does not affect the gate (all SKIP) but tempers the 'distinct negatives' framing."
+  },
+  "detector_acceptance": {
+    "must_emit": 3,
+    "must_skip": 13,
+    "of_which_borderline": 2,
+    "rule": "Detector scores 3/3 emit and 13/13 skip, produces defensible evidence on the 2 borderlines, and does NOT use raw unit-count as the primary signal (or it fails on its own training data).",
+    "scoring_depth_caveat": "RESOLVED 2026-05-29 (P3): all 8 formerly-shallow negatives deep-scored against git artifacts and confirmed SKIP — none is a hidden EMIT, so the gate is not poisoned. The two fan-out-named candidates (mempalace-recall-isc-fanout, atom-primitive-red-first-green-flip) were false flags (ISC-list naming; within-run recurrence). All 16 cases now scoring_depth=deep.",
+    "feature_discovery_evidence_caveat": "feature-discovery is QUARANTINED pending a dry-converged re-attestation (P3). Until then the emit set is 2 confirmed (dos-upgrade-scan, prd-isc-fanout) + 1 provisional (feature-discovery). The acceptance test '3/3 emit' treats feature-discovery as provisional."
+  },
+  "leg_schema": {
+    "repeatable": "observed recurrence RUN-OVER-RUN (not units within a single run)",
+    "fan_out_conditional_loop": "fan-out driven by a conditional/loop over a dynamic-N input set, vs a fixed hardcoded roster",
+    "long_running": "multi-hour / context-spanning / detached execution with retry-pause-resume value",
+    "units_independent": "the parallel units are genuinely independent (disjoint inputs, no cross-deps, not single-voice-coupled, not same-family epistemic clones)",
+    "ge10_or_overflow": "the OR clause: >=~10 independent units per run OR a payload that would overflow main context",
+    "deterministic_merge_core": "an agent->code->report reduce step exists where merge/score/dedup/tier is pure deterministic code, keeping the heavy payload out of the orchestrator",
+    "already_served_elsewhere": "an existing skill / sync-check / TeamCreate path already covers this cheaply"
+  },
+  "cases": [
+    {
+      "name": "dos-upgrade-scan",
+      "band": "emit",
+      "survives": true,
+      "source_verdict": "clears-bar",
+      "cluster": "DOSUpgrade + Algorithm doctrine — reflection mining + amendment ratification",
+      "units": 9,
+      "recurrence_runs": 7,
+      "confidence": 0.86,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e + shipped fixture RFC-0121",
+      "qualifies_via": [
+        "overflow"
+      ],
+      "legs": {
+        "repeatable": true,
+        "fan_out_conditional_loop": false,
+        "long_running": true,
+        "units_independent": true,
+        "ge10_or_overflow": true,
+        "deterministic_merge_core": true,
+        "already_served_elsewhere": false
+      },
+      "evidence": "7 on-disk runs + explicit 14-day cadence. 9 parallel agents over DISJOINT inputs (TELOS files vs skill dir vs release notes vs reflections jsonl), zero cross-deps. 564,743 subagent tokens / 233s / 109 tool uses — unambiguous context-overflow (the decisive OR-satisfier). Deterministic scoring (priority=(relevance*2)+impact+effort, relevance<3 filter, 4 score-banded tiers) lived as fragile re-derived prose. Today's model-orchestration is the PROBLEM (orchestrator must re-ingest all 9 payloads). Units straddle ~10, so the verdict rests on the overflow branch (conf 0.86, not higher)."
+    },
+    {
+      "name": "prd-isc-fanout",
+      "band": "emit",
+      "survives": true,
+      "source_verdict": "hand-authored-positive",
+      "cluster": "PRD authoring (RFC-0123)",
+      "units": "dynamic (one agent per ISC domain)",
+      "recurrence_runs": "every deep+ PRD",
+      "confidence": null,
+      "scoring_depth": "deep",
+      "provenance": "hand-authored-fixture:RFC-0123 (NOT in miner run)",
+      "qualifies_via": [
+        "overflow",
+        "deterministic_merge_core"
+      ],
+      "legs": {
+        "repeatable": true,
+        "fan_out_conditional_loop": true,
+        "long_running": true,
+        "units_independent": true,
+        "ge10_or_overflow": true,
+        "deterministic_merge_core": true,
+        "already_served_elsewhere": false
+      },
+      "evidence": "Per-domain ISC decomposition fans one agent per domain (dynamic N). The 200+-ISC payload never re-enters the orchestrator context (overflow). Convergence is a SINGLE ISC-editor agent (the conceptual-integrity make-or-break — an agent, NOT deterministic, because cross-domain vocabulary/granularity drift cannot be normalized mechanically). Final merge-count IS deterministic code: dedup, splitting-test flags, progress denominator, coverage map."
+    },
+    {
+      "name": "feature-discovery",
+      "band": "emit",
+      "survives": true,
+      "source_verdict": "hand-authored-positive",
+      "cluster": "Pre-PRD discovery (RFC-0124)",
+      "units": "dynamic (one agent per discovery dimension)",
+      "recurrence_runs": "every feature discovery",
+      "confidence": null,
+      "scoring_depth": "deep",
+      "provenance": "hand-authored-fixture:RFC-0124 (NOT in miner run); attestation cap-bounded (see caveat)",
+      "qualifies_via": [
+        "loop",
+        "overflow"
+      ],
+      "legs": {
+        "repeatable": true,
+        "fan_out_conditional_loop": true,
+        "long_running": true,
+        "units_independent": true,
+        "ge10_or_overflow": true,
+        "deterministic_merge_core": "partial — loop control is deterministic; convergence is a single brief-editor agent",
+        "already_served_elsewhere": false
+      },
+      "evidence": "scout -> per-dimension fan-out -> completeness-critic LOOP-until-2-dry-passes -> single-voice converge. The ONLY positive exercising the fan-out-on-conditional/LOOP leg (the make-or-break, bounded by MAX_ROUNDS). Overflow-heavy dimension research never re-enters the orchestrator. EVIDENCE CAVEAT: attested from cap-bounded run wf_a19f7f7b-449 (hit MAX_ROUNDS=3, 2 uncovered_gaps — NOT dry-converged); convergence evidence weaker than the other two positives. Dry re-attestation recommended.",
+      "quarantined_pending_reattestation": true,
+      "quarantine_reason": "P3/Feathers: attestation cap-bounded (wf_a19f7f7b-449 hit MAX_ROUNDS=3, 2 uncovered_gaps — not dry-converged). Provisional positive until a dry-converged re-attestation. Counts as the 3rd emit ONLY provisionally."
+    },
+    {
+      "name": "doctrine-rfc-ratify-panel",
+      "band": "borderline",
+      "survives": false,
+      "source_verdict": "borderline",
+      "cluster": "RFCs + cross-cutting Council/RedTeam/Cato review",
+      "units": 7,
+      "recurrence_runs": 6,
+      "confidence": 0.83,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e",
+      "better_served_by": "TeamCreate-or-Ensemble",
+      "qualifies_via": [],
+      "legs": {
+        "repeatable": true,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "Fixed 7-seat roster (5 Council + RedTeam + Cato), no dynamic loop. 7 < ~10, a single RFC fits main context (no overflow). DECISIVE structural disqualifier (RFC-0105): 5/7 seats are same-session Claude-family — epistemically ~1 independent unit (only Cato is genuinely out-of-family). Synthesis needs verdicts IN context. The real unmet need is an out-of-session deliberation LOG (audit/provenance artifact), not an orchestration-throughput problem. Borderline because recurrence(6)+units(7) are genuine, but the conjunctive bar fails."
+    },
+    {
+      "name": "design-bundle-fork-pipeline",
+      "band": "borderline",
+      "survives": false,
+      "source_verdict": "borderline",
+      "cluster": "Packs + DesignBundle — fork-to-Claude-Design pipeline",
+      "units": 6,
+      "recurrence_runs": 1,
+      "confidence": 0.9,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e",
+      "better_served_by": "already-exists (/design-bundle skill)",
+      "qualifies_via": [],
+      "legs": {
+        "repeatable": false,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": "partial — templated assembly, but sequential",
+        "already_served_elsewhere": true
+      },
+      "evidence": "Already ships as the /design-bundle Skill (commit b91f1715). recurrence=1 (one fork on disk; siblings are referenced, not produced — speculative recurrence). Phase B is a FIXED 6 Explore lanes (hardcoded RunPipeline.md:163-172), not a dynamic-N loop. Phase D is ~50 SEQUENTIAL cross-dependent file writes (tokens->intelligence->copy->press). Only genuinely-parallel segment is the disqualified fixed-6. Overflow absorbed by the 6 subagents. Moot — correct primitive (skill) already exists."
+    },
+    {
+      "name": "atom-primitive-redgreen-batch",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "v0.0.18 sprint — Sentinel R-rules + Bucket A delivery",
+      "units": 8,
+      "recurrence_runs": 1,
+      "confidence": 0.9,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e",
+      "better_served_by": "TeamCreate-or-Ensemble",
+      "qualifies_via": [],
+      "legs": {
+        "repeatable": false,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "2 commits 12 min apart in one session (not long-running). All 8 atoms landed in ONE red commit + ONE green commit — no per-atom fan-out. Units DELIBERATELY coupled: single-voice conceptual-integrity owner (ISC-6) + shared Tests/atoms/_helpers.ts — independence is what the design FORBIDS. recurrence=8 counts within-run atoms, not run-over-run episodes (there is exactly 1 episode). Textbook KentBeck red-green loop -> solo / TeamCreate."
+    },
+    {
+      "name": "doctrine-council-redteam-cato-review",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "v0.0.18 sprint — Sentinel R-rules + Bucket A delivery",
+      "units": 6,
+      "recurrence_runs": 8,
+      "confidence": 0.95,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e",
+      "better_served_by": "TeamCreate-or-Ensemble",
+      "qualifies_via": [],
+      "legs": {
+        "repeatable": true,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": true,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "Peak N=6, fixed roster (only branch is optional Round 2 counter-injection). Bounded 3-round in-context deliberation. CRITICAL: synthesis REQUIRES all verdicts to land in the orchestrator's context — so the workflow's headline advantage (results bypass main context) is actively COUNTERPRODUCTIVE. RFC-0117 §2.1 explicitly routes 'bounded fan-out, results needed in-context' to Agent/TeamCreate. This council-redteam-cato motion IS the ratification gate itself. conf 0.95."
+    },
+    {
+      "name": "mempalace-bridge-parity-sync",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "MemPalace + infra — pure-uv migration, recall hardening, bridge parity",
+      "units": 12,
+      "recurrence_runs": 1,
+      "confidence": 0.9,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e",
+      "better_served_by": "TeamCreate-or-Ensemble",
+      "is_key_inversion_case": true,
+      "qualifies_via": [],
+      "legs": {
+        "repeatable": false,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "★ KEY INVERSION CASE: units=12 (OVER the ~10 line) yet SKIP. The 12 are heterogeneous judgment-laden edits (KentBeck reword, Pragmatic Tip-100 gloss, Media new Emoji/FaceSwap blocks, 308-line Sentinel rewrite, 1283-line new mempalace-client.ts) — NOT N identical transforms; they collapse into a handful of decision-clusters. The genuinely-mechanical slice (four-copy SKILL propagation) is ALREADY mechanized by sync-check --fix + drift-check. recurrence=1 (commit 0b9ab9e5). overflow=false. This case is the proof that unit-count is NOT the discriminator."
+    },
+    {
+      "name": "author-sentinel-presence-rule",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "v0.0.18 sprint — Sentinel R-rules + Bucket A delivery",
+      "units": 1,
+      "recurrence_runs": 6,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e (verdicted, not deep-reasoned)",
+      "legs": {
+        "repeatable": true,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "DEEP-CONFIRMED SKIP: single-unit R-rule authoring (units=1) — no fan-out possible. recurrence=6 but each is one authoring task. Cannot clear EMIT rule (fails ge10/overflow + det-merge-core)."
+    },
+    {
+      "name": "atom-primitive-red-green-flip",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "DOSUpgrade + Algorithm doctrine — reflection mining + amendment ratification",
+      "units": 8,
+      "recurrence_runs": 1,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e (verdicted, not deep-reasoned)",
+      "legs": {
+        "repeatable": false,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "DEEP-CONFIRMED SKIP: SAME EPISODE as atom-primitive-redgreen-batch (commits 7da020e2 red-first + e08a0035 green-flip). Single-voice-coupled, all 8 in one commit, no per-atom fan-out. recurrence counts within-run atoms not runs. Miner triple-counted one episode."
+    },
+    {
+      "name": "sentinel-rrule-batch-author",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "DOSUpgrade + Algorithm doctrine — reflection mining + amendment ratification",
+      "units": 1,
+      "recurrence_runs": 6,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e (verdicted, not deep-reasoned)",
+      "legs": {
+        "repeatable": true,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "DEEP-CONFIRMED SKIP: single-unit R-rule authoring (units=1). Despite 'batch' in name, no independent fan-out; serial authoring. Fails EMIT rule."
+    },
+    {
+      "name": "mempalace-recall-isc-fanout",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "MemPalace + infra — pure-uv migration, recall hardening, bridge parity",
+      "units": 7,
+      "recurrence_runs": 1,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e (verdicted, not deep-reasoned)",
+      "legs": {
+        "repeatable": false,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "DEEP-CONFIRMED SKIP (false-flag name): RFC-0122 recall cold-start DEBUGGING/hardening (ISC-11 'diagnose canonical recall palace/studio-mirror conflict'). The 'isc-fanout' is a single PRD's ISC list, NOT parallel agent units feeding a deterministic reducer. recurrence=1, no overflow (code fixes, not a 500K-token scan). Fails EMIT rule on det-merge-core + repeatable."
+    },
+    {
+      "name": "mempalace-pure-uv-migration",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "MemPalace + infra — pure-uv migration, recall hardening, bridge parity",
+      "units": 3,
+      "recurrence_runs": 1,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e (verdicted, not deep-reasoned)",
+      "legs": {
+        "repeatable": false,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "DEEP-CONFIRMED SKIP: one-off infra migration, single commit 35ba5cc0 (pin 3.3.5 + WAL checkpointer). units=3, sequential, recurrence=1. No fan-out/overflow/merge-core."
+    },
+    {
+      "name": "v0018-install-lifecycle",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "MemPalace + infra — pure-uv migration, recall hardening, bridge parity",
+      "units": 6,
+      "recurrence_runs": 1,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e (verdicted, not deep-reasoned)",
+      "legs": {
+        "repeatable": false,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "DEEP-CONFIRMED SKIP: RFC-0030/0031 doctor+install lifecycle — SEQUENTIAL phased feature work (Phase 1.5/3, post-install smoke). units=6<10, no overflow, no independent parallel fan-out. Served by normal delivery."
+    },
+    {
+      "name": "rrule-registry-collision-audit",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "RFCs + cross-cutting Council/RedTeam/Cato review",
+      "units": 1,
+      "recurrence_runs": 2,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e (verdicted, not deep-reasoned)",
+      "legs": {
+        "repeatable": false,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "DEEP-CONFIRMED SKIP: single deterministic audit — ALREADY a Tool (rrule-registry-audit.ts). already-served=true; units=1. Fails EMIT rule."
+    },
+    {
+      "name": "atom-primitive-red-first-green-flip",
+      "band": "skip",
+      "survives": false,
+      "source_verdict": "below-bar",
+      "cluster": "RFCs + cross-cutting Council/RedTeam/Cato review",
+      "units": 8,
+      "recurrence_runs": 8,
+      "scoring_depth": "deep",
+      "provenance": "miner-scored:wf_b3fcf644-68e (verdicted, not deep-reasoned)",
+      "legs": {
+        "repeatable": false,
+        "fan_out_conditional_loop": false,
+        "long_running": false,
+        "units_independent": false,
+        "ge10_or_overflow": false,
+        "deterministic_merge_core": false,
+        "already_served_elsewhere": true
+      },
+      "evidence": "DEEP-CONFIRMED SKIP: SAME EPISODE as atom-primitive-redgreen-batch (commits 7da020e2 + e08a0035). recurrence=8 is within-run atoms, not run-over-run. Coupled, single-voice. Miner triple-counted one episode (this is the 3rd count)."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# GrowthProgram preset — Regulated fintech / financial services
+preset: fintech-regulated
+locale: en-US
+market: Regulated fintech / financial services
+wedge_hint: trust + clarity in a category built on hidden fees and fine print
+channels: [linkedin, x, webinar, pr_earned, blog]
+cadence:
+  linkedin: 4/week
+  x: 4/week               # measured, compliance-reviewed
+  webinar: 1/month
+  blog: 2/week
+signature_formats: [explainer, regulatory POV, founder credibility, approved customer story, data report]
+geo:
+  engines: [chatgpt, claude, perplexity, gemini]
+  corpus_targets: [editorial finance press, comparison sites, "best X for Y", analyst notes]
+  note: LLMs are conservative on finance — editorial authority + clarity + trust signals win; thin/hypey sites get filtered out.
+integrity:
+  reviews_pillar_gated_on: real customers + compliance approval
+  do_not: [performance / return guarantees, unsubstantiated ROI, testimonials implying typical results, advice without a disclaimer]
+  must: [regulatory disclaimers (SEC/FINRA/FCA as applicable), compliance review before publish, never expose PII]

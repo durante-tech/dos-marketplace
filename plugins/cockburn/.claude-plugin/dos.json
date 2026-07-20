@@ -1,0 +1,9 @@
+{
+  "pack": "cockburn",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/cockburn/src/"
+}

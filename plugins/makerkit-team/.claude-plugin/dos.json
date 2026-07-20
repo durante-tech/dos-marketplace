@@ -1,0 +1,9 @@
+{
+  "pack": "makerkit-team",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/makerkit-team/src/"
+}

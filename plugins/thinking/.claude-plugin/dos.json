@@ -1,0 +1,9 @@
+{
+  "pack": "thinking",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/thinking/src/"
+}

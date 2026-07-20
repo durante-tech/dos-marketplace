@@ -1,0 +1,21 @@
+# GrowthProgram preset — Developer tool / open-source project
+preset: dev-tool-oss
+locale: en-US
+market: Developer tool / open-source project
+wedge_hint: a genuinely better DX + a reproducible benchmark — shown in code, not in copy
+channels: [github, x, reddit, hacker_news, dev_to, docs_site, discord, youtube]
+cadence:
+  github: continuous       # releases, issues, discussions
+  x: 1/day
+  reddit: 2/week           # value-first, never astroturf
+  dev_to: 1/week
+  docs_site: continuous
+signature_formats: ["we built X" writeup, changelog/release, benchmark, live demo, deep-dive, RFC]
+geo:
+  engines: [claude, perplexity, chatgpt]
+  corpus_targets: [github, docs, reddit, hacker_news, stackoverflow, llms.txt]
+  note: code LLMs cite docs + GitHub + Reddit/SO heavily — excellent docs, an indexable changelog, and an llms.txt ARE the GEO play here.
+integrity:
+  reviews_pillar_gated_on: real adoption (organic stars/usage, never bought)
+  do_not: [astroturf HN/Reddit (instant bans), bought stars, non-reproducible benchmarks]
+  must: [publish the benchmark harness, disclose maintainer affiliation in every thread]

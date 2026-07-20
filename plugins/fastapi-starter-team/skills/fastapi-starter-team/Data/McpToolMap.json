@@ -1,0 +1,67 @@
+{
+  "version": "0.5.0",
+  "schema": "https://schemas.dos/fastapistarter-team/mcp-tool-map/v1",
+  "description": "Maps the dos-fastapi-starter MCP server (tooling/mcp_server/) to authorized agent roles. Roster.json#mcp_tools references cluster names from this file.",
+  "mcp_namespace": "mcp__dos_fastapi__",
+  "doc_links": {
+    "frameworkDigest": "../FrameworkDigest.md",
+    "skill": "../SKILL.md",
+    "starterRepo": "~/Developer/dos-fastapi-starter",
+    "mcpServerSrc": "~/Developer/dos-fastapi-starter/tooling/mcp_server/"
+  },
+  "wiring_note": "The starter repo's MCP server is registered via the operator's project-level .mcp.json. Default invocation: `uv run --directory <starter>/tooling/mcp_server python -m dos_fastapi_mcp`. The MCP server is cwd-locked to the slot recorded in .fork-slot — set DOS_FORK_BYPASS=1 to override for cross-slot debugging.",
+  "clusters": {
+    "project_status": {
+      "name": "Project status & fork health",
+      "purpose": "Read-only inspection of starter project state, slot allocation, prerequisites, and registry agreement. Safe for any role to call as a no-op pre-flight.",
+      "tools": [
+        "mcp__dos_fastapi__fork_status",
+        "mcp__dos_fastapi__check_prerequisites",
+        "mcp__dos_fastapi__list_forks"
+      ],
+      "notes": "Run check_prerequisites + fork_status FIRST in any workflow's Phase 0. fork_status verifies cwd matches .fork-slot (avoids cross-fork mutations); list_forks enumerates parallel worktrees that share ~/.dos/forks/registry.json. If fork_status returns slot_match: false, halt the workflow — operator must investigate before code changes."
+    },
+    "migrations": {
+      "name": "Alembic migration inspection",
+      "purpose": "Read current revision, list migration history, detect ORM↔DB drift. Read-only — no migration generation or application via this cluster.",
+      "tools": [
+        "mcp__dos_fastapi__alembic_current",
+        "mcp__dos_fastapi__alembic_history",
+        "mcp__dos_fastapi__alembic_check"
+      ],
+      "notes": "Phase 3 (Schema) is the natural home. alembic_check is the canonical drift detector — Database role MUST run it before authoring a new migration. alembic_history shows the pending chain when investigating broken upgrades. Migration generation happens via subprocess (`cd src && uv run alembic revision --autogenerate -m '...'`) — this cluster is inspection-only by design (decoupled from the app)."
+    },
+    "api_surface": {
+      "name": "API route inventory",
+      "purpose": "Enumerate registered FastAPI routes (path, method, summary, tags) by reading the running app's /openapi.json. Read-only.",
+      "tools": [
+        "mcp__dos_fastapi__list_routes"
+      ],
+      "notes": "MUST be called by API DX, Schema, Architect, Backend, Agent before authoring a new route — duplication-prevention. Frontend-equivalent (E2E) calls it to verify routes exist before authoring tests against them. Writer reads it for OpenAPI tag inventory when refreshing docs."
+    },
+    "mailbox": {
+      "name": "Mailpit inbox inspection",
+      "purpose": "Read sent emails from the slot's mailpit container. E2E and TestAndValidate use this for assertion + drift checks.",
+      "tools": [
+        "mcp__dos_fastapi__list_mailbox"
+      ],
+      "notes": "E2E reaches for list_mailbox instead of HTTP-fetching mailpit's API — the MCP tool handles slot-derived port resolution automatically. Used for password-reset email flows, welcome emails, notification flows. Mailpit must be running in the slot's docker compose stack."
+    },
+    "checks": {
+      "name": "Healthcheck — ruff, mypy, pytest",
+      "purpose": "Run the starter's defined check pipeline (ruff check, mypy, pytest). MUST in verification phases.",
+      "tools": [
+        "mcp__dos_fastapi__run_checks"
+      ],
+      "notes": "run_checks is the canonical 'is the codebase healthy?' tool — runs ruff + mypy + pytest sequentially and returns per-tool pass/fail + stderr. Verification workflows (CodeReview, TestAndValidate, BugFix Phase 4, Refactor Phase 4, DeliverFeature Phase 4) MUST invoke it. Failures route to the original implementer per the v0.5.0 ISC-failure policy."
+    },
+    "env": {
+      "name": "Environment variables (slot-derived)",
+      "purpose": "Read slot-derived env vars (API_PORT, POSTGRES_PORT, REDIS_PORT, etc.). SECRET_KEY is masked. Read-only.",
+      "tools": [
+        "mcp__dos_fastapi__read_env_local"
+      ],
+      "notes": "DevOps reads this to verify env-var hygiene before declaring deploy readiness. Security audits use it to verify SECRET_KEY masking and check for leaked values in non-secret keys. read_env_local does NOT expose unmasked secrets — agents must NOT attempt to coerce around the mask."
+    }
+  }
+}

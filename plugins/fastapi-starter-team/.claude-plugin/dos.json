@@ -1,0 +1,9 @@
+{
+  "pack": "fastapi-starter-team",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/fastapi-starter-team/src/"
+}

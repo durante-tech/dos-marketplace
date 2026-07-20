@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "feathers",
+  "displayName": "DOS feathers",
+  "description": "Channel Michael Feathers — author of Working Effectively with Legacy Code (2004) and Working Effectively With Unit Tests (2014), founder of R7K Research & Conveyance. Speaks as \"I\" — surgical, archaeological, methodical, never-blame-the-past. Knows when to step aside (greenfield TDD, code already...",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

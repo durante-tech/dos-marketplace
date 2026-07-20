@@ -1,0 +1,1553 @@
+{
+  "$schema": "motion-primitives-catalog/v1",
+  "generated": "2026-06-10",
+  "source": "distilled from reference/components/*/page.mdx + *.tsx (offline mirror of github.com/ibelick/motion-primitives, MIT)",
+  "purpose": "Structured per-component knowledge for design-system migration workflows: props, shadcn/@kit pairing, migration-use, adapt-notes, reduced-motion guard.",
+  "count": 33,
+  "components": [
+    {
+      "slug": "accordion",
+      "name": "Accordion",
+      "group": "Interactive",
+      "intent": "Use this when you need a height/opacity-animated collapsible disclosure group with custom expand/collapse motion variants.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": "",
+          "desc": "The content elements of the accordion."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "",
+          "desc": "Optional CSS class for styling the accordion container."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "Transition settings from motion for animation effects."
+        },
+        {
+          "name": "variants",
+          "type": "{ expanded: Variant; collapsed: Variant }",
+          "default": "",
+          "desc": "Custom variants for expanded and collapsed states."
+        },
+        {
+          "name": "expandedValue",
+          "type": "React.Key | null",
+          "default": "",
+          "desc": "Controlled expanded value."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: React.Key | null) => void",
+          "default": "",
+          "desc": "Callback function when the expanded value changes."
+        }
+      ],
+      "shadcn_pairing": "Drop-in motion alternative to shadcn's Accordion primitive (which wraps Radix). Same Accordion/AccordionItem/AccordionTrigger/AccordionContent compound shape, so it composes inside any Card or section as a collapsible FAQ/disclosure list. Trigger is a real button so it pairs with Badge/icon children; the group className enables group-data-[expanded] icon rotation like a shadcn ChevronDown.",
+      "migration_use": "Replace hand-rolled Tailwind disclosure markup — a div with a click-toggled useState boolean, a button header, and a content div gated by `hidden`/`max-h-0 overflow-hidden` transition classes — with the Accordion compound. Wire each section's `value` to AccordionItem, move the header into AccordionTrigger, the body into AccordionContent, and delete the manual open-state booleans and max-height CSS hacks; the height:auto/opacity motion variants replace the brittle max-h transition. Use expandedValue/onValueChange only if a parent must control which panel is open.",
+      "adapt_notes": "Upstream imports from 'motion/react' (motion, AnimatePresence, MotionConfig, Transition, Variant, Variants) — if the kit is on framer-motion, rewrite to 'framer-motion' (named exports are identical, no prop renames). Imports cn from '@/lib/utils' — repoint to the kit's cn (e.g. '@kit/ui/utils' or local '~/lib/utils'). File already declares 'use client' at top; keep it — it uses useState/useContext and must be a client component. Single-open semantics by design (toggleItem nulls the prior value); for multi-open you'd fork the provider to a Set. No defaults are emitted by the API table, so callers must supply transition/variants for non-instant motion.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "No prefers-reduced-motion guard in source — AnimatePresence + the height/opacity variants always animate. Wrap the subtree in <MotionConfig reducedMotion=\"user\"> (motion respects the OS setting and drops transform/opacity tweens) or read useReducedMotion() and pass a near-zero `transition={{ duration: 0 }}` so the panel snaps open instead of sliding."
+    },
+    {
+      "slug": "animated-background",
+      "name": "Animated Background",
+      "group": "Interactive",
+      "intent": "Use this when a selected/hovered item in a list, menu, tab strip, or segmented control needs a smooth sliding background to signal the active selection.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactElement with 'data-id' string attribute array or single element",
+          "default": "",
+          "desc": "The content to be displayed within the animated background. Each child must have a unique data-id attribute to ensure correct functionality."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "default": "",
+          "desc": "The default value to be used as the active item identifier."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(newActiveId: string | null) => void",
+          "default": "",
+          "desc": "Callback function that is called when the active item changes."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "",
+          "desc": "The class name to apply to the animated background for custom styling."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "The transition effect from motion for animation effects."
+        },
+        {
+          "name": "enableHover",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Enables or disables the hover effect. When enableHover is true, spacing between children cannot be added."
+        }
+      ],
+      "shadcn_pairing": "Wraps a Tabs/TabsList trigger row, a list/grid of selectable Card or Button items, or a custom segmented control. It is the shared moving indicator behind whatever child carries the active data-id — think of it as the animated \"active pill\" layer you drop around shadcn triggers/menu items to give them a single sliding highlight instead of per-item background toggles.",
+      "migration_use": "A migration agent applies this where raw markup renders a row of buttons/links/cards and toggles a static highlight class on the active one (e.g. className={cn('px-3 py-1', active === id && 'bg-muted rounded')} with onClick={() => setActive(id)}). Replace that per-item conditional background with a single <AnimatedBackground defaultValue={active} onValueChange={setActive} className=\"bg-muted rounded\">{items.map(i => <button key={i.id} data-id={i.id}>{i.label}</button>)}</AnimatedBackground> — the highlight becomes one shared layoutId element that slides between selections instead of hard-cutting per item. Set enableHover for nav/menu hover-follow behavior.",
+      "adapt_notes": "Upstream imports motion via `import { AnimatePresence, Transition, motion } from 'motion/react'` — in a framer-motion repo rewrite to `from 'framer-motion'` (same AnimatePresence/motion/Transition API, no prop renames needed). Requires the 'use client' directive (already present) because it uses useState/useEffect/useId — keep it for App Router. Imports cn from `@/lib/utils`; repoint to the kit's cn helper (e.g. `@kit/ui/utils` or local `~/lib/utils`). Contract gotcha: every child MUST carry a unique `data-id` string prop or selection breaks; the component clones children and injects key/className/data-checked plus the click-or-hover handlers, so children must forward those (native elements do, custom components must spread props). When enableHover is true, do not add spacing between children.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the layoutId/opacity slide always animates regardless of OS setting. To respect it, wrap with motion's MotionConfig reducedMotion=\"user\", or pass a transition prop conditioned on a useReducedMotion() check (e.g. transition={prefersReduced ? { duration: 0 } : undefined}) so the background snaps instead of sliding for users who opt out."
+    },
+    {
+      "slug": "animated-group",
+      "name": "Animated Group",
+      "group": "Core",
+      "intent": "Use this when a list/grid of children should reveal with a staggered entrance animation.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": "—",
+          "desc": "The child elements to be animated."
+        },
+        {
+          "name": "variants",
+          "type": "{ container?: Variants; item?: Variants; }",
+          "default": "undefined",
+          "desc": "Custom variants for container and item animations."
+        },
+        {
+          "name": "preset",
+          "type": "'fade' | 'slide' | 'scale' | 'blur' | 'blur-slide' | 'zoom' | 'flip' | 'bounce' | 'rotate' | 'swing'",
+          "default": "undefined",
+          "desc": "Preset entrance animation applied to each child (docs list a subset; the .tsx PresetType adds zoom/flip/bounce/rotate/swing)."
+        },
+        {
+          "name": "as",
+          "type": "React.ElementType",
+          "default": "'div'",
+          "desc": "The HTML element to render the container as."
+        },
+        {
+          "name": "asChild",
+          "type": "React.ElementType",
+          "default": "'div'",
+          "desc": "The HTML element each child is wrapped/rendered as."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "undefined",
+          "desc": "Optional CSS class for styling the container."
+        }
+      ],
+      "shadcn_pairing": "Wraps any list/grid container of Cards, Badges, or list items. Drop it around a mapped collection (feature Cards, pricing tiles, a grid of avatars, dashboard stat tiles, command-menu results) so the whole group staggers in. It is a structural container, not a leaf primitive — it composes ABOVE shadcn components rather than replacing one. Pairs naturally with the children of a section, CardContent grid, or Tabs panel reveal.",
+      "migration_use": "Replace a raw mapped container like `<div className=\"grid grid-cols-3 gap-4\">{items.map(i => <Card .../>)}</div>` with `<AnimatedGroup className=\"grid grid-cols-3 gap-4\" preset=\"blur-slide\">{items.map(...)}</AnimatedGroup>`. The engineer lifts the grid/flex className onto AnimatedGroup, keeps the same children, and gets staggered entrance for free. Also upgrades static feature lists, testimonial walls, and stat-tile rows that currently render with no motion. Note: each child is wrapped in an extra motion element, so move per-item layout classes (e.g. flex/col-span) onto the child itself, not relying on the wrapper being the direct grid item — or pass `asChild`/`as` to control the wrapper tag.",
+      "adapt_notes": "Upstream imports `motion` and `Variants` from `motion/react` (the modern Motion package) — in a framer-motion repo rewrite the import to `framer-motion`; the `Variants` type and the `motion.create()` API are equivalent in recent framer-motion, but older framer-motion versions expose `motion(Component)` instead of `motion.create()` — swap if the build complains. File already declares `'use client'` (required — it uses motion + React.useMemo/Children), keep it for Next.js App Router. No `cn`/clsx helper used — `className` is passed through raw, so add `cn()` only if you want to merge. Docs vs source mismatch: the docs API table lists presets `fade | slide | scale | blur-sm | blur-slide` (note `blur-sm`), but the actual .tsx PresetType key is `blur` and adds `zoom | flip | bounce | rotate | swing` — trust the .tsx. No external shared deps; self-contained.",
+      "shared_deps": [],
+      "reduced_motion": "No prefers-reduced-motion guard. The component hardcodes initial='hidden' / animate='visible' and spring transitions with zero accessibility opt-out — motion-sensitive users get the full stagger/blur/bounce. To respect it, wrap with Motion's `useReducedMotion()` hook and, when true, pass `preset={undefined}` plus an instant container variant (staggerChildren: 0, items hidden→visible with no offset/filter), or render children plainly. Alternatively gate via CSS `@media (prefers-reduced-motion: reduce)`. Spring presets (zoom/flip/bounce/rotate/swing) are the most jarring and should collapse to a plain fade or no animation under reduced motion."
+    },
+    {
+      "slug": "animated-number",
+      "name": "Animated Number",
+      "group": "Number",
+      "intent": "Use this when a numeric value should spring-count to its target instead of snapping.",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": "—",
+          "desc": "The number to be animated."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "—",
+          "desc": "Optional CSS class for styling the number item container."
+        },
+        {
+          "name": "springOptions",
+          "type": "SpringOptions",
+          "default": "—",
+          "desc": "Spring options from motion for the animation."
+        },
+        {
+          "name": "as",
+          "type": "React.ElementType",
+          "default": "'span'",
+          "desc": "The HTML tag to render the number in."
+        }
+      ],
+      "shadcn_pairing": "Enhances the numeric value inside any shadcn Card/stat tile — wrap the displayed count in a CardContent, Badge, or KPI/metric block. Composes WITH Card (dashboard metric tiles), Badge (animated count badges), and any value/number slot in a list/grid of stats.",
+      "migration_use": "A migration agent replaces a static numeric span in a metric/KPI tile — e.g. raw `<span className=\"text-4xl font-bold tabular-nums\">{revenue}</span>` or `<div>{count}</div>` — with `<AnimatedNumber value={revenue} className=\"text-4xl font-bold\" />`. The component already injects `tabular-nums`, so drop that utility from the original markup. Upgrades any place where a live/fetched number is painted directly, giving count-up motion on mount and on every value change (it re-springs via useEffect on value).",
+      "adapt_notes": "Upstream imports from `motion/react` (the current Motion package) — if the kit standardizes on legacy `framer-motion`, rewrite the import to `framer-motion` and note `motion.create(...)` is `motion(...)` in older framer-motion versions (rename needed there). Requires `'use client'` (uses useSpring/useTransform/useEffect hooks) — keep the directive when dropping into a Next.js App Router server-component tree. Imports `cn` from `@/lib/utils`; in @kit/ui repos repoint to the kit's `cn` helper (e.g. `@kit/ui/utils` or local `~/lib/utils`). No prop renames vs framer-motion API surface; SpringOptions is the same shape. Note the runtime formats with `Math.round(...).toLocaleString()` — integers only, locale-grouped thousands; for decimals/currency you must fork the transform.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the spring runs unconditionally on mount and on every value change. To respect it, wrap with a `useReducedMotion()` check (from motion/react) and either pass a near-instant `springOptions` (e.g. high stiffness / zero-ish duration) or short-circuit to render the plain `value.toLocaleString()` when reduced motion is requested."
+    },
+    {
+      "slug": "border-trail",
+      "name": "Border Trail",
+      "group": "Advanced",
+      "intent": "Use this when you want a glowing light trail that endlessly travels around a container's border to signal \"live\", \"loading\", or \"active focus\".",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "default": "",
+          "desc": "Additional CSS classes for styling the border trail (e.g. recolor the default bg-zinc-500 dot to a brand gradient)."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "default": "60",
+          "desc": "Size of the animated border effect — width of the traveling square dot and the corner radius of its offset path."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "Custom transition settings for the animation; overrides the default { repeat: Infinity, duration: 5, ease: 'linear' }."
+        },
+        {
+          "name": "onAnimationComplete",
+          "type": "() => void",
+          "default": "",
+          "desc": "Callback function triggered when the animation completes."
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "default": "",
+          "desc": "(impl-only, not in docs API table) Extra inline styles merged onto the moving dot, after width/offsetPath are applied."
+        }
+      ],
+      "shadcn_pairing": "Drops INSIDE any relatively-positioned shadcn Card, Input, Textarea, or section as an absolutely-positioned overlay child. It enhances a container rather than replacing one — wrap a Card to mark it as \"processing/streaming\", or sit inside an Input/Textarea to draw focus to an active field. Composes with Badge-style \"Live\" affordances on a tile.",
+      "migration_use": "Replace a hand-rolled animated-border hack — a wrapper div with `animate-pulse ring-2 ring-primary` or a `before:`/`after:` conic-gradient `@keyframes spin` border trick — on a Card/Input/section. Make the parent `relative` (and `rounded-*` since the trail inherits `rounded-[inherit]`), then drop `<BorderTrail />` as the last child. For a loading state, gate render on `isLoading` and recolor via `className`.",
+      "adapt_notes": "Upstream imports `motion`/`Transition` from `motion/react` — if the kit is on legacy framer-motion, rewrite to `framer-motion` (same `motion.div`, `Transition`, `animate`, `transition`, `onAnimationComplete` API; no prop renames). `'use client'` IS required (uses motion animation) — keep it; in a Server Component, wrap or import into a client boundary. `cn` is imported from `@/lib/utils` — repoint to the kit's helper (`@kit/ui` re-exports `cn`). No shared hooks. Relies on modern CSS `offset-path`/`mask-composite`; verify browser-target support. Parent MUST be `position: relative` and rounded or the trail mis-clips.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "No guard — the default transition is `repeat: Infinity` and runs unconditionally, ignoring `prefers-reduced-motion`. Add a guard before adopting: read `useReducedMotion()` from motion/react and either skip rendering `<BorderTrail />` or pass a `transition` with `repeat: 0`/`duration: 0` (or a static frame) when it returns true, since a perpetual loop is exactly the kind of motion that policy targets."
+    },
+    {
+      "slug": "carousel",
+      "name": "Carousel",
+      "group": "Interactive",
+      "intent": "use this when you need a drag/swipe-able, spring-animated slide track with optional arrow nav and dot indicators, controlled or uncontrolled.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": "",
+          "desc": "The content elements of the carousel."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "",
+          "desc": "Optional CSS class for styling the carousel container."
+        },
+        {
+          "name": "initialIndex",
+          "type": "number",
+          "default": "0",
+          "desc": "Initial index of the active carousel item."
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "default": "",
+          "desc": "Controlled index of the active carousel item."
+        },
+        {
+          "name": "onIndexChange",
+          "type": "(newIndex: number) => void",
+          "default": "",
+          "desc": "Callback function when the active index changes."
+        },
+        {
+          "name": "disableDrag",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Whether dragging is disabled."
+        }
+      ],
+      "shadcn_pairing": "A self-contained alternative to the shadcn `Carousel` (embla) primitive — same compound shape (Carousel / CarouselContent / CarouselItem / CarouselNavigation / CarouselIndicator) but motion-driven instead of embla. Wraps any list/grid of Cards, image tiles, or testimonial/feature sections; CarouselNavigation behaves like a Button pair and CarouselIndicator like a Tabs/dot value selector. Use it to give a horizontal Card row swipe + spring transitions; pairs naturally with Card-based content and a Tabs-style controlled `index`.",
+      "migration_use": "Replace a hand-rolled Tailwind horizontal scroller — a `<div class=\"flex overflow-x-auto snap-x\">` with manually mapped slide divs and DIY prev/next `<button>`s — with this compound API: wrap the track in `<Carousel><CarouselContent>`, convert each slide to `<CarouselItem className=\"basis-1/3\">` (use `basis-*` for multi-up, `-ml-4`/`pl-4` for gutters), and drop in `<CarouselNavigation/>` + `<CarouselIndicator/>` instead of bespoke arrow/dot markup. Swap `snap-x` scroll for the controlled `index`/`onIndexChange` pair to drive external state. Adds drag-to-swipe and spring physics the raw scroller lacks.",
+      "adapt_notes": "Upstream imports from `motion/react` (`motion`, `Transition`, `useMotionValue`) — keep as-is if the kit ships `motion`, otherwise rewrite to `framer-motion` (same named exports, no prop renames). Needs `'use client'` (already at top) — it uses useState/useEffect/useRef, IntersectionObserver, and drag handlers, so it cannot be a server component. Imports `cn` from `@/lib/utils` — repoint to the kit's `cn` (`@kit/ui` / `~/lib/utils`). Icons come from `lucide-react` (ChevronLeft/ChevronRight) which the kit already has. Exports a `useCarousel()` hook (throws outside provider) for building custom indicators. No framer-vs-motion prop drift.",
+      "shared_deps": [
+        "cn (@/lib/utils)",
+        "lucide-react (ChevronLeft, ChevronRight)"
+      ],
+      "reduced_motion": "No guard — the spring `translateX` animation and drag transition always run; the source never reads `useReducedMotion()` or `prefers-reduced-motion`. To respect it, wrap with `useReducedMotion()` from motion/react and pass a near-instant `transition` (e.g. `{ duration: 0 }`) to CarouselContent plus `disableDrag` when reduced motion is preferred, or gate the whole component behind a `@media (prefers-reduced-motion: reduce)` fallback that renders a plain scrollable list."
+    },
+    {
+      "slug": "cursor",
+      "name": "Cursor",
+      "group": "Interactive",
+      "intent": "Use this when you want a custom spring-animated cursor replacing the native pointer, globally or scoped to one hover region.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": "required",
+          "desc": "Children to be rendered within the custom cursor. Mandatory."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "",
+          "desc": "Optional CSS class for styling the custom cursor container."
+        },
+        {
+          "name": "springConfig",
+          "type": "SpringOptions",
+          "default": "",
+          "desc": "Configuration for the spring physics used in the cursor's movement."
+        },
+        {
+          "name": "attachToParent",
+          "type": "boolean",
+          "default": "false",
+          "desc": "If true, the cursor will only be visible when hovering over its parent component."
+        },
+        {
+          "name": "variants",
+          "type": "Object (with initial, animated, exit properties)",
+          "default": "",
+          "desc": "Variants for controlling the animation states with specific properties for initial, animate, and exit states."
+        },
+        {
+          "name": "onPositionChange",
+          "type": "(position: { x: number, y: number }) => void",
+          "default": "",
+          "desc": "Callback function that is called when the cursor position changes."
+        }
+      ],
+      "shadcn_pairing": "Not a shadcn primitive wrapper — it is a page/section-level overlay that ENHANCES any interactive region. Scope it (attachToParent) over a Card, hero section, Button, or pricing grid to swap the OS pointer for branded cursor art; pair with Tooltip/HoverCard-style affordances on the same region. Global mode dresses the whole app shell.",
+      "migration_use": "Replaces ad-hoc `cursor-pointer`/custom-cursor CSS (e.g. `style={{ cursor: 'url(...)' }}` or a hand-rolled mousemove listener positioning an absolutely-placed div). An engineer drops `<Cursor attachToParent>...<img/></Cursor>` inside the relative-positioned section that previously had bespoke cursor CSS, and removes the manual mousemove/transform plumbing. For a site-wide custom cursor, mount one `<Cursor>` near the root instead of global `* { cursor: ... }` rules.",
+      "adapt_notes": "Upstream import is `motion/react` (Motion v11+, the renamed framer-motion); on a kit still on framer-motion, rewrite to `import { motion, useMotionValue, useSpring, AnimatePresence, type SpringOptions, type Transition, type Variant } from 'framer-motion'`. REQUIRES `'use client'` — uses useEffect/useRef/useState, window, document.body.style, and DOM listeners. Imports `cn` from `@/lib/utils`; in @kit point to `@kit/ui/utils` (or `~/lib/utils`). PROP-SHAPE MISMATCH to fix: the docs table types `onPositionChange` as `(position: {x,y}) => void`, but the actual .tsx calls `onPositionChange?.(e.clientX, e.clientY)` with the type `(x: number, y: number) => void` — trust the implementation (two positional args), not the table. Side effects to know: in global mode it sets `document.body.style.cursor = 'none'`, so SSR-safe only because guarded behind useEffect. Note the parent mouseenter/mouseleave listeners are added and removed with different function identities (cleanup does not actually detach them) — a known leak to patch if you scope many instances.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "No prefers-reduced-motion guard in source — it always spring-tracks the pointer and hides the native cursor. Add a `useReducedMotion()` (from motion/react) check: when true, pass `springConfig={{ duration: 0 }}` (or skip the spring and bind cursorX/Y directly) so the custom cursor snaps instead of lagging, and consider restoring `document.body.style.cursor = 'auto'` entirely so motion-sensitive users keep the native pointer. Wrap the visibility/exit transition in the same guard to disable the AnimatePresence fade."
+    },
+    {
+      "slug": "dialog",
+      "name": "Dialog",
+      "group": "Interactive",
+      "intent": "use this when you need a modal overlay whose open/close is spring/variant-animated, not the instant-toggle shadcn Dialog",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": "required",
+          "desc": "Children to be rendered within the dialog."
+        },
+        {
+          "name": "variants",
+          "type": "Variants",
+          "default": "",
+          "desc": "Variants for controlling the animation states with specific properties for initial, animate, and exit states."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "Transition settings from framer-motion for animation effects."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "desc": "If true, the dialog will be open by default."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "",
+          "desc": "Controlled open state of the dialog."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "",
+          "desc": "Callback function that is called when the dialog's open state changes."
+        }
+      ],
+      "shadcn_pairing": "Drop-in replacement for shadcn/ui Dialog (Radix). Exposes the same compound surface — Dialog / DialogTrigger / DialogContent / DialogHeader / DialogTitle / DialogDescription / DialogClose — so any Radix-based modal maps 1:1, but swaps Radix's CSS-only data-state transitions for Framer Motion variants/transition. Pairs with Button as the trigger child and wraps any Card/form/section as content.",
+      "migration_use": "Replace a hand-rolled Tailwind modal — a fixed inset-0 backdrop div plus a centered absolute panel toggled by a useState boolean and conditional `hidden`/opacity classes — with this compound API. Lift the trigger element into DialogTrigger, the panel body into DialogContent (it already does the portal, native <dialog> showModal, top-1/2 left-1/2 centering, backdrop:bg-black/50 backdrop-blur, scroll-lock, ESC-cancel, and click-outside-to-close), and the X button into DialogClose. Wire existing open state through `open`/`onOpenChange` for controlled use, or delete it entirely and rely on the built-in uncontrolled state + `defaultOpen`. Net effect: focus-trapped, scroll-locked, animated entry/exit for free instead of an un-animated div toggle.",
+      "adapt_notes": "Import is `motion/react` (Motion v11+), not `framer-motion` — if the kit pins framer-motion, rewrite the import line to `from 'framer-motion'` (Variants/Transition/AnimatePresence/motion all re-export identically; `motion.dialog` exists in both). Already declares 'use client' at top — keep it; it uses useState/useRef/useEffect/useContext/createPortal so it cannot be a server component. Uses the standard `cn` helper from `@/lib/utils` — repoint to the kit's `@kit/ui` cn if paths differ. Depends on a local `usePreventScroll` hook at `@/hooks/usePreventScroll` (iOS scroll-lock) and `X` from lucide-react — both must be vendored or the import paths fixed. No prop renames vs framer-motion; prop surface is the component's own (variants/transition/open/onOpenChange/defaultOpen). Note it portals into document.body via DialogContent's `container` prop (default document.body) and renders a real native <dialog> element, so global `dialog`/`backdrop:` CSS resets can interfere.",
+      "shared_deps": [
+        "cn (@/lib/utils)",
+        "usePreventScroll (@/hooks/usePreventScroll)",
+        "X (lucide-react)"
+      ],
+      "reduced_motion": "No guard. The component hardcodes scale/opacity variants and a 0.2s easeOut transition and never consults `prefers-reduced-motion`, so motion-sensitive users still get the scale-in/out. To respect it, read `useReducedMotion()` from motion/react in a wrapper and pass a reduced `variants` prop (e.g. opacity-only `{initial:{opacity:0},animate:{opacity:1}}` with `transition={{duration:0}}` or a near-instant fade) when it returns true, or gate the scale via a CSS `@media (prefers-reduced-motion: reduce)` override on the dialog element."
+    },
+    {
+      "slug": "disclosure",
+      "name": "Disclosure",
+      "group": "Interactive",
+      "intent": "Use this when you want a collapsible/expandable content panel with animated height + opacity transitions.",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Controls the visibility of the content."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "",
+          "desc": "Callback function to handle changes in the open state."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": "",
+          "desc": "The content to be toggled, typically includes DisclosureTrigger and DisclosureContent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "",
+          "desc": "Additional CSS classes for the container."
+        },
+        {
+          "name": "variants",
+          "type": "{ expanded: Variant; collapsed: Variant }",
+          "default": "",
+          "desc": "Custom animation variants for expanded and collapsed states."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "Custom transition settings for the motion animations."
+        }
+      ],
+      "shadcn_pairing": "A motion-native alternative to/enhancer for shadcn Accordion and Collapsible. Composes the same trigger + content pair (Disclosure / DisclosureTrigger / DisclosureContent mirrors Collapsible / CollapsibleTrigger / CollapsibleContent) but adds animated height+opacity. Wrap inside any Card to make an expandable section, FAQ row, or \"show more\" detail panel; the trigger child can be a shadcn Button or any clickable element.",
+      "migration_use": "Replace hand-rolled Tailwind collapse markup — a useState boolean toggling `hidden`/`max-h-0 overflow-hidden` on a content div with no animation, or a `<details>`/`<summary>` block — with `<Disclosure open={x} onOpenChange={setX}><DisclosureTrigger><button>…</button></DisclosureTrigger><DisclosureContent>…</DisclosureContent></Disclosure>`. The trigger child automatically gets role=button, aria-expanded, tabIndex, and Enter/Space keyboard handling cloned onto it, so it upgrades both the animation and the a11y of raw toggle markup. Ideal for FAQ items, accordion rows, \"read more\" panels, and expandable card sections.",
+      "adapt_notes": "Upstream import is `motion/react` (AnimatePresence, motion, MotionConfig, Transition, Variant, Variants) — keep as-is if the kit has `motion` installed; rewrite to `framer-motion` only if that is the installed package (API is identical, just the package name differs). Imports `cn` from `@/lib/utils` — repoint to the kit's cn helper (e.g. `@kit/ui/utils` or local `~/lib/utils`). File already declares `'use client'` (line 1) and is required since it uses useState/useId/useEffect/createContext — must stay a client component. Note: Disclosure only renders `React.Children.toArray(children)[0]` and `[1]`, so it expects EXACTLY two children (trigger then content) in that order. Props match framer-motion conventions; no renames needed.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — it animates height 0↔auto and opacity 0↔1 unconditionally via fixed BASE_VARIANTS in DisclosureContent, with no useReducedMotion check. To respect it, either wrap in a `<MotionConfig reducedMotion=\"user\">` ancestor (cheapest, since the component already uses MotionConfig internally for `transition`), or read `useReducedMotion()` from motion/react and pass a near-instant `transition={{ duration: 0 }}` (or collapse variants) when true so content snaps open/closed instead of sliding."
+    },
+    {
+      "slug": "dock",
+      "name": "Dock",
+      "group": "Toolbars",
+      "intent": "Use this when you want a macOS-style magnifying icon toolbar where items scale up as the cursor passes over them.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": "",
+          "desc": "The child elements to be animated (DockItem nodes)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "undefined",
+          "desc": "Optional CSS class for styling the component."
+        },
+        {
+          "name": "spring",
+          "type": "SpringOptions",
+          "default": "{ mass: 0.1, stiffness: 150, damping: 12 }",
+          "desc": "Spring options from motion for animation effects."
+        },
+        {
+          "name": "magnification",
+          "type": "number",
+          "default": "80",
+          "desc": "The scaling factor applied to a dock item on hover."
+        },
+        {
+          "name": "distance",
+          "type": "number",
+          "default": "150",
+          "desc": "The distance from the center of a dock item at which the magnification animation starts."
+        },
+        {
+          "name": "panelHeight",
+          "type": "number",
+          "default": "64",
+          "desc": "The resting height of the dock panel (px) before hover expansion."
+        }
+      ],
+      "shadcn_pairing": "Composes a horizontal toolbar/navigation strip — think a shadcn Menubar or a row of icon Buttons inside a fixed bottom bar. Each DockItem wraps a Button-sized icon target (role=\"button\"), and DockLabel is effectively a Tooltip surface (role=\"tooltip\") that auto-shows on hover/focus. Use it to upgrade any persistent app launcher, command bar, or icon nav into a magnifying dock.",
+      "migration_use": "Replace a static row of icon buttons — e.g. a `<div className=\"flex gap-4\">` containing several `<button><Icon/></button>` (a bottom nav bar, floating action cluster, or app launcher) — with `<Dock>` wrapping `<DockItem onClick={...}><DockIcon><Icon/></DockIcon><DockLabel>name</DockLabel></DockItem>` per entry. The raw flex row's hover:scale Tailwind utilities and title-attribute tooltips get superseded by cursor-distance magnification plus the animated DockLabel tooltip.",
+      "adapt_notes": "Upstream imports from `motion/react` (Motion, the framer-motion successor); if the kit is still on `framer-motion`, change the import to `framer-motion` — the named exports (motion, MotionValue, useMotionValue, useSpring, useTransform, AnimatePresence, type SpringOptions) and APIs are identical. File is a client component: keep the `'use client'` directive (uses refs, context, useState, useEffect, mouse handlers). Uses the `cn` helper from `@/lib/utils` — repoint to the kit's `cn` (e.g. `@kit/ui/utils` or local `~/lib/utils`). No prop renames vs framer-motion. Note: DockItem passes `width`/`isHovered` to children via `Children.map`+`cloneElement`, so custom children placed directly under DockItem should tolerate extra injected props; prefer the provided DockIcon/DockLabel.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "No guard — it does not check prefers-reduced-motion; magnification and the height spring always animate from raw mouseX/useSpring. For motion-sensitive users, wrap with a `useReducedMotion()` check (from motion/react) and, when true, skip the width/height transforms (render items at a fixed size and pin spring to a near-instant config) or fall back to a plain static icon row."
+    },
+    {
+      "slug": "glow-effect",
+      "name": "Glow Effect",
+      "group": "Advanced",
+      "intent": "Use this when a card, button, or section needs an animated ambient gradient glow behind it.",
+      "props": [
+        {
+          "name": "colors",
+          "type": "string[]",
+          "default": "['#FF5733', '#33FF57', '#3357FF', '#F1C40F']",
+          "desc": "The colors to use for the glow effect."
+        },
+        {
+          "name": "mode",
+          "type": "'rotate' | 'pulse' | 'breathe' | 'colorShift' | 'flowHorizontal' | 'static'",
+          "default": "'rotate'",
+          "desc": "The mode to use for the glow effect."
+        },
+        {
+          "name": "blur",
+          "type": "number | 'softest' | 'soft' | 'medium' | 'strong' | 'stronger' | 'strongest' | 'none'",
+          "default": "'medium'",
+          "desc": "The blur to use for the glow effect."
+        },
+        {
+          "name": "scale",
+          "type": "number",
+          "default": "1",
+          "desc": "The scale to use for the glow effect."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "5",
+          "desc": "The duration to use for the glow effect."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "undefined",
+          "desc": "The transition to use for the glow effect."
+        }
+      ],
+      "shadcn_pairing": "Layers behind any Card, Button, or bordered section as a glowing aura. It is an absolutely-positioned sibling, so it ENHANCES (does not replace) shadcn primitives: place it as the first child of a `relative` Card/Button wrapper, then render the actual Card/Button above it with a higher z-index. Pairs naturally with a CTA Button, a featured/pricing Card, or a hero section.",
+      "migration_use": "A migration agent upgrades hand-rolled glow markup — e.g. a `relative` wrapper whose decorative child is a `absolute inset-0 blur-xl bg-gradient-to-r from-... to-... opacity-50` div (often a static conic/radial gradient with no motion) — by deleting that decorative div and dropping `<GlowEffect mode=\"rotate\" blur=\"medium\" colors={[...]} />` as the first child of the wrapper, then ensuring the real content sits `relative z-10` above it. Turns a flat Tailwind gradient blur into a live, animated aura with zero layout change.",
+      "adapt_notes": "Upstream imports `motion` and the `Transition` type from `motion/react` — keep that import as-is for projects on the `motion` package; rewrite to `framer-motion` only if the kit pins the legacy package (the `Transition` type and `motion.div` API are identical across both). Requires `'use client'` (already present) since it uses `motion` animate props — keep it. Imports `cn` from `@/lib/utils`; remap to the kit's helper path (e.g. `@kit/ui/utils` or local `~/lib/utils`). No framer-vs-motion prop renames needed. Note: in static mode the component sets a `background` but no `animate` loop, so it renders a still gradient. Caller must wrap it in a `relative` parent or the `absolute inset-0` positioning has nothing to anchor to.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "No guard. The component hardcodes `repeat: Infinity` in BASE_TRANSITION and never consults `prefers-reduced-motion`, so every mode except `static` animates indefinitely regardless of OS setting. To respect it, gate at the call site: read `useReducedMotion()` from motion/react and pass `mode=\"static\"` (or skip rendering GlowEffect entirely) when it returns true, or wrap the parent in a `motion-reduce:[&_*]:animate-none` / conditional-render guard."
+    },
+    {
+      "slug": "image-comparison",
+      "name": "Image Comparison",
+      "group": "Interactive",
+      "intent": "Use this when you need a draggable before/after slider that reveals differences between two overlaid images.",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "default": "—",
+          "desc": "ImageComparisonImage components (left + right) plus the slider."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "undefined",
+          "desc": "Optional CSS class for styling the container; must set its own width/height."
+        },
+        {
+          "name": "enableHover",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Drives the slider by mouse hover instead of click-drag."
+        },
+        {
+          "name": "springOptions",
+          "type": "SpringOptions",
+          "default": "{ bounce: 0, duration: 0 }",
+          "desc": "useSpring options customizing the reveal animation easing."
+        },
+        {
+          "name": "position (Image)",
+          "type": "'left' | 'right'",
+          "default": "'left'",
+          "desc": "Which side of the split this image occupies (clip-path direction)."
+        },
+        {
+          "name": "src / alt (Image)",
+          "type": "string",
+          "default": "—",
+          "desc": "Source URL and alt text for each compared image."
+        }
+      ],
+      "shadcn_pairing": "Composes inside any Card or bordered section as the media slot — drop the ImageComparison container where a static next/image or img would sit. The ImageComparisonSlider handle pairs naturally with a shadcn Separator-styled bar or a small Button/grip affordance, and the whole block fits a Tabs panel or Dialog showcasing before/after states.",
+      "migration_use": "Replace any raw two-image before/after pattern — typically two side-by-side `<img>`/`<Image>` tags, or a CSS-only overlay div with a static divider — with `<ImageComparison>` wrapping two `<ImageComparisonImage position=\"left|right\" src=… alt=…/>` plus an `<ImageComparisonSlider>`. Upgrades a flat comparison grid into a draggable (or hover-driven) interactive reveal. Note: the parent container needs explicit dimensions (e.g. a sized aspect-ratio wrapper) since images are absolutely positioned.",
+      "adapt_notes": "Upstream imports from `motion/react` — in a framer-motion repo rewrite to `framer-motion` (named exports motion, MotionValue, SpringOptions, useMotionValue, useSpring, useTransform are identical, no prop renames). File already declares `'use client'` — keep it; it relies on useState/useContext/createContext and DOM event handlers so it is a hard client component. Uses `cn` from `@/lib/utils`; in @kit/ui point this at `@kit/ui/utils` (or repo's cn). Exports three parts (ImageComparison, ImageComparisonImage, ImageComparisonSlider) via React context — keep them in one file so the context provider stays shared.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the useSpring reveal runs unconditionally (default springOptions are { bounce:0, duration:0 } so the default is effectively instant, but a custom springOptions would animate regardless). To respect it, gate via a useReducedMotion() hook and pass springOptions={{ duration: 0 }} (or bounce:0) when reduced motion is preferred, neutralizing the spring easing while keeping drag interactivity."
+    },
+    {
+      "slug": "in-view",
+      "name": "In View",
+      "group": "Core",
+      "intent": "Use this when you want any element or block to animate in as it scrolls into the viewport.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": "",
+          "desc": "The content inside the InView component."
+        },
+        {
+          "name": "variants",
+          "type": "{ hidden: Variant; visible: Variant; }",
+          "default": "{ hidden: { opacity: 0 }, visible: { opacity: 1 } }",
+          "desc": "Variants to define the animation states."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "Specifies the animation transitions."
+        },
+        {
+          "name": "viewOptions",
+          "type": "UseInViewOptions",
+          "default": "",
+          "desc": "Options to configure the in-view behavior (e.g. margin, amount)."
+        },
+        {
+          "name": "as",
+          "type": "React.ElementType",
+          "default": "'div'",
+          "desc": "The HTML element to render the component as."
+        },
+        {
+          "name": "once",
+          "type": "Boolean",
+          "default": "undefined (false)",
+          "desc": "If true, the animation will play only once."
+        }
+      ],
+      "shadcn_pairing": "Generic scroll-reveal wrapper: drop it around any shadcn primitive or layout block — wrap a Card, a section heading, a grid of Cards, or a list of feature tiles so they fade/slide in on scroll. Composes WITH (does not replace) the wrapped primitive; set `as=\"section\"`/`as=\"ul\"` to keep semantic markup.",
+      "migration_use": "A migration agent replaces raw on-scroll reveal markup — a plain `<div className=\"opacity-0 ...\">` toggled by an IntersectionObserver, an AOS `data-aos` attribute, or a hand-rolled `useInView`+`useState` class swap — with `<InView variants={{hidden,visible}} transition viewOptions={{margin}}>...</InView>`. Wrap each above-the-fold section, Card grid, or stat row so static Tailwind blocks gain declarative viewport-triggered entrance animation; pass `once` for one-shot reveals and `viewOptions={{ margin: \"0px 0px -200px 0px\" }}` to fire before the element is fully on-screen.",
+      "adapt_notes": "Upstream imports from `motion/react` (motion v11+, the React entry of the renamed Motion package). If the kit pins `framer-motion`, rewrite all five named imports — `motion, useInView, Variant, Transition, UseInViewOptions` — to `from 'framer-motion'`; the API surface is identical (`useInView`, `motion`, variant types) so no prop renames are needed. Component already declares `'use client'` (uses useRef/useState/useInView) — keep it; this must be a Client Component and cannot be a Server Component. No `cn`/className helper is used and `className` is not forwarded — to style the wrapper you must add a `className` prop and spread it onto `MotionComponent`, or wrap InView in your own styled element. `motion[as]` indexing means `as` must be a valid motion-supported tag.",
+      "shared_deps": [],
+      "reduced_motion": "No guard — the source never checks `prefers-reduced-motion`; it always animates from `hidden` to `visible` via `useInView`. For accessibility, wrap usage in Motion's `MotionConfig reducedMotion=\"user\"` (respects the OS setting globally), or gate the `variants`/`transition` props on a `useReducedMotion()` hook (from motion/react or framer-motion) and pass an instant/no-op transition when reduced motion is requested."
+    },
+    {
+      "slug": "infinite-slider",
+      "name": "Infinite Slider",
+      "group": "Interactive",
+      "intent": "Use this when you need a continuously looping marquee/carousel of children (logos, cards, testimonials) that scrolls horizontally or vertically with optional hover-speed.",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "default": "",
+          "desc": "The child elements to be displayed in the slider."
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "default": "16",
+          "desc": "The gap between child elements in pixels."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "default": "100",
+          "desc": "The speed of the slider animation in pixels per second."
+        },
+        {
+          "name": "speedOnHover",
+          "type": "number",
+          "default": "",
+          "desc": "The speed of the slider animation when hovered, in pixels per second."
+        },
+        {
+          "name": "direction",
+          "type": "'horizontal' | 'vertical'",
+          "default": "'horizontal'",
+          "desc": "The direction of the slider movement."
+        },
+        {
+          "name": "reverse",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Whether to reverse the direction of the slider movement."
+        }
+      ],
+      "shadcn_pairing": "Wraps a horizontal list/grid of items — most naturally a row of Card or Badge primitives (logo wall, tech-stack chips, testimonial Cards). Drop it inside any marketing section as a \"trusted by\" / \"powered by\" strip; it composes around the children rather than replacing them, so each slide can stay a shadcn Card/Avatar/Badge.",
+      "migration_use": "Replace a static Tailwind logo/testimonial row (e.g. `<div class=\"flex gap-4 overflow-x-auto\">{items.map(...)}</div>` or a CSS `animate-marquee` keyframe hack) with `<InfiniteSlider gap={24} speedOnHover={20}>{items.map(...)}</InfiniteSlider>`. Upgrades any \"infinite logo marquee\" or hand-rolled `@keyframes scroll` strip into a measured, seamless JS-driven loop that auto-duplicates children — delete the manual content-doubling and keyframes.",
+      "adapt_notes": "Upstream imports `motion/react` (the v11+ package) — in a framer-motion repo rewrite to `framer-motion` (useMotionValue, animate, motion are all exported identically; no prop renames). Keep the `'use client'` directive — it uses useState/useEffect and the `react-use-measure` hook, so it must be a client component. `cn` comes from `@/lib/utils` (kit ships this as `@kit/ui` cn — repoint the import). Extra runtime dep: `react-use-measure` must be installed. The component duplicates `{children}` internally, so pass the single set once.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "No guard — it animates unconditionally with `repeat: Infinity` and never reads prefers-reduced-motion (a continuous infinite scroll is exactly the vestibular-trigger motion that should pause). Add a `useReducedMotion()` check (from motion/react or framer-motion) and short-circuit: when true, render the static `<div className=\"flex\">{children}</div>` and skip the animate() effect, or freeze translation at 0. Alternatively wrap in a `motion-reduce:[&_*]:!transform-none` utility, but the JS-driven `useMotionValue` means the hook-based guard is the correct fix."
+    },
+    {
+      "slug": "magnetic",
+      "name": "Magnetic",
+      "group": "Interactive",
+      "intent": "Use this when an element should be pulled toward the cursor for a tactile, magnetic hover feel.",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "default": "—",
+          "desc": "The child elements to be displayed within the magnetic effect."
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "default": "0.6",
+          "desc": "The strength of the magnetic effect, scaling the distance effect."
+        },
+        {
+          "name": "range",
+          "type": "number",
+          "default": "100",
+          "desc": "The effective range in pixels within which the magnetic effect is applied."
+        },
+        {
+          "name": "actionArea",
+          "type": "'self' | 'parent' | 'global'",
+          "default": "'self'",
+          "desc": "Determines whether the magnetic effect is triggered by the component, its parent, or globally."
+        },
+        {
+          "name": "springOptions",
+          "type": "SpringOptions",
+          "default": "SPRING_CONFIG",
+          "desc": "The spring options to be used for the magnetic effect (default { stiffness: 26.7, damping: 4.1, mass: 0.2 })."
+        }
+      ],
+      "shadcn_pairing": "Wraps a shadcn Button or Badge (or any small CTA/icon) to make it cursor-attracted. Best on primary Buttons in a hero/section, social icon links, or a Card's call-to-action; use actionArea='parent' to make the whole Card region drive the pull on the inner Button.",
+      "migration_use": "Replace a raw hover-styled CTA — e.g. <a className=\"... hover:scale-105 transition\"> or <button className=\"... hover:-translate-y-0.5\"> — by wrapping the element in <Magnetic>...</Magnetic>. The cursor-tracking spring supersedes the static Tailwind hover:scale/translate transition, upgrading a flat hover into a magnetic pull. For a button inside a card surface, wrap the button and pass actionArea='parent' so the card's hover region triggers it.",
+      "adapt_notes": "Upstream imports from 'motion/react' (motion, useMotionValue, useSpring, type SpringOptions) — if the kit pins framer-motion, rewrite to 'framer-motion' (same API surface, identical hook names; SpringOptions type exists in both). File already declares 'use client' — keep it; it uses useState/useEffect/useRef plus document.addEventListener('mousemove'), so it MUST be a client component. No cn helper and no className/Tailwind classes are used (it renders a bare motion.div with only style x/y) — no className prop is exposed, so to add layout classes you wrap it in your own styled element or extend the component to forward className. No prop renames needed beyond the import path.",
+      "shared_deps": [],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the mousemove listener and spring run unconditionally. The cursor-driven displacement is involuntary motion and should be disabled for reduced-motion users. Add a useReducedMotion() check (from motion/react or framer-motion): when true, skip the x.set/y.set distance writes (keep x/y at 0) so children stay static, or render children directly without the motion.div wrapper."
+    },
+    {
+      "slug": "morphing-dialog",
+      "name": "Morphing Dialog",
+      "group": "Interactive",
+      "intent": "Use this when a card/thumbnail should expand into a focused modal via shared-layout morph, not a hard fade.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": "",
+          "desc": "The content of the dialog which could include triggers and content (MorphingDialog root)."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "Transition settings from motion for animation effects (drives the morph spring/timing)."
+        },
+        {
+          "name": "triggerRef",
+          "type": "React.RefObject",
+          "default": "",
+          "desc": "Ref to attach to the trigger element, useful for managing focus (MorphingDialogTrigger)."
+        },
+        {
+          "name": "disableLayoutAnimation",
+          "type": "boolean",
+          "default": "false",
+          "desc": "If true, disables layout animations for the description (MorphingDialogDescription)."
+        },
+        {
+          "name": "variants",
+          "type": "Object",
+          "default": "",
+          "desc": "Variants for the animation states of the description / close button (initial/animate/exit)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "",
+          "desc": "Optional CSS class for styling each subpart (Trigger/Content/Title/Subtitle/Image/Close)."
+        }
+      ],
+      "shadcn_pairing": "A drop-in replacement for shadcn Dialog when the trigger is a visual Card/thumbnail rather than a Button. Compound parts map 1:1 onto Dialog's anatomy: MorphingDialogTrigger=DialogTrigger, MorphingDialogContent=DialogContent, MorphingDialogTitle/Subtitle/Description=DialogTitle/Description, MorphingDialogClose=DialogClose. Wrap a Card, a grid tile, or a product/profile thumbnail so it physically grows into the modal via shared layoutId. The added MorphingDialogImage/Subtitle parts have no shadcn equivalent and enable hero-image expansion (gallery, pricing card, team member zoom).",
+      "migration_use": "Replace the raw \"clickable Card + separate fixed-overlay modal\" pattern: markup like a Tailwind card (rounded-xl border p-4) that toggles a sibling div.fixed.inset-0 with its own duplicated title/image. Upgrade by giving the card MorphingDialogTrigger and the overlay MorphingDialogContent, deleting the manual useState/open boolean, backdrop div, click-outside listener and Escape handler (all built in). The shared layoutId makes the card's image/title visually fly into the modal instead of a static appear, turning a flat list/grid of cards into expandable detail views.",
+      "adapt_notes": "Upstream imports from 'motion/react' (motion, AnimatePresence, MotionConfig, Transition, Variant) — for a framer-motion project rewrite to 'framer-motion' (same export names; Transition/Variant types identical). File already declares 'use client' — keep it; this is a stateful, portal/context component and will break in an RSC server component. Uses cn from '@/lib/utils' — repoint to your kit's cn (@kit/ui/utils or wherever). Uses createPortal from 'react-dom' (renders to document.body) and XIcon from 'lucide-react' as the default close glyph. No prop renames vs framer-motion. Note the public API exports MorphingDialogContainer (the portal/backdrop wrapper) even though the docs API table omits it — you must render it around Content or the modal never portals.",
+      "shared_deps": [
+        "useClickOutside (@/hooks/useClickOutside)",
+        "cn (@/lib/utils)"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — layout morph, backdrop fade, and variants run unconditionally. Wrap the subtree in motion's <MotionConfig reducedMotion=\"user\"> (it already mounts MotionConfig for transition, so add the reducedMotion prop there) so users with the OS setting get instant layout swaps instead of the morph. Alternatively gate the morph via useReducedMotion() and pass disableLayoutAnimation / a zero-duration transition when true."
+    },
+    {
+      "slug": "morphing-popover",
+      "name": "Morphing Popover",
+      "group": "Interactive",
+      "intent": "Use this when a trigger button should visually morph into its popover/panel instead of fading in as a detached floating layer.",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "default": "Required",
+          "desc": "The content of the popover (trigger and content)"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "{ type: 'spring', bounce: 0.1, duration: 0.4 }",
+          "desc": "Custom transition settings for the animations"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Whether the popover is open by default"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "undefined",
+          "desc": "Controlled open state"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "desc": "Callback fired when open state changes"
+        },
+        {
+          "name": "variants",
+          "type": "Variants",
+          "default": "undefined",
+          "desc": "Custom variants for the animation"
+        }
+      ],
+      "shadcn_pairing": "A layout-animated, controlled alternative to the shadcn Popover (and lightweight Dialog/Command-palette triggers). Same open/defaultOpen/onOpenChange controlled API as shadcn Popover, so it drops in wherever a Popover/Button trigger pair lives — the trigger Button morphs into the content surface. Good for compose-box, inline-edit, and quick-action panels that currently use Popover or a Dialog.",
+      "migration_use": "Replace a raw `<button>` + absolutely-positioned `<div className=\"absolute ... rounded-md border bg-white shadow-md\">` toggle pair (or a hand-rolled `useState(open)` dropdown) with MorphingPopover / MorphingPopoverTrigger / MorphingPopoverContent. The engineer moves the button label into Trigger and the panel markup into Content; the shared layoutId animates the button growing into the panel instead of the panel popping in. Wire existing open-state to the open/onOpenChange props if already controlled.",
+      "adapt_notes": "Upstream imports from `motion/react` (Motion v11+); if the kit is pinned to legacy framer-motion, change to `framer-motion` — AnimatePresence, MotionConfig, motion, Transition, Variants all export identically. Needs `'use client'` (already at top of file) — uses useState/useId/useRef/useEffect/createContext plus click-outside and keydown listeners. cn comes from `@/lib/utils`; remap to the kit's `cn` (e.g. `@kit/ui/lib/utils` or `~/lib/utils`). useClickOutside imports from `@/hooks/useClickOutside` — repoint to the shared hook path or vendor it (see shared_deps). No framer-vs-motion prop renames; layoutId/AnimatePresence APIs are the same. Content hardcodes zinc light/dark surface classes — override via className with the kit's popover/card tokens.",
+      "shared_deps": [
+        "useClickOutside",
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the spring layout morph always plays. Wrap the subtree in Motion's `<MotionConfig reducedMotion=\"user\">` (it composes cleanly since the component itself nests a MotionConfig for the transition) so the morph is skipped/instant for users with reduced-motion set, or gate the `transition`/`variants` props off a `useReducedMotion()` value (pass `{ duration: 0 }`). Open/close behavior, click-outside, and Escape handling remain intact either way."
+    },
+    {
+      "slug": "progressive-blur",
+      "name": "Progressive Blur",
+      "group": "Advanced",
+      "intent": "Use this when you need a directional, layered backdrop-blur fade to sink content edges into the page for depth or text legibility over imagery.",
+      "props": [
+        {
+          "name": "direction",
+          "type": "'top' | 'right' | 'bottom' | 'left'",
+          "default": "'top'",
+          "desc": "The direction of the blur effect. (Note: docs say 'top', but the .tsx default is 'bottom'.)"
+        },
+        {
+          "name": "blurLayers",
+          "type": "number",
+          "default": "8",
+          "desc": "The number of blur layers."
+        },
+        {
+          "name": "blurIntensity",
+          "type": "number",
+          "default": "0.25",
+          "desc": "The intensity of the blur effect."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "''",
+          "desc": "The class name to apply to the component."
+        }
+      ],
+      "shadcn_pairing": "Overlays any Card, image tile, or section as an absolutely-positioned edge treatment. Composes with a Card or hero/section wrapper to fade its bottom/top edge into the background; pairs naturally with a Carousel/scroll-list to blur the leading/trailing edge, or sits above an image to make overlaid Badge/Button/heading text readable.",
+      "migration_use": "Replace a raw Tailwind gradient-fade mask (e.g. a manual `<div className=\"absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent\" />` overlay, or an ad-hoc `mask-image`/`backdrop-blur-sm` edge fade) with `<ProgressiveBlur direction=\"bottom\" className=\"absolute inset-0\" />`. It upgrades a flat color-gradient scrim into a true multi-layer backdrop-blur falloff, so underlying content actually blurs progressively instead of just being color-washed.",
+      "adapt_notes": "Upstream import is `motion/react` (HTMLMotionProps, motion) — keep as-is if the kit uses `motion`, otherwise rewrite to `framer-motion` (same named exports, no prop renames). Requires `'use client'` (already at top of file) since it renders motion.div. Imports `cn` from `@/lib/utils` — remap to the kit's cn helper (`@kit/ui` / `~/lib/utils`). Relies on CSS `backdrop-filter` + `mask-image` with `-webkit-` fallbacks already inlined; the host element must be positioned over content (component itself is `relative`, layers are `absolute inset-0`). Watch the docs-vs-code default mismatch on `direction` ('top' in API table, 'bottom' in source) — pass it explicitly to avoid surprises.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — but it is effectively static (no entrance/transition animation; motion.div is used only as a styled div, blur is pure CSS), so there is no motion to suppress. No reduced-motion wrapper is needed. If you later add transitions via the spread `...props` (it forwards HTMLMotionProps to every layer), gate those with a `useReducedMotion()` check."
+    },
+    {
+      "slug": "scroll-progress",
+      "name": "Scroll Progress",
+      "group": "Interactive",
+      "intent": "Use this when you want a reading-progress bar that fills as the user scrolls a page or container.",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "default": "",
+          "desc": "Optional CSS class for styling the scroll progress."
+        },
+        {
+          "name": "springOptions",
+          "type": "SpringOptions",
+          "default": "",
+          "desc": "Optional spring options for the scroll progress animation."
+        },
+        {
+          "name": "containerRef",
+          "type": "RefObject",
+          "default": "",
+          "desc": "Optional Ref object for the container element."
+        }
+      ],
+      "shadcn_pairing": "Composes WITH a sticky top-of-page section header, app shell, or the top edge of any Card/Dialog/ScrollArea. It is a thin progress affordance (think a fixed Progress bar) layered over a scrollable section or document — pin it to the top of a layout container or pass that container's ref to scope progress to a ScrollArea region.",
+      "migration_use": "Replace a hand-rolled fixed top bar wired to a window scroll listener — e.g. a raw `<div className=\"fixed inset-x-0 top-0 h-1 bg-primary\" style={{transform:`scaleX(${pct})`}} />` driven by an onScroll useEffect computing scrollTop/scrollHeight. Swap the whole listener+div for `<ScrollProgress className=\"fixed bg-primary z-50\" />` (or pass `containerRef` for a scoped scroll container). The component owns the scroll math and spring smoothing, so the manual percentage state and effect are deleted.",
+      "adapt_notes": "Imports from `motion/react` (the new Motion package) — upstream already uses the modern path, so no `framer-motion` rewrite needed; only change the path if your repo pins `framer-motion` (then `motion, SpringOptions, useScroll, useSpring` all import from `framer-motion` unchanged). Requires `'use client'` (already present at top) — it uses `useScroll`/`useSpring`/refs. Uses the `cn` helper from `@/lib/utils`; repoint to your kit's `cn` (e.g. `@kit/ui/utils`). No prop renames vs framer-motion. Note `containerRef` is typed `RefObject<HTMLDivElement>`; under React 19 / newer @types you may need `RefObject<HTMLDivElement | null>` to satisfy `useRef(null)`. The element ships with no `position` or `bg` — you MUST supply `fixed`/`absolute`, a background color, and z-index via `className` or it renders invisible.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the scaleX is always spring-animated via useSpring with no opt-out. For a true progress indicator the motion is informational (tracks scroll position, not decorative), so it is low-risk, but to respect the setting either pass `springOptions={{ stiffness: 1000, damping: 100, restDelta: 0.0001 }}` to make it effectively instant under a `useReducedMotion()` check, or wrap and bind `scaleX` directly to `scrollYProgress` (skip the spring) when `useReducedMotion()` returns true."
+    },
+    {
+      "slug": "sliding-number",
+      "name": "Sliding Number",
+      "group": "Number",
+      "intent": "Use this when a numeric value changes live and each digit should slide/roll like an odometer into its new place.",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": "—",
+          "desc": "The numerical value to be displayed (docs say string; the .tsx types it as number — number is correct)."
+        },
+        {
+          "name": "padStart",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Whether to pad the integer part with a leading zero if it is less than 10."
+        },
+        {
+          "name": "decimalSeparator",
+          "type": "string",
+          "default": "'.'",
+          "desc": "The character to use as the decimal separator (e.g. ',' for EU locales)."
+        }
+      ],
+      "shadcn_pairing": "Enhances the numeric value inside any shadcn Card / metric tile, KPI stat, Badge counter, or Tabs/Accordion count. Drop it where you'd render a bare {number}: dashboard stat cards, pricing/total in a Card, cart-item Badge, a count next to a slider or progress bar. Composes WITH Slider (the docs' own example binds a Slider's value to it) and any value display.",
+      "migration_use": "Replace a static numeric span in a metric tile — e.g. raw `<span className=\"text-4xl font-bold tabular-nums\">{revenue}</span>` or `<p>{count}</p>` — with `<SlidingNumber value={revenue} />` so live-updating data (counts, currency, timers, prices) rolls each digit into place instead of hard-cutting. Ideal for any Tailwind dashboard KPI, animated counter, or clock display where the number mutates after mount.",
+      "adapt_notes": "Upstream imports from `motion/react` (the current Motion package) — for a framer-motion codebase change to `from 'framer-motion'`; the `MotionValue`, `motion`, `useSpring`, `useTransform`, `motionValue` API names are identical across both, so no prop/API renames needed. MUST keep the `'use client'` directive (uses useEffect/useId/useSpring/useMeasure — RSC-incompatible). No `cn` helper used; classNames are hardcoded string literals, so no shared util dependency. Extra runtime dep: `react-use-measure` must be installed. Docs Component API mistypes `value` as `string` — the implementation's `SlidingNumberProps` types it `number`; pass a number. Note the component renders abs value with a leading `-` for negatives and splits on `.` for decimals, so it expects plain JS numbers, not pre-formatted strings.",
+      "shared_deps": [],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — every digit is unconditionally spring-animated (stiffness 280, damping 18) via useSpring/useTransform with no reduced-motion branch. To respect it, gate the spring: read `useReducedMotion()` from motion/react and, when true, render the plain value (or set the spring transition to `{ duration: 0 }` / snap animatedValue.set without animation) so digits jump instead of rolling. Alternatively wrap usage in a MotionConfig with reducedMotion=\"user\"."
+    },
+    {
+      "slug": "spinning-text",
+      "name": "Spinning Text",
+      "group": "Text",
+      "intent": "Use this when you want text laid out and continuously rotating along a circular path (badge ring, seal, \"scroll to explore\" loop).",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "default": "",
+          "desc": "The text content to be animated in a circular motion (split per-character along the ring)."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "10",
+          "desc": "The duration of the full circular rotation animation (seconds)."
+        },
+        {
+          "name": "reverse",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Determines if the animation should rotate in reverse (counter-clockwise)."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "default": "5",
+          "desc": "The radius of the circular path for the text animation (in ch units)."
+        },
+        {
+          "name": "fontSize",
+          "type": "number",
+          "default": "1",
+          "desc": "The font size of the text being animated, in rem."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "Custom Motion transition effects overriding the base infinite-linear spin."
+        }
+      ],
+      "shadcn_pairing": "Composes as a decorative ring around any centered element — wrap it around a Button or Avatar to make a rotating CTA seal, drop it inside a Card or hero section as an ambient badge, or use it as the spinning label on a circular \"scroll down\" / \"open\" affordance. It is purely presentational text, so it enhances rather than replaces a primitive (the sr-only span keeps a Badge-like accessible label intact).",
+      "migration_use": "Replace a raw rotating-badge hack — typically a static `<span className=\"...\">` wrapped in a hand-rolled `animate-spin` div, or an SVG `<textPath>` on a circle, or a background PNG of a circular seal — with `<SpinningText radius={5} duration={20}>SCROLL · TO · EXPLORE · </SpinningText>`. The component handles per-letter polar placement (`rotate` + `translateY` per char) and the infinite rotation, so the engineer deletes the manual transform math and the static markup.",
+      "adapt_notes": "Upstream imports `motion` from `motion/react` — if the kit is still on framer-motion, change to `import { motion, Transition, Variants } from 'framer-motion'` (API is identical for these types). Needs `'use client'` (already at top of file) since it uses motion hooks. Uses the `cn` helper from `@/lib/utils` — repoint to the kit's `cn` (e.g. `@kit/ui/utils` or `@/lib/utils`). `children` is typed `string` (it calls `.split('')`), so pass a plain string, not JSX. No prop renames vs framer-motion. Note the inline style relies on CSS custom props (`--index`, `--total`, `--radius`) — no extra Tailwind config needed.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the rotation runs infinitely (`repeat: Infinity, ease: 'linear'`) regardless of OS setting, which is a vestibular-trigger concern for a perpetual spin. Add a guard: either gate the `animate` prop / pass `transition={{ repeat: 0 }}` when `useReducedMotion()` (from motion/react) returns true to render the ring static, or wrap the call site in a `@media (prefers-reduced-motion: reduce)` block that pauses the animation. Cleanest: read `const reduce = useReducedMotion()` and conditionally drop the infinite repeat."
+    },
+    {
+      "slug": "spotlight",
+      "name": "Spotlight",
+      "group": "Interactive",
+      "intent": "Use this when a card or section needs a cursor-following radial glow on hover.",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "default": "''",
+          "desc": "Additional CSS classes for styling (Tailwind gradient stops set the glow color, e.g. from-blue-800 via-blue-600 to-blue-400)"
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "default": "200",
+          "desc": "Size of the spotlight effect in pixels"
+        },
+        {
+          "name": "springOptions",
+          "type": "SpringOptions",
+          "default": "{ bounce: 0 }",
+          "desc": "Animation spring configuration for the cursor-follow easing"
+        }
+      ],
+      "shadcn_pairing": "Drop as a child INSIDE any Card, panel, or bordered section — it auto-promotes its parent to position:relative + overflow:hidden and paints a hover glow behind the content. Composes with Card (feature tiles, pricing cards), bordered sections, and Button-like CTAs; for a glowing border, wrap the Card in a padded container and place Spotlight in the outer wrapper.",
+      "migration_use": "Replace static hover-glow hacks — a raw <div className=\"relative overflow-hidden group\"> Card whose decoration is a hardcoded group-hover:before:opacity-100 radial-gradient pseudo-element or a fixed corner blur blob. Delete the ::before/blob markup and the manual relative/overflow utilities, then drop <Spotlight /> as the first child of the Card; the component injects relative+overflow on the parent itself and tracks the real cursor position instead of a static centered glow.",
+      "adapt_notes": "Upstream imports from 'motion/react' (motion, useSpring, useTransform, SpringOptions) — if the kit still ships framer-motion, rewrite to 'framer-motion' (same API surface; SpringOptions type and useSpring/useTransform are identical). Requires the 'use client' directive (already present) — it uses refs, useState, useEffect, and DOM event listeners, so it cannot be a server component. Imports cn from '@/lib/utils'; remap to the kit's helper (e.g. '@kit/ui/utils' or '~/lib/utils'). No prop renames needed. Note the side effect: it mutates parentElement.style.position and .overflow on mount — verify the parent doesn't rely on visible overflow.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "No prefers-reduced-motion guard. The spring follow runs unconditionally via useSpring. Wrap with a reduced-motion check: read const reduce = useReducedMotion() from motion/react and either skip rendering Spotlight (return null) or pass springOptions to snap (e.g. { duration: 0 } / stiffness high + bounce 0) so the glow tracks instantly without easing. Optionally gate the whole effect behind a @media (prefers-reduced-motion: reduce) that forces opacity transitions off, since the transition-opacity duration-200 also animates."
+    },
+    {
+      "slug": "text-effect",
+      "name": "Text Effect",
+      "group": "Text",
+      "intent": "Use this when you want headings, hero copy, or any text block to animate in per-character/word/line on mount.",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "default": "",
+          "desc": "The text content to be animated."
+        },
+        {
+          "name": "per",
+          "type": "'word' | 'char' | 'line'",
+          "default": "'word'",
+          "desc": "Defines whether animation applies per word, character, or line."
+        },
+        {
+          "name": "as",
+          "type": "keyof JSX.IntrinsicElements",
+          "default": "'p'",
+          "desc": "The HTML tag to render, defaults to paragraph."
+        },
+        {
+          "name": "preset",
+          "type": "'blur-sm' | 'fade-in-blur' | 'scale' | 'fade' | 'slide'",
+          "default": "'fade'",
+          "desc": "Preset animations to apply to the text."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "default": "0",
+          "desc": "Delay before the animation starts."
+        },
+        {
+          "name": "trigger",
+          "type": "boolean",
+          "default": "true",
+          "desc": "Controls whether the animation should be triggered."
+        }
+      ],
+      "shadcn_pairing": "Enhances any text node inside a Card, section, hero, or DialogHeader/CardTitle — render it with as=\"h1\"/\"h2\"/\"p\" so it drops in wherever shadcn Typography or a CardTitle/CardDescription currently sits. Pairs naturally with a Badge or Button reveal as on-mount accent copy.",
+      "migration_use": "Replace a static heading/paragraph (e.g. a raw &lt;h1 className=\"text-4xl font-bold\"&gt;Welcome&lt;/h1&gt; or a &lt;p&gt; lede in a hero/Card) with &lt;TextEffect as=\"h1\" per=\"char\" preset=\"fade-in-blur\" className=\"text-4xl font-bold\"&gt;Welcome&lt;/TextEffect&gt;. Keep the original Tailwind classes on className; the component splits the string and staggers each segment in. Use per=\"line\" for multi-line copy (splits on \\n), per=\"word\"/\"char\" for headlines.",
+      "adapt_notes": "Upstream imports motion from 'motion/react' (Motion v11+) and types TargetAndTransition/Transition/Variant/Variants from the same — if the kit is still on framer-motion, rewrite both import lines to 'framer-motion' (the motion[as], AnimatePresence, and Variants APIs are identical; no prop renames). Requires the 'use client' directive (uses motion + AnimatePresence) so it must be a client component or imported into one. Uses the cn helper from '@/lib/utils' — repoint to the kit's cn (@kit/ui/utils or wherever cn lives). Note the docs table lists preset 'blur-sm' but the source PresetType is 'blur'; pass 'blur' to match the implementation. children must be a plain string (not nested JSX).",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — variants always animate opacity/blur/scale/translate on mount with no reduced-motion fallback. Wrap with a useReducedMotion() check (Motion/framer-motion hook): when true, either pass trigger and render the plain string via the sr-only path, or short-circuit to a static &lt;p&gt;{children}&lt;/p&gt;. Alternatively gate it behind a CSS @media (prefers-reduced-motion: reduce) wrapper that renders the unanimated text. Note the component already emits an sr-only full-string copy for word/char modes, so screen-reader text is intact even without the motion guard."
+    },
+    {
+      "slug": "text-loop",
+      "name": "Text Loop",
+      "group": "Text",
+      "intent": "Use this when you want a single inline text slot to auto-cycle through a list of phrases on a timer (popLayout transition).",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode[]",
+          "default": "",
+          "desc": "The text content to be animated."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "default": "2",
+          "desc": "Time interval between text changes in seconds."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "Animation transition settings. Can't be more than the interval."
+        },
+        {
+          "name": "variants",
+          "type": "Variants",
+          "default": "",
+          "desc": "Custom animation variants."
+        },
+        {
+          "name": "onIndexChange",
+          "type": "(index: number) => void",
+          "default": "",
+          "desc": "Callback function that triggers when the index changes."
+        },
+        {
+          "name": "trigger",
+          "type": "boolean",
+          "default": "true",
+          "desc": "Whether to trigger the animation."
+        }
+      ],
+      "shadcn_pairing": "Enhances an inline text/Badge slot inside any Card, hero section, or Button label. Wrap a rotating list of words/phrases where a static span would sit (e.g. a feature tagline in a marketing Card header, a status word in a Badge, or a verb in a CTA Button).",
+      "migration_use": "Replace a hardcoded static headline span — e.g. <span>Ship faster</span> — with <TextLoop interval={2}><span>Ship faster</span><span>Build smarter</span><span>Scale calmly</span></TextLoop> to turn a fixed tagline/feature word into an auto-cycling rotator. Each child must be a separate node (children is ReactNode[]); the component cycles index on a setInterval and animates the swap via AnimatePresence.",
+      "adapt_notes": "Upstream imports from 'motion/react' — for a framer-motion project rewrite the import to 'framer-motion' (types Transition, Variants, AnimatePresenceProps are exported from both). Already declares 'use client' at top, keep it (uses useState/useEffect, required in Next.js App Router). Imports cn from '@/lib/utils' — repoint to your kit's cn (@kit/ui or local lib/utils). No framer-motion-specific prop renames needed; the motion.div API is identical across motion/react and framer-motion. children MUST be an array of nodes, not a single string — passing one string yields a single item with nothing to loop.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — it runs an unconditional setInterval that swaps items with a y-translate/opacity animation regardless of OS motion preference. For accessibility, gate it: read useReducedMotion() from motion/react and either pass trigger={!shouldReduceMotion} to freeze on the first item, or set transition={shouldReduceMotion ? { duration: 0 } : undefined} so the swap is instant. The interval-driven content change can still be disorienting, so prefer freezing (trigger=false) under reduced motion."
+    },
+    {
+      "slug": "text-morph",
+      "name": "Text Morph",
+      "group": "Text",
+      "intent": "Use this when text content swaps between two strings and you want shared letters to fluidly morph rather than hard-cut.",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "default": "—",
+          "desc": "The text content to be animated (must be a plain string, not nodes)."
+        },
+        {
+          "name": "as",
+          "type": "keyof JSX.IntrinsicElements (impl: React.ElementType)",
+          "default": "'p'",
+          "desc": "The HTML tag to render; defaults to paragraph."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "undefined",
+          "desc": "Optional CSS class for styling the component."
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "default": "undefined",
+          "desc": "Optional inline styles for the component."
+        },
+        {
+          "name": "variants",
+          "type": "Variants (impl-only, not in docs table)",
+          "default": "defaultVariants (opacity 0→1→0)",
+          "desc": "Override the per-character enter/animate/exit motion variants."
+        },
+        {
+          "name": "transition",
+          "type": "Transition (impl-only, not in docs table)",
+          "default": "spring stiffness 280 / damping 18 / mass 0.3",
+          "desc": "Override the per-character spring transition curve."
+        }
+      ],
+      "shadcn_pairing": "Enhances the text node inside any shadcn primitive that toggles a label between states: the value in a Button (Save/Saving/Saved), the title in a Card or section, a Badge status word, or a Tabs trigger label. Drop it where a static text span lives and the swap animates instead of cutting.",
+      "migration_use": "Replace a raw text span whose contents change with state — e.g. {isSaving ? 'Saving...' : 'Save'} inside a <button>, or a {status} word in a status pill — with <TextMorph as=\"span\">{label}</TextMorph>. The morph triggers automatically whenever the children string changes; no extra trigger prop. Best for short label swaps that share letters (Save↔Saved, Copy↔Copied, Follow↔Following), not for long paragraph body copy.",
+      "adapt_notes": "Upstream imports from 'motion/react' (motion's standalone package) — if the kit uses 'framer-motion', change the import to 'framer-motion' (AnimatePresence/motion/Transition/Variants names are identical across both). Needs 'use client' (already at top) — it uses useId/useMemo and layout animation. Imports cn from '@/lib/utils'; repoint to the kit's cn (e.g. '@kit/ui/utils' / '~/lib/utils'). No framer-vs-motion prop renames needed. Note children MUST be a string (it does children.split('')) — passing JSX will throw. Accessibility is handled: real text is exposed via aria-label on the wrapper and the per-char spans are aria-hidden.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — every character runs a spring layout animation unconditionally. For migration, wrap or fork it to respect reduced motion: read useReducedMotion() from motion/react and, when true, either render plain {children} (skip AnimatePresence/motion entirely) or pass a transition={{ duration: 0 }} so the swap is instant. Reduced-motion users should get a hard cut, not letter morphing."
+    },
+    {
+      "slug": "text-roll",
+      "name": "Text Roll",
+      "group": "Text",
+      "intent": "Use this when a heading or label should rotate each character on a 3D flip for a kinetic reveal.",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "default": "-",
+          "desc": "The text to roll. (impl types it as string — it calls children.split('').)"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "0.5",
+          "desc": "The duration of the animation."
+        },
+        {
+          "name": "getEnterDelay",
+          "type": "(i: number) => number",
+          "default": "(i) => i * 0.1",
+          "desc": "The delay of the animation for each character (enter/initial flip)."
+        },
+        {
+          "name": "getExitDelay",
+          "type": "(i: number) => number",
+          "default": "(i) => i * 0.1 + 0.2",
+          "desc": "The delay of the animation for each character (exit/settle flip)."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "{ ease: 'easeIn' }",
+          "desc": "The transition of the animation (merged with duration + per-char delay)."
+        },
+        {
+          "name": "variants",
+          "type": "Object",
+          "default": "-",
+          "desc": "Override enter/exit initial+animate targets; defaults flip rotateX 0->90 then 90->0."
+        }
+      ],
+      "shadcn_pairing": "Enhances any text node — drop it as the rendered string inside a Card/CardTitle, a section heading (h1/h2), a Badge, or a Button label. It is a styled span, so it slots wherever raw heading/label copy lives; pair with Card headers, hero sections, or Tabs trigger labels for a kinetic reveal on mount.",
+      "migration_use": "Replace a static heading or label span — e.g. raw `<h2 className=\"text-4xl font-bold\">{title}</h2>` or a `<span>{label}</span>` in a hero/CardTitle — with `<TextRoll className=\"text-4xl font-bold\">{title}</TextRoll>`. Move the Tailwind typography classes onto the component's className (it spreads onto the outer span) so the per-character 3D roll-in plays on mount without changing layout. Best for single-line, short headline/label copy, not body paragraphs.",
+      "adapt_notes": "Upstream imports `motion, VariantLabels, Target, TargetAndTransition, Transition` from `motion/react`. For framer-motion repos rewrite the import to `framer-motion` — same symbol names, no API rename needed (motion/react is the v11+ package). Already declares `'use client'` (line 1) — keep it; it is a client component and must not be rendered in a server component without a client boundary. No `cn`/clsx helper used — className is passed raw onto the outer span, so no shared util dependency. `children` must be a plain string (it does `children.split('')`); do not pass nested JSX. Accessibility is built in: per-char spans are `aria-hidden` with a single `sr-only` copy of the full text.",
+      "shared_deps": [],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — it unconditionally animates rotateX on every character on mount. To respect it, gate the animation with the `useReducedMotion()` hook from motion/react (or framer-motion) and, when true, pass `variants` with identical initial/animate targets (or render plain `children`/the sr-only text) so no rotation plays; alternatively wrap in a `@media (prefers-reduced-motion: reduce)` CSS escape that disables the transform."
+    },
+    {
+      "slug": "text-scramble",
+      "name": "Text Scramble",
+      "group": "Text",
+      "intent": "Use this when text should decrypt into place — cycling random characters before settling on final content for a cryptographic reveal.",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "default": "—",
+          "desc": "The text content to be animated."
+        },
+        {
+          "name": "as",
+          "type": "keyof JSX.IntrinsicElements",
+          "default": "'p'",
+          "desc": "The HTML tag to render, defaults to paragraph."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "0.8",
+          "desc": "Duration of the effect."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "default": "0.04",
+          "desc": "Speed of the effect (interval between scramble frames)."
+        },
+        {
+          "name": "characterSet",
+          "type": "string",
+          "default": "A-Za-z0-9",
+          "desc": "Set of characters used for the scramble effect."
+        },
+        {
+          "name": "trigger",
+          "type": "boolean",
+          "default": "true",
+          "desc": "Controls whether the animation should be triggered (re-fires on change)."
+        }
+      ],
+      "shadcn_pairing": "Enhances any text node — headings, Card titles/CardHeader, Badge label, or a hero section H1. Drop it in as the polymorphic element (as=\"span\"/\"h1\") so it composes with existing typography classes. Pairs naturally with a Button onClick that flips `trigger` for an on-demand decrypt reveal, or with Tabs/Dialog open state to scramble a title on mount.",
+      "migration_use": "Replace a static text element used for a hero headline, terminal/code label, or \"secret reveal\" copy — e.g. swap `<h1 className=\"text-4xl font-bold\">Welcome</h1>` for `<TextScramble as=\"h1\" className=\"text-4xl font-bold\">Welcome</TextScramble>`. For a click-to-reveal pattern (masked email, access code, redacted value), wire a `trigger` state toggled by a Button instead of CSS-only blur. Children must be a plain string, not nested JSX.",
+      "adapt_notes": "Upstream imports `motion` and `MotionProps` from `motion/react`; if the project is on framer-motion, change to `import { motion } from \"framer-motion\"` and `import type { MotionProps } from \"framer-motion\"` — note framer-motion lacks `motion.create`, so use `motion(Component)` instead of `motion.create(Component)`. Requires the \"use client\" directive (uses useState/useEffect). No cn helper used — className is passed through verbatim, so it stays as-is. Children is typed `string` (not ReactNode); keep content a flat string. The `as` prop is polymorphic and forwards remaining MotionProps to the rendered element.",
+      "shared_deps": [],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the setInterval scramble loop runs unconditionally on mount/trigger. For accessibility, wrap with a `useReducedMotion()` (from motion/react) check and pass `trigger={!prefersReducedMotion}` so it renders the final string immediately, or gate the `scramble()` call to skip straight to `setScrambledText(null)` when reduced motion is requested. Without this, the rapid character cycling can be distracting or trigger vestibular discomfort."
+    },
+    {
+      "slug": "text-shimmer",
+      "name": "Text Shimmer",
+      "group": "Text",
+      "intent": "Use this when you want a looping shimmer/sweep highlight on a short text string (loading labels, \"AI is thinking\", premium badges).",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "default": "",
+          "desc": "The text content."
+        },
+        {
+          "name": "as",
+          "type": "keyof JSX.IntrinsicElements",
+          "default": "'p'",
+          "desc": "The HTML tag to render, defaults to paragraph."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "undefined",
+          "desc": "Optional CSS class for styling the component."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "2",
+          "desc": "The duration of the shimmer effect."
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "default": "2",
+          "desc": "The spread of the shimmer effect."
+        }
+      ],
+      "shadcn_pairing": "Enhances any inline text node — drop it inside a Badge, a Button label, or a Card title/skeleton. Best as the text inside a \"loading\"/\"processing\" Badge or as a streaming-status label paired with shadcn Skeleton while data loads.",
+      "migration_use": "Replace a static text-muted-foreground status span — e.g. <span className=\"text-muted-foreground\">Generating...</span> or a placeholder Badge label — with <TextShimmer duration={1.5}>Generating...</TextShimmer> to signal live/in-progress activity. Also upgrades a plain hero subhead or \"Pro\" Badge text from flat to a sweeping highlight without restructuring markup.",
+      "adapt_notes": "Upstream imports `motion` from `motion/react` — for a framer-motion repo change to `import { motion } from 'framer-motion'` and note the API differs: `motion.create(Component)` is the motion/react factory; under framer-motion use `motion(Component)` instead. Requires the 'use client' directive (it's already at the top) since it animates and uses useMemo. Imports `cn` from `@/lib/utils` — in @kit/ui repos repoint to the kit's cn helper. `children` is typed as `string` only (it measures `children.length` to scale the spread), so don't pass JSX children. Customize color via the `[--base-color]` / `[--base-gradient-color]` CSS variables (light + dark already wired).",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the transition hardcodes `repeat: Infinity` with no media-query check, so the shimmer loops forever regardless of OS setting. Add a guard: gate the animate/transition with a useReducedMotion() hook (motion/react) and fall back to a static backgroundPosition, or wrap in a `motion-reduce:[animation:none]` / conditional `transition={prefersReduced ? undefined : {...}}` so reduced-motion users get plain static text."
+    },
+    {
+      "slug": "text-shimmer-wave",
+      "name": "Text Shimmer Wave",
+      "group": "Text",
+      "intent": "Use this when you want a per-character 3D shimmer wave rolling across a short text label or heading.",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "default": "",
+          "desc": "The text content."
+        },
+        {
+          "name": "as",
+          "type": "string",
+          "default": "'p'",
+          "desc": "The HTML element to render."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "1",
+          "desc": "The duration of the wave effect."
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "default": "1",
+          "desc": "The spread of the wave effect."
+        },
+        {
+          "name": "scaleDistance",
+          "type": "number",
+          "default": "1.1",
+          "desc": "The scale distance of the wave effect."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "",
+          "desc": "The transition of the wave effect."
+        }
+      ],
+      "shadcn_pairing": "Enhances a text/label node, not a container: drop it in place of any static heading or status string inside a Card header, Badge, or Button (e.g. a \"Loading...\", \"Live\", or hero tagline). Pairs naturally with a Card section title or a Badge value where you want the text itself to read as alive.",
+      "migration_use": "A migration agent replaces a static animated/gradient text span — e.g. raw markup like `<p className=\"animate-pulse text-muted-foreground\">Generating...</p>` or a hand-rolled `bg-clip-text bg-gradient-to-r animate-[shimmer]` heading — with `<TextShimmerWave duration={1} spread={1}>Generating...</TextShimmerWave>`. It upgrades any keyframe/CSS-gradient shimmer hack on a short string into a structured per-character wave; pass `as=\"h2\"`/`as=\"span\"` to preserve the original element semantics.",
+      "adapt_notes": "Upstream imports `motion` + `Transition` from `motion/react`; for a framer-motion repo rewrite to `import { motion, Transition } from 'framer-motion'` (note framer-motion has no `motion.create` — use `motion(Component)` if on older versions; `motion.create` is motion/react v11+). Needs the `'use client'` directive (line 1) since it relies on motion animation — keep it for Next.js App Router. Uses the `cn` helper from `@/lib/utils`; in @kit/ui repos repoint to `@kit/ui/utils` (or your local `cn`). No prop renames vs framer-motion. Color is themeable via the `[--base-color]` / `[--base-gradient-color]` CSS vars (already dark-mode aware). children MUST be a plain string (it calls `.split('')`), not nested JSX.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the animation runs with `repeat: Infinity` unconditionally, so motion-sensitive users get a perpetual loop. Wrap it: read `useReducedMotion()` from motion/react and either render plain `children` (no MotionComponent) or pass a `transition={{ repeat: 0, duration: 0 }}` override when reduced motion is preferred; alternatively gate the whole component behind a `motion-safe:` Tailwind variant on the parent."
+    },
+    {
+      "slug": "tilt",
+      "name": "Tilt",
+      "group": "Interactive",
+      "intent": "Use this when a card or media tile should pivot in 3D toward the cursor for depth and tactile hover feel.",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "default": "—",
+          "desc": "The element(s) to tilt (the wrapped content). Required; from TiltProps, not in the docs table."
+        },
+        {
+          "name": "rotationFactor",
+          "type": "number",
+          "default": "15",
+          "desc": "Controls the maximum rotation angle in degrees."
+        },
+        {
+          "name": "isRevese",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Reverses the tilt effect's rotation direction. Note the upstream typo in the prop name (not 'isReverse')."
+        },
+        {
+          "name": "springOptions",
+          "type": "SpringOptions",
+          "default": "—",
+          "desc": "Spring options (stiffness/damping/mass) for the tilt easing."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "—",
+          "desc": "Additional CSS classes for styling the tilt wrapper."
+        },
+        {
+          "name": "style",
+          "type": "MotionStyle",
+          "default": "—",
+          "desc": "Additional inline MotionStyle merged onto the wrapper (transform is applied after, so it wins)."
+        }
+      ],
+      "shadcn_pairing": "Wraps any shadcn Card (or a media/image tile) as a transparent 3D-tilt container. Drop a <Tilt> around a <Card> in a pricing grid, feature grid, gallery thumbnail, or testimonial tile to add cursor-tracked depth without changing the Card's own markup. Pairs naturally with Spotlight/glow primitives layered inside the same Card.",
+      "migration_use": "Replace a raw `<div className=\"... hover:scale-105 transition-transform\">` card-hover wrapper (or any static card/image tile that only scales on hover) with `<Tilt><Card>...</Card></Tilt>`. The migration agent identifies hover-lift/scale Tailwind utilities on grid/gallery tiles and upgrades them to cursor-position-driven 3D rotation; remove the now-redundant `hover:scale-*`/`transition-transform` classes since Tilt owns the transform.",
+      "adapt_notes": "Import is `from 'motion/react'` (upstream). In a framer-motion repo rewrite to `from 'framer-motion'` — `motion`, `useMotionValue`, `useSpring`, `useTransform`, `useMotionTemplate`, `MotionStyle`, `SpringOptions` all exist in both, no API rename needed. File declares `'use client'` and MUST stay a client component (uses useRef + mouse handlers). No `cn` helper used — className is passed straight to `motion.div`, so no shared util dependency. Watch the prop typo: it ships as `isRevese` (not `isReverse`); keep it verbatim or callers break. The wrapper sets `transformStyle: 'preserve-3d'` and a `perspective(1000px)` transform — ensure the wrapped Card has no conflicting transform/overflow that flattens the 3D context.",
+      "shared_deps": [],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — it always applies cursor-driven rotateX/rotateY via spring. For accessibility, wrap usage in a `useReducedMotion()` (from motion/react) check and render plain `children` (or set rotationFactor={0}) when reduced motion is preferred, or gate the mouse handlers / clamp rotationFactor to 0 under a `@media (prefers-reduced-motion: reduce)` condition."
+    },
+    {
+      "slug": "toolbar-dynamic",
+      "name": "Toolbar Dynamic",
+      "group": "Toolbars",
+      "intent": "Use this when a compact action bar should expand in place to reveal a search field or extra tools on demand.",
+      "props": [],
+      "shadcn_pairing": "No public props — it is a self-contained demo, not a parameterized primitive. Treat it as a blueprint for an animated floating toolbar that wraps a row of icon Buttons and an Input. In shadcn terms it composes Button (the icon triggers) + Input (the expanded search box) inside a bordered Card/Popover-like container, animating the container width between a collapsed icon-cluster and an expanded list/search state. Pairs naturally with a Command/Input search inside the open state.",
+      "migration_use": "Replace a raw fixed-width Tailwind action bar (e.g. `<div class=\"flex gap-2 rounded-xl border bg-white p-2\">` holding a couple of icon `<button>`s, plus a separately-rendered search `<input>` that appears via conditional display toggling) with this width-animating container. The migration: lift the open/closed boolean into `useState`, wrap the row in a `motion.div` whose `animate.width` interpolates between collapsed (`98px`) and expanded (`300px`), and render the icon cluster vs. the back-arrow + search input as the two branches. The upgrade is the smooth spring width transition and click-outside dismissal replacing an abrupt show/hide.",
+      "adapt_notes": "Upstream imports `motion` and `MotionConfig` from `motion/react`; in a framer-motion repo rename the import to `framer-motion` (same `motion`/`MotionConfig` API, no prop renames needed). Requires the `'use client'` directive (already present line 1) because it uses `useState`/`useRef`/`useClickOutside`. No `cn` helper is used — classes are hard-coded string literals; refactor them through `cn()` if your kit standardizes that. Icons come from `lucide-react` (ArrowLeft, Search, User) which is already shadcn's icon set. The hard-coded `width: '300px' | '98px'` values (and the `@todo` to remove fixed width) are brittle — parameterize or switch to `width: 'auto'` with layout animation for content-driven sizing. The container uses `absolute bottom-8`, so it assumes a positioned/relative parent; adjust positioning for your layout. The inner `Button` and the `transition` spring config are local — extract or replace with your kit's Button.",
+      "shared_deps": [
+        "useClickOutside"
+      ],
+      "reduced_motion": "No `prefers-reduced-motion` guard in the source — the spring width animation always runs. Wrap the component in framer-motion's `<MotionConfig reducedMotion=\"user\">` (it already renders a `MotionConfig`, so add the `reducedMotion=\"user\"` prop there), or gate the animated width via a `useReducedMotion()` hook so the toolbar snaps between sizes instead of springing when the OS setting is on."
+    },
+    {
+      "slug": "toolbar-expandable",
+      "name": "Toolbar Expandable",
+      "group": "Toolbars",
+      "intent": "Use this when you need a compact icon dock that grows to reveal a contextual content panel for the selected tool and shrinks back to save space.",
+      "props": [
+        {
+          "name": "ITEMS",
+          "type": "{ id: number; label: string; title: ReactNode; content: ReactNode }[]",
+          "default": "4 demo items (User/Messages/Documents/Wallet)",
+          "desc": "Hard-coded array driving both the icon row and the expandable content; no prop is exposed — generalize by lifting this to a prop."
+        },
+        {
+          "name": "active",
+          "type": "number | null",
+          "default": "null",
+          "desc": "Internal state: id of the currently selected item whose content is shown; null = nothing selected."
+        },
+        {
+          "name": "isOpen",
+          "type": "boolean",
+          "default": "false",
+          "desc": "Internal state: whether the content panel is expanded; toggled by icon clicks and reset on click-outside."
+        },
+        {
+          "name": "transition",
+          "type": "{ type: 'spring'; bounce: number; duration: number }",
+          "default": "{ type:'spring', bounce:0.1, duration:0.25 }",
+          "desc": "MotionConfig spring applied to height/opacity animations; the tuning knob for the grow/shrink feel."
+        },
+        {
+          "name": "maxWidth",
+          "type": "number",
+          "default": "0 (measured)",
+          "desc": "Container width captured once via react-use-measure and frozen as the expanded panel width to prevent reflow jitter."
+        },
+        {
+          "name": "heightContent",
+          "type": "number",
+          "default": "measured",
+          "desc": "Live-measured height of the active content (react-use-measure), animated to from 0 so the toolbar grows to fit."
+        }
+      ],
+      "shadcn_pairing": "Enhances a shadcn Button group / icon Toolbar: the icon row is a row of ghost icon Buttons, and the expandable region behaves like an inline Popover/Collapsible Card anchored to the dock. Think of it as a Collapsible + Card fused into a floating Toolbar — pair with Tooltip on each icon and Badge for counts (e.g. unread messages).",
+      "migration_use": "Replace a static raw Tailwind floating dock — a fixed `<div class=\"flex gap-2 rounded-xl border bg-white p-2\">` of icon `<button>`s where clicking one toggles a separate absolutely-positioned panel via manual useState + conditional `hidden` classes (or a CSS max-height transition). Swap that hand-rolled show/hide for this component: move each button's panel markup into an ITEMS `content` field, and the height auto-measures and spring-animates instead of jumping. Upgrades any \"click icon to reveal details\" mini-dock (notification tray, quick-actions bar, profile/wallet flyout) to a single animated unit.",
+      "adapt_notes": "Upstream imports `motion/react` (Motion v11+) — keep as-is if on `motion`, else rewrite to `framer-motion` (`import { AnimatePresence, motion, MotionConfig } from 'framer-motion'`); API is identical. Already declares `'use client'` — required, uses useState/useEffect/useRef. Imports `cn` from `@/lib/utils` (kit ships this at `@kit/ui/utils` or `~/lib/utils` — repoint). Extra deps to install: `react-use-measure` (the `useMeasure` height/width sensor) and `lucide-react` (icons, kit usually already has it). Also vendor the `useClickOutside` hook (see shared_deps). No framer-vs-motion prop renames needed. To make it reusable, lift the hard-coded `ITEMS`/`transition`/positioning (`absolute bottom-8`) into props.",
+      "shared_deps": [
+        "useClickOutside",
+        "cn",
+        "react-use-measure (useMeasure)",
+        "lucide-react"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — the height grow/shrink and opacity fades run unconditionally via MotionConfig. Wrap with Motion's `useReducedMotion()` and, when true, either drop `transition` to `{ duration: 0 }` (instant snap, no spring) or set the MotionConfig `reducedMotion=\"user\"` prop so Motion auto-disables transform/opacity animations; the panel still functions, it just toggles without the spring."
+    },
+    {
+      "slug": "transition-panel",
+      "name": "Transition Panel",
+      "group": "Interactive",
+      "intent": "Use this when swapping between content states (tabs, steps, cards) with enter/exit animations driven by an active index.",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode[]",
+          "default": "—",
+          "desc": "The content that the panel will transition through."
+        },
+        {
+          "name": "activeIndex",
+          "type": "number",
+          "default": "—",
+          "desc": "The index of the currently active child element to display."
+        },
+        {
+          "name": "variants",
+          "type": "Object (with enter, center, exit properties)",
+          "default": "—",
+          "desc": "Variants for each animation state (enter, center, exit) to customize animations."
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "default": "—",
+          "desc": "The transition settings from motion to control the animation effects."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "—",
+          "desc": "Optional CSS class to apply to the panel container for additional styling."
+        },
+        {
+          "name": "...motionProps",
+          "type": "MotionProps",
+          "default": "—",
+          "desc": "Spread all additional motion props to the motion.div component."
+        }
+      ],
+      "shadcn_pairing": "Composes WITH shadcn Tabs as the animated body: drive activeIndex off the active Tabs value and render each TabsContent's children as a panel index, so panel swaps animate instead of hard-cutting. Equally wraps a Card body, Dialog/Sheet multi-step flows (onboarding, settings wizards), or any index-driven Carousel/stepper. It is a content-region controller, not a trigger primitive — pair it with Tabs/Button triggers that own the index state.",
+      "migration_use": "A migration agent replaces conditional-render swaps that flip content with no motion — e.g. raw `{tab === 'a' ? <PanelA/> : <PanelB/>}` or a `space-y` stack of `{steps[i]}` inside a wizard div. Lift the branches into an ordered `children` array, hoist the discriminant to a numeric `activeIndex` (map tab key/step name → index), and wrap in `<TransitionPanel activeIndex={i} variants={...} transition={...}>` so state changes cross-fade/slide via AnimatePresence popLayout instead of jumping. Common upgrade targets: tab bodies, onboarding step cards, settings sub-panels, and image/quote rotators.",
+      "adapt_notes": "Source imports from `motion/react` (modern Motion package: AnimatePresence, Transition, Variant, motion, MotionProps) — keep as-is on Motion v11+; if the kit still pins `framer-motion`, swap the import to `framer-motion` (same symbol names, no prop renames). Requires the `'use client'` directive (already present) since it uses AnimatePresence/motion hooks — keep it when porting into an RSC tree. Uses the `cn` helper from `@/lib/utils`; in @kit/ui repos retarget to the kit's `cn` (e.g. `@kit/ui/utils` or local `~/lib/utils`). One gotcha: `children` must be an array indexed by `activeIndex` (not a single node), and each child needs a stable identity — the component keys the motion.div by `activeIndex`, so out-of-range or non-array children render nothing.",
+      "shared_deps": [
+        "cn"
+      ],
+      "reduced_motion": "Does NOT guard prefers-reduced-motion — animations always play via the supplied variants/transition regardless of OS setting. To make it accessible, either gate the motion with Motion's `useReducedMotion()` hook (pass a no-op/instant transition or center-only variants when it returns true), wrap the app in a `MotionConfig reducedMotion=\"user\"`, or add a `@media (prefers-reduced-motion: reduce)` fallback. Without one of these the index swap animates for users who requested reduced motion."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "stream-rig",
+  "displayName": "DOS stream-rig",
+  "description": "Build-in-public livestream operations layer for creators — orchestrates brand kit generation, OBS scene setup, Stream Deck profile, runtime phase control, and the post-stream content multiplier (transcript to newsletter, social posts, clips, show notes). Composes Brand, DesignSystem, Media, Conte...",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

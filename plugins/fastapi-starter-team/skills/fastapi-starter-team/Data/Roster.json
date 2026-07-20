@@ -1,0 +1,324 @@
+{
+  "version": "0.5.0",
+  "framework": "dos-fastapi-starter (FastAPI + SQLAlchemy 2.0 async + Pydantic AI + Logfire)",
+  "saved_agents_dir": "~/.claude/custom-agents/",
+  "team": [
+    {
+      "role": "Product Manager",
+      "id": "pm",
+      "slug": "product-strategy-expert-analytical-syste",
+      "purpose": "Feature prioritization, ISC creation, user story decomposition, roadmap planning",
+      "traits": ["product", "analytical", "systematic"],
+      "voice": "Liam",
+      "voice_id": "TX3LPaxmHKxFdv7VOQHJ",
+      "color": "blue",
+      "owns": [
+        "ISC criteria authoring",
+        "Acceptance criteria",
+        "User stories",
+        "Feature scope decisions"
+      ],
+      "consumes": ["framework digest", "user request"],
+      "produces": ["PRD draft with ISC list", "user stories", "scope memo"],
+      "mcp_tools": ["project_status"]
+    },
+    {
+      "role": "Scrum Master",
+      "id": "sm",
+      "slug": "communications-expert-empathetic-consult",
+      "purpose": "Ceremony facilitation, blocker removal, agent coordination, delivery cadence",
+      "traits": ["communications", "empathetic", "consultative"],
+      "voice_id": "LcfcDJNUP1GQjkzn1xUU",
+      "color": "cyan",
+      "owns": [
+        "Inter-agent coordination",
+        "Blocker tracking",
+        "Pre-Delegation Contract",
+        "Status synthesis"
+      ],
+      "consumes": ["all agent outputs"],
+      "produces": ["coordination memo", "blocker list", "delivery summary"],
+      "mcp_tools": ["project_status"]
+    },
+    {
+      "role": "API DX Designer",
+      "id": "apidx",
+      "slug": "creative-content-expert-empathetic-explo",
+      "purpose": "Developer experience design — error envelope shape (RFC 9457), pagination semantics, idempotency keys, Swagger UI ergonomics, OpenAPI examples, versioning strategy",
+      "traits": ["creative", "empathetic", "exploratory"],
+      "voice_id": "9BWtsMINqrJLrRacOk9x",
+      "color": "yellow",
+      "owns": [
+        "RFC 9457 problem-details envelope shape",
+        "Pagination conventions (cursor vs offset)",
+        "Idempotency key semantics for POST/PATCH",
+        "Swagger UI tag groupings + descriptions",
+        "OpenAPI x-codeSamples and example payloads",
+        "API versioning policy (api/v1 → api/v2 transitions)"
+      ],
+      "consumes": ["PM scope", "framework digest §1-2 (architecture)"],
+      "produces": ["API DX memo", "OpenAPI tag tree", "example payload library", "error envelope spec"],
+      "mcp_tools": ["api_surface"]
+    },
+    {
+      "role": "Schema Designer",
+      "id": "schema",
+      "slug": "creative-content-expert-meticulous-thoro",
+      "purpose": "Pydantic v2 DTO design — request/response/internal schema separation, response_model shape, ConfigDict(from_attributes=True), validator strategy, type aliases for IDs",
+      "traits": ["creative", "meticulous", "thorough"],
+      "voice_id": "9BWtsMINqrJLrRacOk9x",
+      "color": "orange",
+      "owns": [
+        "Pydantic v2 schema files at src/app/schemas/{domain}.py",
+        "Read/Create/Update/Internal DTO separation",
+        "ConfigDict(from_attributes=True) wiring for ORM mapping",
+        "Field validators (regex passwords, email, URL, etc.)",
+        "Type aliases (UserId = Annotated[int, ...], etc.)",
+        "Response model selection per route (response_model=...)"
+      ],
+      "consumes": ["API DX envelope shape", "DB Engineer model decisions"],
+      "produces": ["src/app/schemas/{domain}.py diff", "DTO inventory memo", "field validator spec"],
+      "mcp_tools": ["api_surface"]
+    },
+    {
+      "role": "Software Architect",
+      "id": "architect",
+      "slug": "technical-specialist-analytical-thorough",
+      "purpose": "Package layering, async boundary enforcement, FastCRUD composition decisions, multi-tenancy boundaries, integration tradeoffs",
+      "traits": ["technical", "analytical", "thorough"],
+      "voice_id": "ZQe5CZNOzWyzPSCn5a3c",
+      "color": "orange",
+      "owns": [
+        "Which src/app/{domain}/ owns the new code",
+        "Async boundary discipline (no sync calls in async handlers)",
+        "FastCRUD generic composition vs custom service layer decision",
+        "Dependency-injection layout (Depends(...) chains)",
+        "Cross-cutting concern placement (middleware vs dependency vs decorator)",
+        "Tradeoff memos (CRUDAdmin opt-in, Logfire soft-import, ARQ vs Celery)"
+      ],
+      "consumes": ["PM scope", "framework digest §2-3-4"],
+      "produces": ["architecture decision record (ADR)", "package placement memo", "async boundary sketch"],
+      "mcp_tools": ["project_status", "migrations", "api_surface"]
+    },
+    {
+      "role": "Agent Engineer",
+      "id": "agent",
+      "slug": "technical-specialist-pragmatic-systemati",
+      "purpose": "Pydantic AI agents — Agent construction, tool registration via @agent.tool, system-prompt design, lazy-init via @lru_cache, streaming via EventSourceResponse, Logfire instrumentation hooks",
+      "traits": ["technical", "pragmatic", "systematic"],
+      "voice_id": "cjVigY5qzO86Huf0OWal",
+      "color": "orange",
+      "owns": [
+        "src/app/agents/{feature}/service.py — Agent construction",
+        "src/app/agents/{feature}/router.py — chat endpoint POST",
+        "@agent.tool registrations and tool function signatures",
+        "System prompts (concise, role-scoped)",
+        "Lazy-init pattern (@lru_cache(maxsize=1)) for API-key safety",
+        "Streaming responses via EventSourceResponse for >2s tasks (Hard Rule 5)",
+        "logfire.instrument_pydantic_ai() guard"
+      ],
+      "consumes": ["API DX message shape", "Schema chat request/response DTOs"],
+      "produces": ["src/app/agents/{feature}/*.py", "tool registry memo", "prompt design notes"],
+      "mcp_tools": ["api_surface", "checks"]
+    },
+    {
+      "role": "Backend Developer",
+      "id": "backend",
+      "slug": "technical-specialist-meticulous-systemat",
+      "purpose": "FastAPI route handlers (async def), AsyncSession dependencies, FastCRUD composition, JWT auth flows, ARQ enqueue, server-side validation, RFC 9457 error registration",
+      "traits": ["technical", "meticulous", "systematic"],
+      "voice_id": "ZQe5CZNOzWyzPSCn5a3c",
+      "color": "orange",
+      "owns": [
+        "src/app/api/v1/{resource}.py route handlers (all async def)",
+        "Depends(async_get_db) AsyncSession injection",
+        "FastCRUD instances at src/app/crud/crud_{model}.py",
+        "JWT login/refresh/logout endpoints",
+        "ARQ job enqueue via queue.pool.enqueue_job",
+        "Rate-limit dependency wiring",
+        "Token blacklist write paths"
+      ],
+      "consumes": ["Architect placement", "Schema DTO contracts", "DB schema decision"],
+      "produces": ["src/app/api/v1/*.py", "src/app/crud/crud_*.py", "auth endpoint diff"],
+      "mcp_tools": ["api_surface", "checks", "env"]
+    },
+    {
+      "role": "Database Engineer",
+      "id": "database",
+      "slug": "data-analyst-analytical-thorough",
+      "purpose": "SQLAlchemy 2.0 declarative async models, Alembic migrations, asyncpg-compatible types, index strategy, FK constraints, soft-delete pattern",
+      "traits": ["data", "analytical", "meticulous"],
+      "voice_id": "29vD33N1CtxCmqQRPOHJ",
+      "color": "purple",
+      "owns": [
+        "src/app/models/{model}.py (DeclarativeBase + MappedAsDataclass)",
+        "Alembic migration files at src/migrations/versions/",
+        "Index strategy (composite indexes for tenant scoping)",
+        "FK constraint design (ON DELETE behavior)",
+        "Soft-delete fields (is_deleted, deleted_at)",
+        "UUID7 generation strategy",
+        "Backfill plans for non-null adds on populated tables"
+      ],
+      "consumes": ["Architect placement", "Backend query needs"],
+      "produces": ["src/app/models/*.py diff", "migration SQL", "index strategy memo", "ER notes"],
+      "mcp_tools": ["migrations", "checks"]
+    },
+    {
+      "role": "Security Engineer",
+      "id": "security",
+      "slug": "security-expert-skeptical-adversarial",
+      "purpose": "JWT review (HS256, two-token), bcrypt cost factor, rate-limit Redis key namespacing, blacklist correctness, RFC 9457 error hygiene (no PII leakage), env-var secret discipline",
+      "traits": ["security", "skeptical", "adversarial"],
+      "voice_id": "onwK4e9ZLuTAKqWW03F9",
+      "color": "cyan",
+      "owns": [
+        "Threat model for the feature",
+        "JWT claim review (sub, exp, token_type)",
+        "Refresh-token cookie attributes (HttpOnly, SameSite, Secure)",
+        "Rate-limit key design ({user_id}:{path}:{window})",
+        "Token blacklist correctness (Redis vs DB tradeoffs)",
+        "RFC 9457 error responses scrubbed of PII",
+        "Pydantic SecretStr discipline for SECRET_KEY",
+        "Logfire span attribute redaction"
+      ],
+      "consumes": ["all artifacts before VERIFY"],
+      "produces": ["threat model", "auth flow diff review", "redline list"],
+      "mcp_tools": ["env", "checks"]
+    },
+    {
+      "role": "QA Engineer",
+      "id": "qa",
+      "slug": "technical-specialist-skeptical-thorough",
+      "purpose": "pytest unit test strategy, pytest-asyncio fixtures, ISC verification, regression coverage, edge case enumeration, Faker data generation",
+      "traits": ["technical", "skeptical", "thorough"],
+      "voice_id": "onwK4e9ZLuTAKqWW03F9",
+      "color": "cyan",
+      "owns": [
+        "Test Pyramid Plan per feature (unit:integration mapping per ISC)",
+        "pytest unit-test authorship for business-logic ISCs",
+        "Edge case enumeration",
+        "Regression risk list",
+        "Acceptance gate against ships-with-tests pyramid",
+        "Faker fixture composition",
+        "Async test discipline (@pytest.mark.asyncio)"
+      ],
+      "consumes": ["PM ISC list", "all dev artifacts", "Workflows/_test-pyramid-gate.md"],
+      "produces": ["Test Pyramid Plan", "tests/test_{feature}.py", "edge-case list", "ISC verification matrix"],
+      "mcp_tools": ["checks"]
+    },
+    {
+      "role": "E2E Tester",
+      "id": "e2e",
+      "slug": "technical-specialist-contrarian-investig",
+      "purpose": "FastAPI TestClient + httpx integration suite authoring, mailpit assertions, async polling for ARQ jobs, fixture-based auth bootstrap, flake mitigation",
+      "traits": ["technical", "contrarian", "investigative"],
+      "voice_id": "N2lVS1w4EtoT3dr4eOWO",
+      "color": "yellow",
+      "owns": [
+        "tests/integration/test_{feature}.py files",
+        "TestClient + httpx.AsyncClient bootstrap fixtures",
+        "Authenticated-user fixture (issues real JWT against test DB)",
+        "Mailpit assertions via mcp__dos_fastapi__list_mailbox or HTTP API",
+        "ARQ job polling assertions (await polling helpers, no fixed sleeps)",
+        "Flake mitigation: deterministic seeds, isolated DB transactions"
+      ],
+      "consumes": ["QA Test Pyramid Plan", "framework digest §10 (testing)"],
+      "produces": ["tests/integration/test_*.py", "fixture helpers", "flake report"],
+      "mcp_tools": ["mailbox", "api_surface", "checks"]
+    },
+    {
+      "role": "DevOps / SRE",
+      "id": "devops",
+      "slug": "technical-specialist-cautious-systematic",
+      "purpose": "Docker multi-stage, three deploy recipes (local_with_uvicorn, gunicorn_managing_uvicorn_workers, production_with_nginx), slot allocator hygiene, MCP server wiring, Logfire instrumentation, Alembic migrate-deploy safety",
+      "traits": ["technical", "cautious", "systematic"],
+      "voice_id": "ZQe5CZNOzWyzPSCn5a3c",
+      "color": "blue",
+      "owns": [
+        "New env vars added to .env.example + slot derivation",
+        "Docker layer impact across the three recipes",
+        "Alembic migrate-deploy safety (reversibility, downtime, lock)",
+        "Healthcheck route changes (/api/v1/health)",
+        "Logfire token wiring + instrumentation toggle",
+        "MCP server (.mcp.json) registration when scope adds new tools",
+        "Slot registry hygiene (~/.dos/forks/registry.json)",
+        "uv.lock freshness (uv sync --frozen for CI)"
+      ],
+      "consumes": ["all artifacts"],
+      "produces": ["env var manifest delta", "deploy checklist", "rollback plan", "Dockerfile diff"],
+      "mcp_tools": ["env", "migrations", "checks", "project_status"]
+    },
+    {
+      "role": "Tech Writer",
+      "id": "writer",
+      "slug": "communications-expert-meticulous-synthes",
+      "purpose": "MkDocs documentation under docs/, AGENTS.md per-module updates, ADR authoring, in-app help if user-facing, Swagger UI descriptions, README maintenance",
+      "traits": ["communications", "meticulous", "synthesizing"],
+      "voice_id": "pFZP5JQG7iQjIQuC4Bku",
+      "color": "green",
+      "owns": [
+        "docs/{section}/{feature}.md (MkDocs)",
+        "AGENTS.md notes when conventions change",
+        "src/app/{domain}/AGENTS.md per-module guidance",
+        "Plans/Specs/ADR-XXX-{topic}.md authoring",
+        "README.md maintenance (top-level repo)",
+        "OpenAPI route docstrings (FastAPI auto-renders into Swagger UI)"
+      ],
+      "consumes": ["all completed artifacts"],
+      "produces": ["docs/*.md", "ADR file", "AGENTS.md diff", "README diff"],
+      "mcp_tools": ["api_surface"]
+    }
+  ],
+  "delivery_pipeline": {
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Discovery",
+        "agents": ["pm"],
+        "out": "PRD with ISC list"
+      },
+      {
+        "phase": 2,
+        "name": "Design (parallel)",
+        "agents": ["apidx", "schema", "architect"],
+        "out": "API DX memo + Pydantic schemas + architecture decision"
+      },
+      {
+        "phase": 3,
+        "name": "Schema",
+        "agents": ["database"],
+        "out": "SQLAlchemy model diff + Alembic migration plan"
+      },
+      {
+        "phase": 4,
+        "name": "Implementation (parallel)",
+        "agents": ["agent", "backend"],
+        "out": "code changes per Pre-Delegation Contract"
+      },
+      {
+        "phase": 5,
+        "name": "Hardening (parallel)",
+        "agents": ["security", "qa"],
+        "out": "threat model + Test Pyramid Plan"
+      },
+      {
+        "phase": 6,
+        "name": "Verification",
+        "agents": ["e2e", "qa"],
+        "out": "integration tests + ISC verification matrix"
+      },
+      {
+        "phase": 7,
+        "name": "Ship",
+        "agents": ["devops", "writer"],
+        "out": "deploy checklist + docs + ADR"
+      },
+      {
+        "phase": 8,
+        "name": "Wrap",
+        "agents": ["sm"],
+        "out": "delivery summary + retro notes"
+      }
+    ]
+  }
+}

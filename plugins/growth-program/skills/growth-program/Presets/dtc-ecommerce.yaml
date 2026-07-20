@@ -1,0 +1,21 @@
+# GrowthProgram preset — Direct-to-consumer product brand
+preset: dtc-ecommerce
+locale: en-US
+market: Direct-to-consumer product brand
+wedge_hint: a founder story + a visible quality / ingredient / origin difference, shown not claimed
+channels: [instagram, tiktok, pinterest, facebook, email, youtube_shorts]
+cadence:
+  instagram: 1/day
+  tiktok: 1/day
+  pinterest: 5/week
+  email: 3/week
+  facebook: 4/week
+signature_formats: [UGC, founder story, unboxing, real before/after, creator collab, shoppable reel]
+geo:
+  engines: [gemini, chatgpt, perplexity]
+  corpus_targets: [google_shopping, reddit, "best-of roundups", youtube reviews, trustpilot]
+  note: consumer recs are shopping-graph + influencer + UGC driven more than LLM-text; Gemini follows Google Shopping + GBP signals.
+integrity:
+  reviews_pillar_gated_on: real customers + verified-buyer reviews
+  do_not: [undisclosed #ad, fake testimonials, unsubstantiated health / efficacy / "clinically proven" claims]
+  must: [FTC influencer disclosure on every paid collab, real before/after only]

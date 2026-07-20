@@ -1,0 +1,9 @@
+{
+  "pack": "greg-young",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/greg-young/src/"
+}

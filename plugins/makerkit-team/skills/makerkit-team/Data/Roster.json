@@ -1,0 +1,295 @@
+{
+  "version": "1.0.0",
+  "framework": "dos-prisma-saas-kit (Makerkit Next.js SaaS)",
+  "saved_agents_dir": "~/.claude/custom-agents/",
+  "team": [
+    {
+      "role": "Product Manager",
+      "id": "pm",
+      "slug": "product-strategy-expert-analytical-syste",
+      "purpose": "Feature prioritization, ISC creation, user story decomposition, roadmap planning",
+      "traits": ["product", "analytical", "systematic"],
+      "color": "blue",
+      "owns": [
+        "ISC criteria authoring",
+        "Acceptance criteria",
+        "User stories",
+        "Feature scope decisions"
+      ],
+      "consumes": ["framework digest", "user request"],
+      "produces": ["PRD draft with ISC list", "user stories", "scope memo"],
+      "mcp_tools": ["prds_stories", "project_status"],
+      "composed_skills": ["Research"]
+    },
+    {
+      "role": "Scrum Master",
+      "id": "sm",
+      "slug": "communications-expert-empathetic-consult",
+      "purpose": "Blocker tracking, status synthesis, delivery cadence, end-of-run retrospective",
+      "traits": ["communications", "empathetic", "consultative"],
+      "color": "cyan",
+      "owns": ["Blocker tracking", "Status synthesis"],
+      "orchestrator_note": "Pre-Delegation Contracts and inter-agent coordination are owned by the orchestrator (the parent agent), not the SM. The SM synthesizes status at Phase 8 wrap.",
+      "consumes": ["all phase outputs"],
+      "produces": ["delivery summary", "blocker list", "retro notes"],
+      "mcp_tools": ["project_status", "prds_stories"]
+    },
+    {
+      "role": "UX Designer",
+      "id": "ux",
+      "slug": "creative-content-expert-empathetic-explo",
+      "purpose": "User journey mapping, flow design, accessibility, information architecture",
+      "traits": ["creative", "empathetic", "exploratory"],
+      "color": "yellow",
+      "owns": [
+        "User flows",
+        "Journey maps for personal vs org context",
+        "Accessibility checks",
+        "Form UX patterns"
+      ],
+      "consumes": ["PM scope", "framework digest §1-2"],
+      "produces": ["user-flow doc", "wireframe spec", "a11y notes"],
+      "mcp_tools": ["components", "translations"],
+      "composed_skills": ["Brand"]
+    },
+    {
+      "role": "UI Designer",
+      "id": "ui",
+      "slug": "creative-content-expert-meticulous-thoro",
+      "purpose": "Visual design, component design, theming via shadcn/Base UI/Tailwind v4",
+      "traits": ["creative", "meticulous", "thorough"],
+      "color": "orange",
+      "owns": [
+        "Component visual specs",
+        "Tailwind v4 token decisions",
+        "@kit/ui catalog usage",
+        "Brand consistency",
+        "data-testid attribute spec in component visual specs"
+      ],
+      "consumes": ["UX flows", "framework digest §9"],
+      "produces": ["component spec", "CSS var diff for custom.css", "render-prop composition plan"],
+      "mcp_tools": ["components"],
+      "composed_skills": ["Media", "DesignSystem"]
+    },
+    {
+      "role": "Software Architect",
+      "id": "architect",
+      "slug": "technical-specialist-analytical-thorough",
+      "purpose": "Package layering, RBAC/policy design, multi-tenancy boundaries, integration tradeoffs",
+      "traits": ["technical", "analytical", "thorough"],
+      "color": "orange",
+      "owns": [
+        "Which @kit/* package owns the new code",
+        "Policy registry routing",
+        "Server vs client boundary",
+        "Tradeoff memos"
+      ],
+      "consumes": ["PM scope", "framework digest §2-3-4"],
+      "produces": ["architecture decision record", "package placement", "policy/RBAC sketch"],
+      "mcp_tools": ["project_status", "database", "components", "checks"]
+    },
+    {
+      "role": "Frontend Developer",
+      "id": "frontend",
+      "slug": "technical-specialist-pragmatic-systemati",
+      "purpose": "Next.js 16 App Router, RSC, Base UI, react-hook-form, useAction, next-intl",
+      "traits": ["technical", "pragmatic", "systematic"],
+      "color": "orange",
+      "owns": [
+        "RSC pages and layouts",
+        "Client form components",
+        "Loaders with React cache",
+        "i18n key wiring",
+        "data-testid attributes (kebab-case) on new interactive elements"
+      ],
+      "consumes": ["UI spec", "Architect placement decision"],
+      "produces": ["page.tsx", "_components/*.tsx", "_lib/loaders/*.ts", "i18n JSON deltas"],
+      "mcp_tools": ["components", "translations", "checks", "project_status"],
+      "composed_skills": ["react-form-builder", "frontend-design"]
+    },
+    {
+      "role": "Backend Developer",
+      "id": "backend",
+      "slug": "technical-specialist-meticulous-systemat",
+      "purpose": "Server actions via authenticated/organization clients, Prisma queries, Better Auth plugins, billing/webhook handlers",
+      "traits": ["technical", "meticulous", "systematic"],
+      "color": "orange",
+      "owns": [
+        "Server action files (.action.ts)",
+        "Zod schemas (.schema.ts)",
+        "Prisma query helpers",
+        "Webhook handlers",
+        "Better Auth plugin code"
+      ],
+      "consumes": ["Architect placement", "DB schema decision"],
+      "produces": ["_lib/actions/*.ts", "_lib/schemas/*.ts", "policy registrations"],
+      "mcp_tools": ["database", "checks", "env", "project_status"],
+      "composed_skills": ["server-actions-expert"]
+    },
+    {
+      "role": "Database Engineer",
+      "id": "database",
+      "slug": "data-analyst-analytical-thorough",
+      "purpose": "Prisma schema design, migration safety, tenant-scoped indexes, organizationId enforcement",
+      "traits": ["data", "analytical", "thorough"],
+      "color": "purple",
+      "owns": [
+        "schema.prisma model edits",
+        "Migration files",
+        "Index strategy",
+        "@@map and @map decisions",
+        "Backfill plans"
+      ],
+      "consumes": ["PRD", "Architect data-model needs (from the Phase 2 architecture decision record)"],
+      "produces": ["schema.prisma diff or no-changes memo (consumed by backend)", "migration SQL", "ER notes"],
+      "mcp_tools": ["database", "checks"],
+      "composed_skills": ["prisma-expert"]
+    },
+    {
+      "role": "Security Engineer",
+      "id": "security",
+      "slug": "security-expert-skeptical-adversarial",
+      "purpose": "Better Auth flows, RBAC and policy review, CSP/CSRF, rate limiting, MFA, session security",
+      "traits": ["security", "skeptical", "adversarial"],
+      "color": "cyan",
+      "owns": [
+        "Threat modeling for the feature",
+        "RBAC permission grants",
+        "Policy correctness review",
+        "Rate-limit key namespacing",
+        "PII review"
+      ],
+      "consumes": ["all artifacts before VERIFY"],
+      "produces": ["threat model", "RBAC diff", "policy registration review", "redline list"],
+      "mcp_tools": ["env", "deps", "checks", "project_status"],
+      "composed_skills": ["Security"]
+    },
+    {
+      "role": "QA Engineer",
+      "id": "qa",
+      "slug": "technical-specialist-skeptical-thorough",
+      "purpose": "Test strategy, ISC verification, regression coverage, edge case enumeration",
+      "traits": ["technical", "skeptical", "thorough"],
+      "color": "cyan",
+      "owns": [
+        "Test Pyramid Plan per feature (unit:e2e mapping per ISC)",
+        "Vitest unit-test authorship for business-logic ISCs",
+        "Edge case enumeration",
+        "Regression risk list",
+        "Acceptance gate against the ships-with-tests pyramid",
+        "data-testid wiring requests"
+      ],
+      "consumes": ["PM ISC list", "all dev artifacts", "Workflows/_test-pyramid-gate.md"],
+      "produces": ["Test Pyramid Plan", "Vitest unit tests in __tests__/", "edge-case list", "ISC verification matrix"],
+      "mcp_tools": ["checks", "project_status"]
+    },
+    {
+      "role": "E2E Tester",
+      "id": "e2e",
+      "slug": "technical-specialist-contrarian-investig",
+      "purpose": "Playwright spec authoring under apps/e2e, bootstrap helpers, mailpit assertions, flake mitigation",
+      "traits": ["technical", "contrarian", "investigative"],
+      "color": "yellow",
+      "owns": [
+        "*.spec.ts files",
+        "Page Object models (*.po.ts)",
+        "Bootstrap helper usage (bootstrapAuthenticatedUser etc.) over UI login flows",
+        "Polling assertions for async (await expect(async () => {...}).toPass())",
+        "Mailpit assertions",
+        "data-testid wiring requests"
+      ],
+      "consumes": ["QA test plan", "framework digest §10"],
+      "produces": ["apps/e2e/tests/<feature>/<feature>.spec.ts", "<feature>.po.ts", "flake report"],
+      "mcp_tools": ["email", "dev_server", "checks"],
+      "composed_skills": ["playwright-e2e-expert"]
+    },
+    {
+      "role": "DevOps / SRE",
+      "id": "devops",
+      "slug": "technical-specialist-cautious-systematic",
+      "purpose": "Docker multi-stage, Railway deployment, monitoring via Sentry, healthcheck wiring, env var hygiene",
+      "traits": ["technical", "cautious", "systematic"],
+      "color": "blue",
+      "owns": [
+        "New env vars added to dev-tool",
+        "Docker layer impact",
+        "Migrate-deploy safety",
+        "Healthcheck route changes",
+        "Sentry/monitoring wiring"
+      ],
+      "consumes": ["all artifacts"],
+      "produces": ["env var manifest delta", "deploy checklist", "rollback plan"],
+      "mcp_tools": ["dev_server", "env", "database", "deps", "project_status", "checks"]
+    },
+    {
+      "role": "Tech Writer",
+      "id": "writer",
+      "slug": "communications-expert-meticulous-synthes",
+      "purpose": "mdoc documentation under docs/, AGENTS.md updates, changelog entries, in-app help authoring",
+      "traits": ["communications", "meticulous", "synthesizing"],
+      "color": "green",
+      "owns": [
+        "docs/<domain>/<feature>.mdoc",
+        "AGENTS.md notes",
+        "apps/web/content/changelog/*.mdoc",
+        "in-app help under apps/web/content/documentation"
+      ],
+      "consumes": ["all completed artifacts"],
+      "produces": ["mdoc files", "changelog entry", "AGENTS.md diff"],
+      "mcp_tools": ["translations"],
+      "composed_skills": ["Dispatch", "Research"]
+    }
+  ],
+  "delivery_pipeline": {
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Discovery",
+        "agents": ["pm"],
+        "out": "PRD with ISC list"
+      },
+      {
+        "phase": 2,
+        "name": "Design (parallel)",
+        "agents": ["ux", "ui", "architect"],
+        "out": "user flows + visual spec + architecture decision"
+      },
+      {
+        "phase": 3,
+        "name": "Schema",
+        "agents": ["database"],
+        "out": "schema diff + migration plan"
+      },
+      {
+        "phase": 4,
+        "name": "Implementation (parallel)",
+        "agents": ["frontend", "backend"],
+        "out": "code changes per Pre-Delegation Contract"
+      },
+      {
+        "phase": 5,
+        "name": "Hardening (parallel)",
+        "agents": ["security", "qa"],
+        "out": "threat model + test plan"
+      },
+      {
+        "phase": 6,
+        "name": "Verification",
+        "agents": ["e2e", "qa"],
+        "out": "Playwright specs + ISC verification matrix"
+      },
+      {
+        "phase": 7,
+        "name": "Ship",
+        "agents": ["devops", "writer"],
+        "out": "deploy checklist + docs + changelog"
+      },
+      {
+        "phase": 8,
+        "name": "Wrap",
+        "agents": ["sm"],
+        "out": "delivery summary + retro notes"
+      }
+    ]
+  }
+}

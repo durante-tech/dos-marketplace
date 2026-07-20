@@ -1,0 +1,48 @@
+# EXECUTE phase manifest - RFC-0006 Section 6.1
+# Canonical: ~/.claude/DOS/Algorithm/v0.0.1.md, EXECUTE phase header (line 385)
+# Reference impl: ~/Durante/Tools/dos-compile.ts
+# Phase 2C deliverable per Phase 2 brief - parallel to live Algorithm.
+
+phase: execute
+sequence: "5/7"
+header_emoji: "⚡"
+voice_message: "Entering the Execute phase."
+
+prd_updates:
+  phase: execute
+  updated: "{timestamp}"
+
+# Suffix appended verbatim from v0.0.1.md. EXECUTE is the shortest FIRST
+# ACTION sentence in the algorithm - the work itself dominates the phase.
+first_action_suffix: "Perform the work."
+
+# OUTPUT slots. EXECUTE in v0.0.1.md does NOT have a dedicated OUTPUT
+# scaffolding block. Compiler emits the work-execution + per-criterion
+# PRD-update reminder as the consolidated OUTPUT block (additive
+# structural delta per RFC Section 6.4).
+output_slots:
+  - name: execute_work
+    label: "⚡ EXECUTE"
+    template: "[Execute the work.]"
+  - name: per_criterion_prd_update
+    label: "✅ PRD UPDATE"
+    template: "[As each criterion is satisfied, IMMEDIATELY edit the PRD: change `- [ ]` to `- [x]` and update frontmatter `progress:` field. Do NOT wait for VERIFY — update the moment a criterion passes. AI's responsibility — no hook will do it for you.]"
+
+# Per-phase gates. EXECUTE's mandatory invariant is the immediate-on-pass
+# PRD update; deferring to VERIFY is a known failure mode.
+gates:
+  - id: criterion_immediate_check_in
+    type: assertion
+    rule: "As each criterion passes, the AI MUST mark `- [x]` and bump frontmatter progress in the PRD immediately - do NOT wait for VERIFY"
+
+# Must-actions the phase performs. Inventory for linter / downstream tools.
+must_actions:
+  - announce_voice
+  - update_prd_frontmatter
+  - emit_phase_header
+  - perform_the_work
+  - mark_criteria_immediately_on_pass
+
+# Reserved per RFC Section 7.1.3 - unknown frontmatter keys MUST survive
+# compile + eject unchanged. Empty for EXECUTE.
+raw_frontmatter: {}

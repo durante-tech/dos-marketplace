@@ -1,0 +1,9 @@
+{
+  "pack": "kent-beck",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/kent-beck/src/"
+}

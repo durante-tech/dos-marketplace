@@ -1,0 +1,9 @@
+{
+  "pack": "design-bundle",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/design-bundle/src/"
+}

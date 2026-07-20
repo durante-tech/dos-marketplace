@@ -1,0 +1,54 @@
+# VERIFY phase manifest - RFC-0006 Section 6.1
+# Canonical: ~/.claude/DOS/Algorithm/v0.0.1.md, VERIFY phase header (line 392)
+# Reference impl: ~/Durante/Tools/dos-compile.ts
+# Phase 2C deliverable per Phase 2 brief - parallel to live Algorithm.
+
+phase: verify
+sequence: "6/7"
+header_emoji: "✅"
+voice_message: "Entering the Verify phase."
+
+prd_updates:
+  phase: verify
+  updated: "{timestamp}"
+
+# Suffix appended verbatim from v0.0.1.md. VERIFY is "the critical step
+# to achieving Ideal State and Euphoric Surprise (this is how we
+# hill-climb)" - byte-identical to the canonical sentence in v0.0.1.md.
+# Note: v0.0.1.md omits the trailing period on the parenthesized clause.
+first_action_suffix: "The critical step to achieving Ideal State and Euphoric Surprise (this is how we hill-climb)"
+
+# OUTPUT slots. VERIFY in v0.0.1.md emits a single ✅ VERIFICATION header
+# followed by checklist prose. The compiled OUTPUT block is the additive
+# structural surface per RFC Section 6.4.
+output_slots:
+  - name: verification
+    label: "✅ VERIFICATION"
+    template: "[For EACH IDEAL STATE criterion in the PRD, test that it is actually complete. For each, edit the PRD: mark `- [x]` if not already, add evidence to `## Verification` section.]"
+
+# Per-phase gates. VERIFY encodes the most-cited reflection failure mode
+# (sync/parity claims without tool output) plus the cross-check rule
+# protecting against subagent fabrication.
+gates:
+  - id: capability_invocation_check
+    type: assertion
+    rule: "For EACH capability selected in OBSERVE, confirm it was actually invoked via Skill or Task tool call. Text output alone does NOT count. Any selected capability lacking a tool call is a failure."
+  - id: sync_parity_evidence_rule
+    type: assertion
+    rule: "Any criterion whose verification is a claim like 'all copies synced', 'zero diffs', 'in sync', or 'parity across N locations' MUST attach the output of an actual verification tool (preferably `bun ~/Durante/Tools/sync-check.ts`) as evidence. Assertions without attached tool output are NOT acceptable."
+  - id: critical_claim_cross_check
+    type: assertion
+    rule: "For EVERY claim a sub-agent made that affected scope decisions ('file is missing', 'function not implemented', 'dependency absent', 'API endpoint returns X'), the parent algorithm MUST run a direct ls/Grep/Read/curl to verify before incorporating into the final report or PR. Mark verified claims as `agent-asserted, parent-verified` in PRD `## Verification`."
+
+# Must-actions the phase performs. Inventory for linter / downstream tools.
+must_actions:
+  - announce_voice
+  - update_prd_frontmatter
+  - emit_phase_header
+  - test_each_isc_criterion
+  - check_capability_invocations
+  - cross_check_critical_subagent_claims
+
+# Reserved per RFC Section 7.1.3 - unknown frontmatter keys MUST survive
+# compile + eject unchanged. Empty for VERIFY.
+raw_frontmatter: {}

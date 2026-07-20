@@ -1,0 +1,139 @@
+{
+  "version": "1.0.0",
+  "schema": "https://schemas.dos/makerkit-team/mcp-tool-map/v1",
+  "description": "Maps Makerkit MCP tool clusters to authorized agent roles. Roster.json#mcp_tools references cluster names from this file.",
+  "mcp_namespace": "mcp__makerkit__",
+  "doc_links": {
+    "frameworkDigest": "../FrameworkDigest.md",
+    "skill": "../SKILL.md",
+    "kitRepo": "~/Developer/dos-prisma-saas-kit"
+  },
+  "clusters": {
+    "project_status": {
+      "name": "Project status & health",
+      "purpose": "Read-only inspection of kit project state, prerequisites, and improvement opportunities. Safe for any role to call as a no-op pre-flight.",
+      "tools": [
+        "mcp__makerkit__kit_status",
+        "mcp__makerkit__kit_prerequisites",
+        "mcp__makerkit__get_project_status",
+        "mcp__makerkit__get_healthcheck_scripts",
+        "mcp__makerkit__get_improvement_suggestions"
+      ],
+      "notes": "Run kit_prerequisites + kit_status FIRST in any workflow's Phase 0. get_improvement_suggestions seeds the PM's ISC list with framework-aware ideas."
+    },
+    "dev_server": {
+      "name": "Dev server lifecycle",
+      "purpose": "Start, stop, and inspect the kit's local dev server. Required for browser-based repro and E2E.",
+      "tools": [
+        "mcp__makerkit__kit_dev_start",
+        "mcp__makerkit__kit_dev_status",
+        "mcp__makerkit__kit_dev_stop"
+      ],
+      "notes": "Always check kit_dev_status before kit_dev_start to avoid double-starting. kit_dev_stop in finally-block when a workflow started it."
+    },
+    "database": {
+      "name": "Prisma schema, migrations, queries",
+      "purpose": "Inspect schema, generate/apply migrations, seed/reset DB, search functions. Full DB lifecycle.",
+      "tools": [
+        "mcp__makerkit__kit_db_status",
+        "mcp__makerkit__kit_db_migrate",
+        "mcp__makerkit__kit_db_reset",
+        "mcp__makerkit__kit_db_seed",
+        "mcp__makerkit__get_database_summary",
+        "mcp__makerkit__get_database_tables",
+        "mcp__makerkit__get_table_info",
+        "mcp__makerkit__get_database_functions",
+        "mcp__makerkit__search_database_functions",
+        "mcp__makerkit__get_function_details",
+        "mcp__makerkit__get_migrations",
+        "mcp__makerkit__get_migration_content",
+        "mcp__makerkit__generate_migration",
+        "mcp__makerkit__apply_migrations"
+      ],
+      "notes": "Phase 3 (Schema) is the natural home. kit_db_reset is destructive — operator approval before any role calls it. Architect uses get_database_summary for placement decisions; Backend uses get_table_info / search_database_functions for query design; Database role owns generate_migration / apply_migrations."
+    },
+    "components": {
+      "name": "@kit/ui component catalog",
+      "purpose": "Discover and read existing components before reinventing. Read-only.",
+      "tools": [
+        "mcp__makerkit__get_components",
+        "mcp__makerkit__components_search",
+        "mcp__makerkit__get_component_content",
+        "mcp__makerkit__get_component_props"
+      ],
+      "notes": "MUST be called by Frontend/UI before authoring a new component — duplication-prevention. Use components_search with feature keywords first; get_component_content + get_component_props for the candidates."
+    },
+    "checks": {
+      "name": "Healthcheck scripts and run_checks",
+      "purpose": "Run the kit's defined check scripts (typecheck, lint, format, test). MUST in verification phases.",
+      "tools": [
+        "mcp__makerkit__get_scripts",
+        "mcp__makerkit__get_script_details",
+        "mcp__makerkit__run_checks"
+      ],
+      "notes": "run_checks is the canonical 'is the codebase healthy?' tool. Verification workflows (CodeReview, TestAndValidate, BugFix Phase 4, Refactor Phase 4) MUST invoke it. get_scripts enumerates available checks; get_script_details shows what a script actually runs."
+    },
+    "env": {
+      "name": "Environment variables and schema",
+      "purpose": "Read/write env files; inspect env schema. Sensitive — handle carefully.",
+      "tools": [
+        "mcp__makerkit__kit_env_schema",
+        "mcp__makerkit__kit_env_read",
+        "mcp__makerkit__kit_env_update",
+        "mcp__makerkit__kit_env_raw_read",
+        "mcp__makerkit__kit_env_raw_write"
+      ],
+      "notes": "kit_env_raw_* bypasses validation — DevOps only. Security audits use kit_env_schema (read-only) to verify env-var hygiene. Backend uses kit_env_read for what's available; updates go through kit_env_update with schema validation."
+    },
+    "email": {
+      "name": "Email mailbox (mailpit) and templates",
+      "purpose": "Inspect sent emails, read templates, mark messages read. E2E and TestAndValidate use this for assertion + drift checks.",
+      "tools": [
+        "mcp__makerkit__kit_emails_list",
+        "mcp__makerkit__kit_emails_read",
+        "mcp__makerkit__kit_emails_set_read_status",
+        "mcp__makerkit__kit_email_templates_list",
+        "mcp__makerkit__kit_email_templates_read",
+        "mcp__makerkit__kit_mailbox_status"
+      ],
+      "notes": "FrameworkDigest §10 mailpit assertion patterns — E2E reaches for kit_emails_list + kit_emails_read instead of the older HTTP-fetch pattern. kit_mailbox_status verifies mailpit is up before assertions."
+    },
+    "translations": {
+      "name": "i18n / next-intl translations",
+      "purpose": "Manage locales, namespaces, and translation keys. Coverage stats catch i18n drift early.",
+      "tools": [
+        "mcp__makerkit__kit_translations_list",
+        "mcp__makerkit__kit_translations_stats",
+        "mcp__makerkit__kit_translations_add_locale",
+        "mcp__makerkit__kit_translations_remove_locale",
+        "mcp__makerkit__kit_translations_add_namespace",
+        "mcp__makerkit__kit_translations_remove_namespace",
+        "mcp__makerkit__kit_translations_update"
+      ],
+      "notes": "Frontend uses kit_translations_update + kit_translations_add_namespace when wiring i18n keys for a new feature. TestAndValidate / DocsRefresh use kit_translations_stats to detect missing-key drift across locales. remove_locale / remove_namespace are destructive — operator gate."
+    },
+    "prds_stories": {
+      "name": "Makerkit PRDs and user stories",
+      "purpose": "OPTIONAL surface — kit-native PRD/story system. DOS PRD ledger is canonical; this is a mirror surface for kit projects that maintain Makerkit-native PRDs.",
+      "tools": [
+        "mcp__makerkit__list_prds",
+        "mcp__makerkit__get_prd",
+        "mcp__makerkit__create_prd",
+        "mcp__makerkit__delete_prd",
+        "mcp__makerkit__export_prd_markdown",
+        "mcp__makerkit__add_user_story",
+        "mcp__makerkit__update_story_status",
+        "mcp__makerkit__get_implementation_prompts"
+      ],
+      "notes": "DO NOT replace the DOS PRD ledger with create_prd — DOS PRD at MEMORY/WORK/{slug}/PRD.md is system of record. PM role MAY mirror to kit-native PRD when the kit project independently uses this surface. add_user_story is the natural fit for PM Phase 1 if the kit-native flow is in use; otherwise PM drafts user stories directly in the DOS PRD's ## Context."
+    },
+    "deps": {
+      "name": "Dependency upgrade advisor",
+      "purpose": "Suggest dependency upgrades with risk/benefit analysis.",
+      "tools": [
+        "mcp__makerkit__deps_upgrade_advisor"
+      ],
+      "notes": "DevOps periodic; SecurityAudit when scope includes 'are deps current'."
+    }
+  }
+}

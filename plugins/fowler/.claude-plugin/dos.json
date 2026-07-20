@@ -1,0 +1,9 @@
+{
+  "pack": "fowler",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/fowler/src/"
+}

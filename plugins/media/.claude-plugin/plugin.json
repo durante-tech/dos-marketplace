@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "media",
+  "displayName": "DOS media",
+  "description": "Visual, audio, and video content creation — illustrations, diagrams, infographics, thumbnails, comics, speech and voice generation, AI video, image editing, music, and programmatic video via Remotion.",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

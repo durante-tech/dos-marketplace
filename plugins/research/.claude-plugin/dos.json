@@ -1,0 +1,13 @@
+{
+  "pack": "research",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/research/src/",
+  "bridge": [
+    "kg_query_predicate",
+    "status"
+  ]
+}

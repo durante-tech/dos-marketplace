@@ -1,0 +1,20 @@
+# GrowthProgram preset — B2B SaaS, global / English-first
+preset: b2b-saas-global
+locale: en-US
+market: B2B SaaS (global, English-first)
+wedge_hint: a sharp ICP + a published-price / time-to-value claim incumbents hide behind "request a demo"
+channels: [linkedin, x, youtube, blog_newsletter, github]
+cadence:
+  linkedin: 5/week        # founder voice + company
+  x: 1/day
+  youtube: 1/week         # product demos + category POV
+  blog_newsletter: 2/week
+signature_formats: [founder POV thread, product demo, customer teardown, "vs" comparison, reproducible benchmark]
+geo:
+  engines: [chatgpt, perplexity, claude, gemini]
+  corpus_targets: [g2, capterra, trustradius, reddit, "best-X listicles", stackshare]
+  note: Claude leans Capterra + long-form editorial; Perplexity leans Reddit + freshness. Earn real reviews BEFORE shipping comparison pages.
+integrity:
+  reviews_pillar_gated_on: a real paying-customer base (G2/Capterra delist self-seeding)
+  do_not: [fake or incentivized reviews, AggregateRating without verified data, competitor FUD]
+  must: [cite a source for every benchmark, keep "vs" pages factual + dated]

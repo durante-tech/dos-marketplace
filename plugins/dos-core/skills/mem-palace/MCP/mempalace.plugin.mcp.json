@@ -1,0 +1,9 @@
+{
+  "_comment": "V23 plugin-mode MCP template. The hook-owned MemPalaceMcpLauncher derives all plugin-data seams at process start and launches the exact vendored-patches.lock package pin from the provisioned uv environment. Runtime indirection is required because static JSON cannot hash ${CLAUDE_PLUGIN_DATA} into a short, install-unique AF_UNIX socket. This template is source/reference only; dos-emit-plugin-marketplace.ts emits the same inline launcher declaration.",
+  "mcpServers": {
+    "mempalace": {
+      "command": "bun",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/skills/mem-palace/Hooks/MemPalaceMcpLauncher.ts"]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "pack": "wiki",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/wiki/src/"
+}

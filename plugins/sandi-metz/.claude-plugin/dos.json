@@ -1,0 +1,9 @@
+{
+  "pack": "sandi-metz",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/sandi-metz/src/"
+}

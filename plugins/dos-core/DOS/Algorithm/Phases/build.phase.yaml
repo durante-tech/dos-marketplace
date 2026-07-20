@@ -1,0 +1,64 @@
+# BUILD phase manifest - RFC-0006 Section 6.1
+# Canonical: ~/.claude/DOS/Algorithm/v0.0.1.md, BUILD phase header (line 367)
+# Reference impl: ~/Durante/Tools/dos-compile.ts
+# Phase 2C deliverable per Phase 2 brief - parallel to live Algorithm; the
+# canonical Algorithm flip is a future-RFC decision, not Phase 2's job.
+
+phase: build
+sequence: "4/7"
+header_emoji: "🔨"
+voice_message: "Entering the Build phase."
+
+# PRD frontmatter fields the phase MUST update on entry. BUILD bumps
+# phase: build and updated. Compiler iteration preserves source order
+# (yaml@2.8.3 default).
+prd_updates:
+  phase: build
+  updated: "{timestamp}"
+
+# Suffix appended verbatim from v0.0.1.md so the compiled FIRST ACTION
+# sentence is byte-identical. The capability-invocation enforcement is
+# the heart of BUILD - text-only output without tool calls is theater
+# (see also OBSERVE invocation_obligation gate, OBSERVE -> BUILD
+# accountability chain).
+first_action_suffix: "**INVOKE each selected capability via tool call.** Every skill: call via `Skill` tool. Every agent: call via `Task` tool. There is NO text-only alternative. Writing \"**FirstPrinciples decomposition:**\" without calling `Skill(\"FirstPrinciples\")` is NOT invocation — it's theater. Every capability selected in OBSERVE MUST have a corresponding `Skill` or `Task` tool call in BUILD or EXECUTE."
+
+# OUTPUT slots, rendered in the order declared. BUILD in v0.0.1.md does
+# not have a dedicated OUTPUT scaffolding block - it transitions into
+# preparation steps and the Pre-Delegation Contract guidance. The
+# compiler's emitted OUTPUT block is the permitted additive structural
+# delta per RFC Section 6.4 (header + FIRST ACTION are the byte-identical
+# surface; consolidated OUTPUT label is a structural addition).
+output_slots:
+  - name: preparation
+    label: "🔨 PREPARATION"
+    template: "[Any preparation that's required before execution.]"
+  - name: decisions_to_prd
+    label: "📝 DECISIONS"
+    template: "[Edit PRD `## Decisions` section directly when making non-obvious decisions.]"
+
+# Per-phase gates. Encodes Pre-Delegation Contract (MANDATORY before
+# parallel agent spawning) and Agent Composition Convention obligations
+# the spec marks MANDATORY at BUILD.
+gates:
+  - id: capability_invocation
+    type: assertion
+    rule: "Every capability selected in OBSERVE MUST have a corresponding Skill or Task tool call in BUILD or EXECUTE; text-only output is NOT invocation"
+  - id: pre_delegation_contract
+    type: assertion
+    rule: "When spawning 2+ agents on related parts of the same system, define a delegation contract in PRD `## Decisions` BEFORE launching: naming conventions, integration boundaries, shared interfaces, output format"
+  - id: agent_composition_convention
+    type: assertion
+    rule: "Distinct-perspective agents (councils, debates, reviews, red teams) MUST be composed from agents skill traits via `bun run ~/.claude/skills/agents/Tools/ComposeAgent.ts`; subagent_type: \"general-purpose\" for all composed agents (model-routed agents like ClaudeResearcher are exempt)"
+
+# Must-actions the phase performs. Inventory for linter / downstream tools.
+must_actions:
+  - announce_voice
+  - update_prd_frontmatter
+  - emit_phase_header
+  - invoke_selected_capabilities
+  - write_decisions_to_prd
+
+# Reserved per RFC Section 7.1.3 - unknown frontmatter keys MUST survive
+# compile + eject unchanged. Empty for BUILD.
+raw_frontmatter: {}

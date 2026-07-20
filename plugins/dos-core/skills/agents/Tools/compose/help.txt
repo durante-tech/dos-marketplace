@@ -1,0 +1,105 @@
+
+================================================================================
+ ComposeAgent CLI — STABLE INTER-PACK CONTRACT  (versioned, additive-only)
+================================================================================
+ This flag surface is a GOVERNED contract, not a frozen one. Policy:
+
+   * additive-only — new flags may be added at any time.
+   * no rename / no removal of an existing flag without a deprecation cycle
+     (one minor version of warn-on-use overlap before a flag disappears).
+   * the council, promote, and save flags are FROZEN: names + semantics fixed.
+
+ INVOCATION MODES (two):
+   1. shell-out string   — callers exec `bun run ComposeAgent.ts <flags>`
+      e.g. FeatureDelivery/CouncilGate, Thinking/Council,
+      MemPalace/DeepExplore, and github skill workflows.
+   2. programmatic import — callers import the compose/ library as a module
+      e.g. MakerkitTeam/src/Tools/InvokeAgent.ts and
+      FastAPIStarterTeam/src/Tools/InvokeAgent.ts.
+
+ CONSUMERS: 16+ DOS files depend on this surface (the 2 programmatic callers
+ above import it; the rest shell out). Treat the OPTIONS block below as the
+ wire format. Parity (this file <-> parseArgs.ts) is enforced by
+ compose/cli-contract-parity.test.ts.
+================================================================================
+
+ComposeAgent - Compose dynamic agents from traits
+
+USAGE:
+  bun run ComposeAgent.ts [options]
+
+OPTIONS:
+  -t, --task <desc>    Task description (traits will be inferred)
+  -r, --traits <list>  Comma-separated trait keys (security,skeptical,thorough)
+  -o, --output <fmt>   Output format: prompt (default), json, yaml, summary
+  --timing <tier>      Timing scope: fast, standard (default), deep
+  -l, --list           List all available traits
+  -c, --council <type> Generate a 4-agent council: technical, product, security, brand
+  -s, --save           Save composed agent to ~/.claude/custom-agents/
+  --search <query>     Search for trait suggestions from natural language
+  --criteria <list>    ISC criteria to inject into agent prompt (comma-separated)
+  --analytics          Show trait composition usage analytics
+  --list-saved         List all saved custom agents
+  --load <name>        Load a saved custom agent's prompt
+  --delete <name>      Delete a saved custom agent
+
+RFC-0018 Phase 1 — promotion bridge:
+  --promote <slug>     Promote saved composition to ~/.claude/agents/<name>.md
+                       Consults N-session gate unless --force-promote passed
+  --demote <slug>      Inverse of --promote (refuses non-ComposeAgent files)
+  --ephemeral          Switch --promote to ephemeral lane: emit --agents JSON
+  --ephemeral-exec     With --ephemeral, also re-exec claude (destroys session)
+  --promote-n-sessions <N>   N-session gate threshold (default 3)
+  --freshness-days <D>       Freshness window in days (default 90)
+  --promote-min-days <D>     Require oldest/newest spread ≥ D days (default 0)
+  --promote-min-persisted-ratio <R>   Require persisted/total ≥ R (default 0)
+  --force-promote      Bypass gate; audit row written to SECURITY dir
+  --scope <scope>      Target scope: user (default) or project
+  --tools <csv>        Tool allowlist (default "Read, Grep, Glob")
+  --format <fmt>       Promotion target: claude-agent (default) or cursor-rule
+                       (RFC-0013 dual-harness; incompatible with --ephemeral)
+  --auto-attach-globs <globs>   cursor-rule only: rule globs (default "**/*")
+  --always-apply       cursor-rule only: set alwaysApply frontmatter true
+  --dry-run            Show what would happen; no filesystem writes
+
+  -h, --help           Show this help
+
+CONFIGURATION:
+  Base traits:    ~/.claude/skills/agents/Data/Traits.yaml
+  User traits:    ~/.claude/DOS/USER/SKILLCUSTOMIZATIONS/Agents/Traits.yaml
+  Custom agents:  ~/.claude/custom-agents/
+
+  User traits are merged over base (user takes priority).
+  Add your custom voices, personalities, and prosody settings in the user file.
+
+EXAMPLES:
+  # Infer traits from task and save
+  bun run ComposeAgent.ts -t "Review this security architecture" --save
+
+  # Specify traits explicitly
+  bun run ComposeAgent.ts -r "security,skeptical,adversarial,thorough"
+
+  # Save and get JSON output
+  bun run ComposeAgent.ts -t "Analyze competitors" -o json --save
+
+  # List saved custom agents
+  bun run ComposeAgent.ts --list-saved
+
+  # Load a saved agent
+  bun run ComposeAgent.ts --load "security-skeptical"
+
+  # Delete a saved agent
+  bun run ComposeAgent.ts --delete "security-skeptical"
+
+  # Generate a 4-agent technical council
+  bun run ComposeAgent.ts --council technical -t "Review API architecture"
+
+  # See all available traits (base + user merged)
+  bun run ComposeAgent.ts --list
+
+OUTPUT (json format includes):
+  - name, traits, voice, voice_id, color
+  - voice_settings: { stability, similarity_boost, style, speed, use_speaker_boost }
+  - prompt (complete agent prompt)
+
+  Colors are unique per trait combination - same traits always get same color.

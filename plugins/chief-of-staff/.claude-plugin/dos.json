@@ -1,0 +1,9 @@
+{
+  "pack": "chief-of-staff",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/chief-of-staff/src/"
+}

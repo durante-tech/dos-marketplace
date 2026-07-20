@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "dream-team",
+  "displayName": "DOS dream-team",
+  "description": "Assemble a world-class virtual council of named industry experts to evaluate, critique, and evolve user-facing content. 7 specialist roles channeling real frameworks (Peep Laja's CRO, Joanna Wiebe's conversion copy, Katie Dill's Stripe-caliber design, etc.).",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

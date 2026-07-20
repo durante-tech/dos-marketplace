@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "durante-dos",
+  "owner": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "description": "DuranteOS (DOS) — the Durante Operating System as Claude Code plugins. dos-core is the base substrate every pack-plugin requires; the remaining plugins are the public DOS capability packs.",
+  "plugins": [
+    {
+      "name": "dos-core",
+      "source": "./plugins/dos-core",
+      "description": "DOS base substrate: infra packs, Algorithm doctrine, core hooks, MemPalace MCP, settings fragments. Install this first — every DOS pack-plugin requires it."
+    },
+    {
+      "name": "archetypes",
+      "source": "./plugins/archetypes",
+      "description": "Feature-archetype completeness matrices — market-grounded, tiered (table-stakes/expected/delighter) capability checklists with seed ISCs, plus gap audits of shipped features and PLAN-time scope seeding with explicit deferral ledgers. Closes the solo-builder breadth gap (depth-verified features th..."
+    },
+    {
+      "name": "brand",
+      "source": "./plugins/brand",
+      "description": "Brand identity intelligence and definition. Research, strategy, naming, verbal, visual, audit, handoff, logo design, and icon systems. Three-layer token architecture (option/decision/component). 9-agent parallel research. Produces brand token specs consumed by design-system skill for code impleme...",
+      "category": "brand"
+    },
+    {
+      "name": "chief-of-staff",
+      "source": "./plugins/chief-of-staff",
+      "description": "Your local-first chief of staff — triages inbox, drafts briefs in your voice, captures commitments, and delivers morning briefs.",
+      "category": "operations"
+    },
+    {
+      "name": "cinematic-landing",
+      "source": "./plugins/cinematic-landing",
+      "description": "Build cinematic, Awwwards-level landing pages through a tiered delivery pipeline. Audit, PRD, Tier 1 (quick wins), Tier 2 (scroll-driven storytelling), Tier 3 (WebGL, sound, micro-animations). Concrete component patterns, not vague delegation.",
+      "category": "engineering"
+    },
+    {
+      "name": "cockburn",
+      "source": "./plugins/cockburn",
+      "description": "Channel Alistair Cockburn — review architectures through the Hexagonal/Ports-and-Adapters lens, write use cases at the right goal level, pick the lightest Crystal-family methodology that fits team size and criticality. Verbatim quote bank from Writing Effective Use Cases, Agile Software Developme...",
+      "category": "engineering"
+    },
+    {
+      "name": "content-analysis",
+      "source": "./plugins/content-analysis",
+      "description": "Content extraction and analysis — wisdom extraction from videos, podcasts, articles, and YouTube.",
+      "category": "content"
+    },
+    {
+      "name": "context-search",
+      "source": "./plugins/context-search",
+      "description": "Search across prior DOS work and conversation history — search PRDs, git history, session names, and work directories with a single slash command, standalone or paired with a task.",
+      "category": "research"
+    },
+    {
+      "name": "contract-review",
+      "source": "./plugins/contract-review",
+      "description": "Multi-agent legal contract analysis team for SaaS/service agreements. 4 specialized agents (Risk, Commercial, Compliance, Synthesis) review contracts in parallel and produce a traffic-light redline report.",
+      "category": "legal"
+    },
+    {
+      "name": "design-bundle",
+      "source": "./plugins/design-bundle",
+      "description": "Builds a fresh dos-prisma-saas-kit fork into a Claude Design System form-ready, launch-ready brand operating system. Configures the fork, mines DOS/sibling/fork/MEMORY context, runs competitive and ICP research, captures decisions, and creates <repo>/claude-design-system-bundle/ with DESIGN.md, c...",
+      "category": "branding"
+    },
+    {
+      "name": "design-system",
+      "source": "./plugins/design-system",
+      "description": "Extract, initialize, manage, and apply AI-native design systems via a DESIGN.md file. Deterministic UI generation from semantic design tokens -- colors, typography, spacing, and component blueprints. Accepts brand token specs from brand skill.",
+      "category": "engineering"
+    },
+    {
+      "name": "discover",
+      "source": "./plugins/discover",
+      "description": "Discovery conductor — interview an operator's clear-but-unwritten feature intent inside a dos-prisma-saas-kit fork and emit the validated, constraint-first rich folder that /forge Tier 1 consumes. Sits BEFORE /forge.",
+      "category": "delivery"
+    },
+    {
+      "name": "dispatch",
+      "source": "./plugins/dispatch",
+      "description": "Blog post, weekly dispatch, and newsletter authoring with mandatory metered research as Step 1. Every post starts with a research skill invocation so claims are citation-backed and credit-metered, not hallucinated from training data.",
+      "category": "content"
+    },
+    {
+      "name": "dream-team",
+      "source": "./plugins/dream-team",
+      "description": "Assemble a world-class virtual council of named industry experts to evaluate, critique, and evolve user-facing content. 7 specialist roles channeling real frameworks (Peep Laja's CRO, Joanna Wiebe's conversion copy, Katie Dill's Stripe-caliber design, etc.).",
+      "category": "engineering"
+    },
+    {
+      "name": "eric-evans",
+      "source": "./plugins/eric-evans",
+      "description": "Channel Eric Evans — author of Domain-Driven Design (the Blue Book, 2003), founder of Domain Language Inc., creator of the Bounded Context, Ubiquitous Language, Context Map, and Aggregate as load-bearing primitives. Speaks as \"I\" — strategic, deliberate, modeller-with-domain-expert. Knows when to...",
+      "category": "engineering"
+    },
+    {
+      "name": "fastapi-starter-team",
+      "source": "./plugins/fastapi-starter-team",
+      "description": "Orchestrates a 13-agent team for dos-fastapi-starter across product, API/schema/architecture, backend/database/agents, security, QA/E2E, DevOps, and docs. Runs deliver, fix, refactor, review, validate, explore, and a PR review-execute loop that turns findings into a TODO checklist on a side branch."
+    },
+    {
+      "name": "feathers",
+      "source": "./plugins/feathers",
+      "description": "Channel Michael Feathers — author of Working Effectively with Legacy Code (2004) and Working Effectively With Unit Tests (2014), founder of R7K Research & Conveyance. Speaks as \"I\" — surgical, archaeological, methodical, never-blame-the-past. Knows when to step aside (greenfield TDD, code already...",
+      "category": "engineering"
+    },
+    {
+      "name": "feature-delivery",
+      "source": "./plugins/feature-delivery",
+      "description": "Stack-agnostic feature delivery pipeline — classification tiers, structured specs, council decision gates, multi-perspective review, ship automation. For kit-scaffolded repos prefer MakerkitTeam (Prisma SaaS Kit) or FastAPIStarterTeam (dos-fastapi-starter) which carry stack-specific roster awaren...",
+      "category": "engineering"
+    },
+    {
+      "name": "fowler",
+      "source": "./plugins/fowler",
+      "description": "Channel Martin Fowler — diagnose code smells (Ch. 3 with Beck) and prescribe named refactorings from the catalog, define architecture and practice terms in bliki style with tradeoffs, name the right PoEAA / microservices / DSL pattern for the context. Knows when to step aside (FP, real-time, very...",
+      "category": "engineering"
+    },
+    {
+      "name": "github",
+      "source": "./plugins/github",
+      "description": "GitHub PR fleet coordinator — list open PRs, orchestrate multi-perspective team reviews (Cockburn/Fowler/UncleBob/Sentinel), post comments, propose fixes, and gate merges with explicit approval. Wraps the gh CLI; the agent is the team leader.",
+      "category": "engineering"
+    },
+    {
+      "name": "greg-young",
+      "source": "./plugins/greg-young",
+      "description": "Channel Greg Young — coiner of CQRS (Command-Query Responsibility Segregation, 2010), founder of Event Store / Kurrent, practical authority on Event Sourcing. Speaks as \"I\" — blunt, inventor's-license, confessional, willing to retract earlier positions. Production-systems grounding (banks, exchan...",
+      "category": "engineering"
+    },
+    {
+      "name": "growth-program",
+      "source": "./plugins/growth-program",
+      "description": "Run a product's social-media presence + growth campaign program end-to-end — brand & channel strategy, a multi-channel campaign calendar, a recurring creative/materials engine, ongoing publish/engage/measure social ops, AND a GEO/AEO pillar (be the default answer when a human or LLM asks for the ...",
+      "category": "growth"
+    },
+    {
+      "name": "ios-starter",
+      "source": "./plugins/ios-starter",
+      "description": "Entry card for the dos-ios-starter — a native iOS foundation built on SwiftUI + @Observable + Tuist + swift-openapi-generator + backend JWT via Keychain + OpenTelemetry to Pydantic Logfire. v0.1.0 scaffold-only — the scaffold/extend workflows (Bootstrap, AddFeatureModule, WireOpenAPISpec, AddSoci...",
+      "category": "engineering"
+    },
+    {
+      "name": "kent-beck",
+      "source": "./plugins/kent-beck",
+      "description": "Channel Kent Beck — TDD inventor, Extreme Programming founder, co-author of Refactoring, author of Tidy First and the Empirical Software Design Substack. Speaks as \"I\" — investigative practitioner inside the experiment, not anthropologist outside it. Knows when to step aside (formal verification,...",
+      "category": "engineering"
+    },
+    {
+      "name": "makerkit-team",
+      "source": "./plugins/makerkit-team",
+      "description": "Orchestrates a 13-agent delivery team (PM, SM, UX, UI, Architect, Frontend, Backend, DB, Security, QA, E2E, DevOps, Writer) for the dos-prisma-saas-kit Makerkit framework and its forks. Full dev-team motions — deliver, fix, refactor, review, validate, explore. Includes a PR review-execute loop (r..."
+    },
+    {
+      "name": "media",
+      "source": "./plugins/media",
+      "description": "Visual, audio, and video content creation — illustrations, diagrams, infographics, thumbnails, comics, speech and voice generation, AI video, image editing, music, and programmatic video via Remotion.",
+      "category": "media"
+    },
+    {
+      "name": "motion-primitives",
+      "source": "./plugins/motion-primitives",
+      "description": "Catalog of 33 production-grade animated UI components (Motion/Framer Motion + Tailwind CSS) with copy-paste source, docs, and examples bundled offline. Adds or enhances UI animations and micro-interactions in React/Next.js projects, or runs a gated design-system migration of a component subtree a..."
+    },
+    {
+      "name": "openrouter",
+      "source": "./plugins/openrouter",
+      "description": "Multi-vendor LLM inference routed through Studio's credit-metered gateway. Chat completions + live model catalogue for 300+ models (Anthropic, OpenAI, Google, Meta, Mistral, xAI, etc.) via one unified endpoint.",
+      "category": "inference"
+    },
+    {
+      "name": "pragmatic",
+      "source": "./plugins/pragmatic",
+      "description": "Channel Andy Hunt + Dave Thomas (the Pragmatic Programmers) — find the right numbered Tip from the catalog of 100 (1st ed 70 / 20th anniv 100), diagnose anti-patterns through Broken Windows / Boiled Frog / Programming by Coincidence, manage your career via Knowledge Portfolio + Dreyfus model. Spe...",
+      "category": "engineering"
+    },
+    {
+      "name": "ref",
+      "source": "./plugins/ref",
+      "description": "Documentation lookup for libraries, frameworks, SDKs, and APIs — routed through Studio's credit-metered gateway. Search across public docs (and private if entitled) and read URLs as markdown via api.ref.tools.",
+      "category": "inference"
+    },
+    {
+      "name": "research",
+      "source": "./plugins/research",
+      "description": "Comprehensive research and content extraction — quick/standard/extensive/deep modes with multi-agent parallel research, content retrieval, AI trends analysis, library/SDK docs lookup via Ref, and 242+ Fabric patterns.",
+      "category": "research"
+    },
+    {
+      "name": "sandi-metz",
+      "source": "./plugins/sandi-metz",
+      "description": "Channel Sandi Metz — author of Practical Object-Oriented Design in Ruby (POODR, 2012/2018) and 99 Bottles of OOP (with Katrina Owen, 2017/2020), creator of the Four Rules and the worked-example refactoring pedagogy (bicycle, Gilded Rose, 99 Bottles song). Speaks as \"I\" — exacting, pedagogical, ru...",
+      "category": "engineering"
+    },
+    {
+      "name": "scraping",
+      "source": "./plugins/scraping",
+      "description": "Web scraping via progressive escalation (Bright Data proxy) and social media platform actors (Apify).",
+      "category": "engineering"
+    },
+    {
+      "name": "social-media",
+      "source": "./plugins/social-media",
+      "description": "Publish to and fetch analytics from Facebook Pages, Instagram Business accounts, and LinkedIn personal profiles via direct REST APIs (Graph v24.0 and LinkedIn /rest/posts).",
+      "category": "social-media"
+    },
+    {
+      "name": "startup-investor-docs",
+      "source": "./plugins/startup-investor-docs",
+      "description": "Generate, scan, and enhance investor documentation for startups at any funding stage. Produces pitch deck outlines, executive summaries, financial projections, market analysis, competitive landscape, and team narratives with stage-specific requirements for pre-seed through Series B+.",
+      "category": "sales"
+    },
+    {
+      "name": "stream-rig",
+      "source": "./plugins/stream-rig",
+      "description": "Build-in-public livestream operations layer for creators — orchestrates brand kit generation, OBS scene setup, Stream Deck profile, runtime phase control, and the post-stream content multiplier (transcript to newsletter, social posts, clips, show notes). Composes Brand, DesignSystem, Media, Conte...",
+      "category": "creator"
+    },
+    {
+      "name": "telos",
+      "source": "./plugins/telos",
+      "description": "Life OS and project analysis — goals, dependencies, beliefs, wisdom, books, movies, narrative points, interview extraction, McKinsey reports, and project dashboards.",
+      "category": "thinking"
+    },
+    {
+      "name": "thinking",
+      "source": "./plugins/thinking",
+      "description": "Multi-mode analytical and creative thinking — first principles decomposition, iterative depth analysis, creative brainstorming, multi-agent council debates, adversarial red teaming, world threat modeling, and scientific hypothesis testing.",
+      "category": "thinking"
+    },
+    {
+      "name": "uncle-bob",
+      "source": "./plugins/uncle-bob",
+      "description": "Channel Robert C. Martin's wisdom — diagnose code smells, coach SOLID/TDD/Clean Architecture principles, steel-man critics. Verbatim quote bank, Boy Scout discipline, \"X is a detail\" demotion stack. Knows when to step aside (performance, FP, distributed, ML, AI codegen).",
+      "category": "engineering"
+    },
+    {
+      "name": "us-metrics",
+      "source": "./plugins/us-metrics",
+      "description": "68 US economic indicators from FRED + EIA (Treasury/BLS/Census/BEA data is aggregated through FRED) with trend analysis and cross-metric correlation. Updates Substrate dataset, produces economic overviews.",
+      "category": "research"
+    },
+    {
+      "name": "wiki",
+      "source": "./plugins/wiki",
+      "description": "Agent-maintained knowledge vault — an interlinked OKF v0.1 markdown synthesis layer over immutable sources, with init, ingest, query, and lint workflows.",
+      "category": "research"
+    },
+    {
+      "name": "write-story",
+      "source": "./plugins/write-story",
+      "description": "Layered fiction writing system using Will Storr's storytelling science and Mark Forsyth's rhetorical figures. Constructs stories across seven simultaneous narrative dimensions from meaning to prose.",
+      "category": "content"
+    }
+  ]
+}

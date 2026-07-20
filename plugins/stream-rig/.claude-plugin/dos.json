@@ -1,0 +1,9 @@
+{
+  "pack": "stream-rig",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/stream-rig/src/"
+}

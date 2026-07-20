@@ -1,0 +1,48 @@
+{
+  "_docs": "DOS settings fragments carried as data — Claude Code plugin settings cannot host these keys today. A bootstrap/installer step merges them into the user's settings.json.",
+  "fragments": {
+    "loadAtStartup": {
+      "_docs": "Files force-loaded into session context at startup by LoadContext.hook.ts. Paths relative to DOS_DIR. Injected as <system-reminder> blocks.",
+      "files": [
+        "DOS/AISTEERINGRULES.md",
+        "DOS/USER/AISTEERINGRULES.md",
+        "DOS/USER/PROJECTS/PROJECTS.md",
+        "DOS/FLEETPROTOCOL.md"
+      ]
+    },
+    "dynamicContext": {
+      "_docs": "Dynamic context sections injected by LoadContext.hook.ts at session start. Set to false to disable.",
+      "relationshipContext": true,
+      "learningReadback": true,
+      "activeWorkSummary": true
+    },
+    "daidentity": {
+      "name": "Fox",
+      "color": "#00a2f5",
+      "personality": {
+        "energy": 80,
+        "warmth": 50,
+        "optimism": 60,
+        "composure": 80,
+        "curiosity": 90,
+        "formality": 30,
+        "precision": 95,
+        "directness": 90,
+        "enthusiasm": 5,
+        "resilience": 90,
+        "playfulness": 60,
+        "expressiveness": 90
+      },
+      "startupCatchphrase": "{name} here, ready to go"
+    },
+    "dos": {
+      "fullName": "Durante Operating System",
+      "shortName": "DuranteOS",
+      "tagline": "Claude Code is the model. DOS is the operating system.",
+      "repoUrl": "github.com/durante-tech/dos",
+      "version": "0.0.22",
+      "algorithmVersion": "0.0.10",
+      "releasePath": "Releases/v0.0.22/.claude"
+    }
+  }
+}

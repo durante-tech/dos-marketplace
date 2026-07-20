@@ -1,0 +1,11 @@
+{
+  "_comment": "PRD-B (Tailor Gen 56, operator-signed 2026-07-10; council provenance Gen-11 vcr Feathers seat). SINGLE SOURCE OF TRUTH for the mutating-action universe and the predicate-gate action set. Consumers: hooks/lib/mempalace.ts + Packs/mem-palace/src/Tools/dos-memory-status.ts import this JSON directly (no literals); _bridge_relay.py + mempalace_bridge.py load it with a guarded fallback (the relay is the wedged-daemon data-integrity path — a missing file must never break writes) whose parity is pinned by tests/test_write_actions_fixture.py. Editing an action set means editing THIS file; a literal re-appearing in any consumer is a regression the fixture tests catch. Lineage: the classifier truth-table fixture (bridge-classifier-truth-table.json) established this pattern.",
+  "write_actions": [
+    "add_drawer", "upsert_drawer", "update_drawer", "delete_drawer",
+    "add_kg_fact", "invalidate", "update_entity", "merge_entities",
+    "mine_file", "mine_dir", "mine_convos", "reconcile",
+    "build_closets", "rebuild_closets", "backfill_closets",
+    "append_reflection", "create_tunnel", "delete_tunnel", "batch"
+  ],
+  "predicate_gate_actions": ["add_kg_fact", "invalidate"]
+}

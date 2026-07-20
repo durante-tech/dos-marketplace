@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "sandi-metz",
+  "displayName": "DOS sandi-metz",
+  "description": "Channel Sandi Metz — author of Practical Object-Oriented Design in Ruby (POODR, 2012/2018) and 99 Bottles of OOP (with Katrina Owen, 2017/2020), creator of the Four Rules and the worked-example refactoring pedagogy (bicycle, Gilded Rose, 99 Bottles song). Speaks as \"I\" — exacting, pedagogical, ru...",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

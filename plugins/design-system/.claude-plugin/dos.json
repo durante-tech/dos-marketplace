@@ -1,0 +1,9 @@
+{
+  "pack": "design-system",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/design-system/src/"
+}

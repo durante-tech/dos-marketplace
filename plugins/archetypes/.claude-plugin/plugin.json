@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "archetypes",
+  "displayName": "DOS archetypes",
+  "description": "Feature-archetype completeness matrices — market-grounded, tiered (table-stakes/expected/delighter) capability checklists with seed ISCs, plus gap audits of shipped features and PLAN-time scope seeding with explicit deferral ledgers. Closes the solo-builder breadth gap (depth-verified features th...",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

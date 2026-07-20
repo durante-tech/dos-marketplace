@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "us-metrics",
+  "displayName": "DOS us-metrics",
+  "description": "68 US economic indicators from FRED + EIA (Treasury/BLS/Census/BEA data is aggregated through FRED) with trend analysis and cross-metric correlation. Updates Substrate dataset, produces economic overviews.",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

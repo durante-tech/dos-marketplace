@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "cinematic-landing",
+  "displayName": "DOS cinematic-landing",
+  "description": "Build cinematic, Awwwards-level landing pages through a tiered delivery pipeline. Audit, PRD, Tier 1 (quick wins), Tier 2 (scroll-driven storytelling), Tier 3 (WebGL, sound, micro-animations). Concrete component patterns, not vague delegation.",
+  "version": "0.0.22",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}
