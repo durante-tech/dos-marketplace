@@ -3,7 +3,7 @@
   "name": "dispatch",
   "displayName": "DOS dispatch",
   "description": "Blog post, weekly dispatch, and newsletter authoring with mandatory metered research as Step 1. Every post starts with a research skill invocation so claims are citation-backed and credit-metered, not hallucinated from training data.",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

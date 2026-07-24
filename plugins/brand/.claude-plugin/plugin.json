@@ -3,7 +3,7 @@
   "name": "brand",
   "displayName": "DOS brand",
   "description": "Brand identity intelligence and definition. Research, strategy, naming, verbal, visual, audit, handoff, logo design, and icon systems. Three-layer token architecture (option/decision/component). 9-agent parallel research. Produces brand token specs consumed by design-system skill for code impleme...",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

@@ -3,7 +3,7 @@
   "name": "kent-beck",
   "displayName": "DOS kent-beck",
   "description": "Channel Kent Beck — TDD inventor, Extreme Programming founder, co-author of Refactoring, author of Tidy First and the Empirical Software Design Substack. Speaks as \"I\" — investigative practitioner inside the experiment, not anthropologist outside it. Knows when to step aside (formal verification,...",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

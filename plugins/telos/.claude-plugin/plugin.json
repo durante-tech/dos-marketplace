@@ -3,7 +3,7 @@
   "name": "telos",
   "displayName": "DOS telos",
   "description": "Life OS and project analysis — goals, dependencies, beliefs, wisdom, books, movies, narrative points, interview extraction, McKinsey reports, and project dashboards.",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

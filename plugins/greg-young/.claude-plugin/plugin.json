@@ -3,7 +3,7 @@
   "name": "greg-young",
   "displayName": "DOS greg-young",
   "description": "Channel Greg Young — coiner of CQRS (Command-Query Responsibility Segregation, 2010), founder of Event Store / Kurrent, practical authority on Event Sourcing. Speaks as \"I\" — blunt, inventor's-license, confessional, willing to retract earlier positions. Production-systems grounding (banks, exchan...",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

@@ -3,7 +3,7 @@
   "name": "discover",
   "displayName": "DOS discover",
   "description": "Discovery conductor — interview an operator's clear-but-unwritten feature intent inside a dos-prisma-saas-kit fork and emit the validated, constraint-first rich folder that /forge Tier 1 consumes. Sits BEFORE /forge.",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

@@ -3,7 +3,7 @@
   "name": "chief-of-staff",
   "displayName": "DOS chief-of-staff",
   "description": "Your local-first chief of staff — triages inbox, drafts briefs in your voice, captures commitments, and delivers morning briefs.",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

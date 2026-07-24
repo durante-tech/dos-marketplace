@@ -3,7 +3,7 @@
   "name": "eric-evans",
   "displayName": "DOS eric-evans",
   "description": "Channel Eric Evans — author of Domain-Driven Design (the Blue Book, 2003), founder of Domain Language Inc., creator of the Bounded Context, Ubiquitous Language, Context Map, and Aggregate as load-bearing primitives. Speaks as \"I\" — strategic, deliberate, modeller-with-domain-expert. Knows when to...",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

@@ -3,7 +3,7 @@
   "name": "write-story",
   "displayName": "DOS write-story",
   "description": "Layered fiction writing system using Will Storr's storytelling science and Mark Forsyth's rhetorical figures. Constructs stories across seven simultaneous narrative dimensions from meaning to prose.",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

@@ -3,7 +3,7 @@
   "name": "motion-primitives",
   "displayName": "DOS motion-primitives",
   "description": "Catalog of 33 production-grade animated UI components (Motion/Framer Motion + Tailwind CSS) with copy-paste source, docs, and examples bundled offline. Adds or enhances UI animations and micro-interactions in React/Next.js projects, or runs a gated design-system migration of a component subtree a...",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

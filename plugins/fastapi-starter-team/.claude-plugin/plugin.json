@@ -3,7 +3,7 @@
   "name": "fastapi-starter-team",
   "displayName": "DOS fastapi-starter-team",
   "description": "Orchestrates a 13-agent team for dos-fastapi-starter across product, API/schema/architecture, backend/database/agents, security, QA/E2E, DevOps, and docs. Runs deliver, fix, refactor, review, validate, explore, and a PR review-execute loop that turns findings into a TODO checklist on a side branch.",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"
