@@ -3,7 +3,7 @@
   "name": "context-search",
   "displayName": "DOS context-search",
   "description": "Search across prior DOS work and conversation history — search PRDs, git history, session names, and work directories with a single slash command, standalone or paired with a task.",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

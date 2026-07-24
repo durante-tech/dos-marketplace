@@ -3,7 +3,7 @@
   "name": "startup-investor-docs",
   "displayName": "DOS startup-investor-docs",
   "description": "Generate, scan, and enhance investor documentation for startups at any funding stage. Produces pitch deck outlines, executive summaries, financial projections, market analysis, competitive landscape, and team narratives with stage-specific requirements for pre-seed through Series B+.",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

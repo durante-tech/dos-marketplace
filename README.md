@@ -67,4 +67,4 @@ Install additional plugins the same way:
 - **wiki** — Agent-maintained knowledge vault — an interlinked OKF v0.1 markdown synthesis layer over immutable sources, with init, ingest, query, and lint workflows.
 - **write-story** — Layered fiction writing system using Will Storr's storytelling science and Mark Forsyth's rhetorical figures. Constructs stories across seven simultaneous narrative dimensions from meaning to prose.
 
-DOS release version: 0.0.24
+DOS release version: 0.0.23

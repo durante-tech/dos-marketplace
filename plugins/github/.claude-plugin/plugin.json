@@ -3,7 +3,7 @@
   "name": "github",
   "displayName": "DOS github",
   "description": "GitHub PR fleet coordinator — list open PRs, orchestrate multi-perspective team reviews (Cockburn/Fowler/UncleBob/Sentinel), post comments, propose fixes, and gate merges with explicit approval. Wraps the gh CLI; the agent is the team leader.",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

@@ -3,7 +3,7 @@
   "name": "feature-delivery",
   "displayName": "DOS feature-delivery",
   "description": "Stack-agnostic feature delivery pipeline — classification tiers, structured specs, council decision gates, multi-perspective review, ship automation. For kit-scaffolded repos prefer MakerkitTeam (Prisma SaaS Kit) or FastAPIStarterTeam (dos-fastapi-starter) which carry stack-specific roster awaren...",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

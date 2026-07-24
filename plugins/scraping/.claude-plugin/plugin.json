@@ -3,7 +3,7 @@
   "name": "scraping",
   "displayName": "DOS scraping",
   "description": "Web scraping via progressive escalation (Bright Data proxy) and social media platform actors (Apify).",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

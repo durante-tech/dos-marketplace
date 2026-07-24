@@ -3,7 +3,7 @@
   "name": "uncle-bob",
   "displayName": "DOS uncle-bob",
   "description": "Channel Robert C. Martin's wisdom — diagnose code smells, coach SOLID/TDD/Clean Architecture principles, steel-man critics. Verbatim quote bank, Boy Scout discipline, \"X is a detail\" demotion stack. Knows when to step aside (performance, FP, distributed, ML, AI codegen).",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

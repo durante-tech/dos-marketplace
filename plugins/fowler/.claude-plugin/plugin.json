@@ -3,7 +3,7 @@
   "name": "fowler",
   "displayName": "DOS fowler",
   "description": "Channel Martin Fowler — diagnose code smells (Ch. 3 with Beck) and prescribe named refactorings from the catalog, define architecture and practice terms in bliki style with tradeoffs, name the right PoEAA / microservices / DSL pattern for the context. Knows when to step aside (FP, real-time, very...",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

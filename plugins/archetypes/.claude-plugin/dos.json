@@ -1,9 +1,9 @@
 {
-  "pack": "Archetypes",
+  "pack": "archetypes",
   "visibility": "public",
   "requires": [
     "dos-core"
   ],
   "emitter": "plugin-marketplace",
-  "compiledFrom": "Packs/Archetypes/src/"
+  "compiledFrom": "Packs/archetypes/src/"
 }

@@ -3,7 +3,7 @@
   "name": "design-bundle",
   "displayName": "DOS design-bundle",
   "description": "Builds a fresh dos-prisma-saas-kit fork into a Claude Design System form-ready, launch-ready brand operating system. Configures the fork, mines DOS/sibling/fork/MEMORY context, runs competitive and ICP research, captures decisions, and creates <repo>/claude-design-system-bundle/ with DESIGN.md, c...",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

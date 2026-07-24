@@ -3,7 +3,7 @@
   "name": "dos-core",
   "displayName": "DOS Core",
   "description": "DuranteOS base substrate: the infra packs (Agents, DamageControl, MemPalace, PRD, Sentinel, SessionAutopsy, Utilities), the Algorithm doctrine, the core hook set, the MemPalace MCP server, and DOS settings fragments. Every DOS pack-plugin requires dos-core.",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

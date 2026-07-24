@@ -3,7 +3,7 @@
   "name": "makerkit-team",
   "displayName": "DOS makerkit-team",
   "description": "Orchestrates a 13-agent delivery team (PM, SM, UX, UI, Architect, Frontend, Backend, DB, Security, QA, E2E, DevOps, Writer) for the dos-prisma-saas-kit Makerkit framework and its forks. Full dev-team motions — deliver, fix, refactor, review, validate, explore. Includes a PR review-execute loop (r...",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

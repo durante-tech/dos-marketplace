@@ -3,7 +3,7 @@
   "name": "cockburn",
   "displayName": "DOS cockburn",
   "description": "Channel Alistair Cockburn — review architectures through the Hexagonal/Ports-and-Adapters lens, write use cases at the right goal level, pick the lightest Crystal-family methodology that fits team size and criticality. Verbatim quote bank from Writing Effective Use Cases, Agile Software Developme...",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

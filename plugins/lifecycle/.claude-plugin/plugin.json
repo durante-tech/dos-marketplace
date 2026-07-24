@@ -3,7 +3,7 @@
   "name": "lifecycle",
   "displayName": "DOS lifecycle",
   "description": "Capability lifecycle discipline for DOS — deprecate, migrate, and retire packs, skills, hooks, tools, and adopted imports with verified closure.",
-  "version": "0.0.24",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"
