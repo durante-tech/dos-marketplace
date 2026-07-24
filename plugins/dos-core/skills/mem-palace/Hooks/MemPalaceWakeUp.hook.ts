@@ -306,6 +306,46 @@ interface OpenThread {
   updated: string;
 }
 
+// Per-section fact cap — shared by the render layer AND the server-side
+// `limit` arg (dos#550): the bridge now returns at most this many rows per
+// predicate instead of the full fact set.
+const FACT_CAP = 10;
+
+/** Why the live-KG path yielded no block (dos#550 banner honesty). */
+export type LiveCause = "ok" | "zero-facts" | "error";
+
+/**
+ * Pick the snapshot-fallback prefix + degraded flag from the live-KG cause.
+ * zero-facts is an HONEST, common state (empty wings) — it gets a mild note,
+ * not the scary timeout banner, and does not count as degraded. An undefined
+ * cause (older stubs/tests) preserves the pre-change timeout wording.
+ */
+/**
+ * Classify the live-KG outcome (JUDGE F1, Gen 178): bridgeAsync returns
+ * {ok:false} on timeout WITHOUT throwing, so an all-timeout stop must not
+ * masquerade as an honestly-empty wing. Any failed call forfeits the right
+ * to claim "zero facts".
+ */
+export function liveCauseFrom(allCallsOk: boolean, totalFacts: number): LiveCause {
+  if (totalFacts > 0) return "ok";
+  return allCallsOk ? "zero-facts" : "error";
+}
+
+export function fallbackSnapshotPrefix(cause?: LiveCause): { prefix: string; degraded: boolean } {
+  if (cause === "zero-facts") {
+    return {
+      prefix:
+        "> **(cached snapshot — no live-KG facts for this wing in the last 24h; snapshot may be stale)**\n\n",
+      degraded: false,
+    };
+  }
+  return {
+    prefix:
+      "> **(cached snapshot — live-KG read timed out under SessionStart load; content may not reflect this session)**\n\n",
+    degraded: true,
+  };
+}
+
 /**
  * Sub-200ms live-KG query for the three "Last Session" predicates.
  * Returns null when ALL three calls fail or yield zero facts (signals the
@@ -321,14 +361,19 @@ export async function queryLiveSessionContext(wing: string | null): Promise<{
   block: string | null;
   factCount: number;
   ms: number;
+  cause?: LiveCause;
 }> {
   const startMs = Date.now();
   if (!existsSync(BRIDGE_PATH) || !existsSync(join(MEMPALACE_DIR, "palace"))) {
-    return { block: null, factCount: 0, ms: Date.now() - startMs };
+    return { block: null, factCount: 0, ms: Date.now() - startMs, cause: "error" };
   }
 
   const buildArgs = (predicate: string): Record<string, unknown> => {
-    const args: Record<string, unknown> = { predicate, hours: 24 };
+    // hours + limit are honored SERVER-SIDE as of dos#550 (Forge Gen 178) —
+    // the bridge returns ≤FACT_CAP newest rows in-window instead of the full
+    // fact set (~237KB/call at 54k+ drawers). Client-side recency filter below
+    // stays as belt for pre-upgrade daemons.
+    const args: Record<string, unknown> = { predicate, hours: 24, limit: FACT_CAP };
     if (wing) args.wing = wing;
     return args;
   };
@@ -364,21 +409,24 @@ export async function queryLiveSessionContext(wing: string | null): Promise<{
     const learned = extract(learnedRes);
 
     const totalFacts = workedOn.length + decided.length + learned.length;
+    // JUDGE F1 (Gen 178): a timed-out call comes back {ok:false} without
+    // throwing — collapse of !ok into [] must NOT read as an empty wing.
+    const allCallsOk = workedOnRes.ok && decidedRes.ok && learnedRes.ok;
     if (totalFacts === 0) {
-      // All three predicates returned zero facts — defer to snapshot.
+      const cause = liveCauseFrom(allCallsOk, 0);
       console.error(
-        `[MemPalaceWakeUp] live-KG returned zero facts for wing=${wing || "global"} (24h window); falling through to snapshot`,
+        `[MemPalaceWakeUp] live-KG yielded zero facts for wing=${wing || "global"} (24h window, cause: ${cause}); falling through to snapshot`,
       );
-      return { block: null, factCount: 0, ms: Date.now() - startMs };
+      return { block: null, factCount: 0, ms: Date.now() - startMs, cause };
     }
 
     const openThreads = collectOpenThreads();
     const block = renderLiveBlock({ wing, workedOn, decided, learned, openThreads });
-    return { block, factCount: totalFacts, ms: Date.now() - startMs };
+    return { block, factCount: totalFacts, ms: Date.now() - startMs, cause: "ok" };
   } catch (err) {
     // PRD-H ISC-A4: NEVER swallow live-KG errors silently. Log + return null.
     console.error(`[MemPalaceWakeUp] live-KG synthesis failed (non-fatal): ${err}`);
-    return { block: null, factCount: 0, ms: Date.now() - startMs };
+    return { block: null, factCount: 0, ms: Date.now() - startMs, cause: "error" };
   }
 }
 
@@ -457,8 +505,8 @@ function renderLiveBlock(input: {
     return `- ${subj} — ${obj}${age}`;
   };
 
-  // Per-section caps — keep block under ~80 lines worst case.
-  const FACT_CAP = 10;
+  // Per-section caps — keep block under ~80 lines worst case (module-level
+  // FACT_CAP, shared with the server-side limit arg).
   const workedOnLines = workedOn.slice(0, FACT_CAP).map(factLine).join("\n");
   const decidedLines = decided.slice(0, FACT_CAP).map(factLine).join("\n");
   const learnedLines = learned.slice(0, FACT_CAP).map(factLine).join("\n");
@@ -499,6 +547,7 @@ function recordWakeupSource(entry: {
   kg_ms: number;
   fact_count: number;
   degraded: boolean;
+  cause?: LiveCause;
 }): void {
   try {
     const stateDir = getMemorySubdir("STATE");
@@ -511,6 +560,7 @@ function recordWakeupSource(entry: {
       kg_ms: entry.kg_ms,
       fact_count: entry.fact_count,
       degraded: entry.degraded,
+      cause: entry.cause,
     });
     appendFileSync(path, line + "\n");
   } catch {
@@ -549,7 +599,7 @@ export interface WakeupSequenceDeps {
   ensure?: (opts?: EnsureOptions) => Promise<EnsureResult>;
   query?: (
     wing: string | null,
-  ) => Promise<{ block: string | null; factCount: number; ms: number }>;
+  ) => Promise<{ block: string | null; factCount: number; ms: number; cause?: LiveCause }>;
   /** Test seam — receives 'ensure' then 'query' in invocation order. */
   onStep?: (step: 'ensure' | 'query') => void;
 }
@@ -570,7 +620,7 @@ export async function ensureThenQueryLiveContext(
   deps: WakeupSequenceDeps = {},
 ): Promise<{
   ensure: EnsureResult | null;
-  live: { block: string | null; factCount: number; ms: number };
+  live: { block: string | null; factCount: number; ms: number; cause?: LiveCause };
 }> {
   const ensureFn = deps.ensure ?? ensureDaemon;
   const queryFn = deps.query ?? queryLiveSessionContext;
@@ -613,18 +663,19 @@ async function main() {
     context = liveContext.block;
     source = "live-kg";
   } else {
-    // FALLBACK 1 (graceful — PRD-H Step 2): cached snapshot with degraded
-    // prefix so the operator can see the source is stale. NEVER silently
-    // serve a stale snapshot as if it were live (ISC-A4 / ISC-A5).
+    // FALLBACK 1 (graceful — PRD-H Step 2): cached snapshot with a prefix
+    // matched to the CAUSE (dos#550): zero-facts is an honest empty-wing
+    // state (mild note, not degraded); timeout/error keeps the loud degraded
+    // banner. NEVER silently serve a stale snapshot as if it were live
+    // (ISC-A4 / ISC-A5).
     const snapshot = trySnapshot(projectWing);
     if (snapshot) {
-      const prefix =
-        "> **(cached snapshot — live-KG read timed out under SessionStart load; content may not reflect this session)**\n\n";
-      context = prefix + snapshot;
+      const fallback = fallbackSnapshotPrefix(liveContext.cause);
+      context = fallback.prefix + snapshot;
       source = "snapshot";
-      degraded = true;
+      degraded = fallback.degraded;
       console.error(
-        "[MemPalaceWakeUp] live-KG path unavailable, served cached snapshot with degraded prefix",
+        `[MemPalaceWakeUp] live-KG path yielded no block (cause: ${liveContext.cause ?? "unknown"}), served cached snapshot`,
       );
     } else {
       // FALLBACK 2 (last-resort — PRD-H Step 2 / F3): ChromaDB wake_up.
@@ -645,11 +696,15 @@ async function main() {
   ]);
 
   if (context || lastCompaction || prdBacklog) {
+    // JUDGE F4 (Gen 178): the header label must agree with the degraded flag —
+    // a non-degraded zero-facts snapshot no longer wears the degraded label.
     const label =
       source === "live-kg"
         ? "live-kg"
         : source === "snapshot"
-          ? "snapshot — degraded"
+          ? degraded
+            ? "snapshot — degraded"
+            : "snapshot"
           : source === "chromadb"
             ? "chromadb"
             : source;
@@ -669,6 +724,7 @@ async function main() {
     kg_ms: liveContext.ms,
     fact_count: liveContext.factCount,
     degraded,
+    cause: liveContext.cause,
   });
 
   process.exit(0);

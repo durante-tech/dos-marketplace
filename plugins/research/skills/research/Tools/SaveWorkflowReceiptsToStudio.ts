@@ -79,9 +79,53 @@ export interface WorkflowReceipt {
   args_present: boolean | null;
   degraded: boolean | null;
   budget_spent: number | null;
+  /** RFC-0166 §4.1: per-model-tier output-token sums from sibling agent files. */
+  model_tiers: Record<string, number> | null;
   timestamp: string;
   transcript_dir: string;
   session_id: string;
+}
+
+
+/**
+ * RFC-0166 §4.1 (recursion-circle Tie-2): the cost meter. Sums output tokens
+ * per agent from the run's sibling `agent-*.jsonl` transcripts (message.usage)
+ * and attributes each agent's model from `agent-*.meta.json`. budget_spent =
+ * total output tokens across agents (the same unit the Workflow tool's
+ * budget.spent() reports); model_tiers = output tokens per model id.
+ * Fail-soft: unreadable files contribute nothing.
+ */
+export function collectRunUsage(runDir: string): { budget_spent: number | null; model_tiers: Record<string, number> | null } {
+  try {
+    const files = readdirSync(runDir);
+    const tiers: Record<string, number> = {};
+    let total = 0;
+    let sawAny = false;
+    for (const f of files.filter((f) => /^agent-.*\.jsonl$/.test(f))) {
+      let out = 0;
+      try {
+        for (const line of readFileSync(join(runDir, f), 'utf8').split('\n')) {
+          if (!line.includes('"usage"')) continue;
+          try {
+            const rec = JSON.parse(line);
+            const u = rec?.message?.usage;
+            if (u && typeof u.output_tokens === 'number') out += u.output_tokens;
+          } catch { /* partial line */ }
+        }
+      } catch { continue; }
+      let model = 'unknown';
+      try {
+        const metaRaw = readFileSync(join(runDir, f.replace(/\.jsonl$/, '.meta.json')), 'utf8');
+        model = JSON.parse(metaRaw)?.model ?? 'unknown';
+      } catch { /* no meta */ }
+      tiers[model] = (tiers[model] ?? 0) + out;
+      total += out;
+      sawAny = true;
+    }
+    return sawAny ? { budget_spent: total, model_tiers: tiers } : { budget_spent: null, model_tiers: null };
+  } catch {
+    return { budget_spent: null, model_tiers: null };
+  }
 }
 
 const RUN_ID_RE = /^wf_[a-z0-9-]+$/i;
@@ -117,6 +161,7 @@ export function synthesizeReceipt(
   workflow: string,
   journal: Array<{ type?: string }>,
   meta: { timestamp: string; transcriptDir: string; sessionId: string },
+  usage?: { budget_spent: number | null; model_tiers: Record<string, number> | null },
 ): WorkflowReceipt {
   const spawned = journal.filter((r) => r.type === 'started').length;
   const completed = journal.filter((r) => r.type === 'result').length;
@@ -129,7 +174,8 @@ export function synthesizeReceipt(
     agents_errored: Math.max(0, spawned - completed),
     args_present: null,
     degraded: null,
-    budget_spent: null,
+    budget_spent: usage?.budget_spent ?? null,
+    model_tiers: usage?.model_tiers ?? null,
     timestamp: meta.timestamp,
     transcript_dir: meta.transcriptDir,
     session_id: meta.sessionId,
@@ -203,11 +249,17 @@ export function discoverReceipts(projectsRoot: string, opts: DiscoverOpts): Work
           continue;
         }
         out.push(
-          synthesizeReceipt(runId, resolveWorkflowName(runId, scriptsDir), journal, {
-            timestamp: mtimeIso,
-            transcriptDir: join(wfRoot, runId),
-            sessionId: session,
-          }),
+          synthesizeReceipt(
+            runId,
+            resolveWorkflowName(runId, scriptsDir),
+            journal,
+            {
+              timestamp: mtimeIso,
+              transcriptDir: join(wfRoot, runId),
+              sessionId: session,
+            },
+            collectRunUsage(join(wfRoot, runId)),
+          ),
         );
       }
     }

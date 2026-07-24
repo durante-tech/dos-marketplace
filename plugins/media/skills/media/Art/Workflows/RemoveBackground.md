@@ -8,16 +8,6 @@ status: STABLE
 
 **Remove backgrounds from existing images using remove.bg API.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the RemoveBackground workflow in the Art skill to remove image backgrounds"
-```
-
-Running **RemoveBackground** in **Art**...
-
----
-
 ## Purpose
 
 Remove backgrounds from existing images to create transparent PNGs. Useful for:

@@ -6,16 +6,6 @@ status: STABLE
 
 # Technical Creativity with Gemini 3 Pro
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the TechnicalCreativityGemini3 workflow in the BeCreative skill to generate technical solutions"
-```
-
-Running **TechnicalCreativityGemini3** in **BeCreative**...
-
----
-
 ## Overview
 
 **Complementary workflow to be-creative skill for TECHNICAL creativity.**

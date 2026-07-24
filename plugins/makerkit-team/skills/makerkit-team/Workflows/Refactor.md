@@ -14,6 +14,10 @@ bestPath:
   - title: "Document"
     description: "Tech Writer updates any doc referencing renamed or moved symbols, when the refactor wasn't purely internal."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -115,6 +119,14 @@ Behavior-preserving improvement of existing code. Extract, rename, restructure, 
 **Skip when:** refactor was internal-only (no public API rename, no doc reference to renamed symbols).
 **Agent:** `writer`
 **Brief:** update any doc that references renamed/moved symbols. Cite each updated location.
+
+## Intent-to-Flag Mapping
+
+Refactor's only bun-CLI invocation is fixed by design — Phase 0 always runs the identical capability probe; which implementer picks up Phase 3 is decided by code-ownership (package path), not by a CLI flag.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun ~/.claude/skills/makerkit-team/Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 step 1 — capability manifest gate before planning; exit 1 STOPs the run. Re-cited in Phase 2 and Phase 4's `mcp__makerkit__run_checks` fallback notes as pointers to this same manifest, not additional invocations. |
 
 ## Operator Gates Summary
 

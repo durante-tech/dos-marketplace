@@ -8,16 +8,6 @@ status: STABLE
 
 **Compare speech models side-by-side with the same text to find the best voice for your use case.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CompareModels workflow in the Speech skill to compare TTS models"
-```
-
-Running **CompareModels** in **Speech**...
-
----
-
 ## Purpose
 
 The CompareModels workflow generates the same text across multiple speech models so you can listen and compare quality, speed, naturalness, and character. Instead of guessing which model fits your needs, hear them all and pick the winner.

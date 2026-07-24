@@ -87,3 +87,12 @@ The author seats above channel external authorities; **MemPalaceSage** is the fi
 **Seat composition pattern:** See `Workflows/Debate.md` § Specialist Seat Composition. Council spawns `Task({subagent_type: "<Specialist>", prompt: COUNCIL_DEBATE_ROUND_<N>_INSTRUCTIONS + transcript_so_far})`. The agent's startup loads its persona files automatically. No more parent-side prompt assembly.
 
 **Mixed councils:** Trait-composed seats (`general-purpose` + ComposeAgent) and specialist seats (native subagent_types) can coexist in the same debate. Round 2/3 transcript-passing concatenates output from both kinds verbatim — the specialist sees trait-agent positions and vice versa.
+
+**Seat return delivery (routes by TOOLSET):** read-only seats (the HarnessSkeptic /
+FitnessAnalyst / HooksNative class — no `SendMessage` in their toolset) deliver a round
+contribution as their FINAL transcript text; the orchestrator recovers it from the seat's
+transcript (newest agent jsonl in the session's project directory, last assistant text
+block). An idle notification from such a seat is a completion signal, not a delivery —
+never instruct a read-only seat to "send" or "post" its position (unexecutable; produces
+the idle-dance). Seats with `SendMessage` post their contribution AND leave it as final
+text.

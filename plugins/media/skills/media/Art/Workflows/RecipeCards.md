@@ -8,16 +8,6 @@ status: STABLE
 
 **Step-by-step visual recipes for processes and methodologies using brand aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the RecipeCards workflow in the Art skill to create recipe cards"
-```
-
-Running **RecipeCards** in **Art**...
-
----
-
 Creates **PROCESS RECIPE CARDS** — numbered steps with small illustrations for each action, combining procedural clarity with editorial style.
 
 ---

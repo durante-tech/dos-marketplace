@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose:** Search aphorism database by theme, keyword, author, or topic to discover relevant quotes.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the SearchAphorisms workflow in the Aphorisms skill to search quotes"
-```
-
-Running **SearchAphorisms** in **Aphorisms**...
-
----
-
 **When to Use:**
 - User wants to explore quotes on specific theme
 - User says "search aphorisms about [topic]", "find quotes on [theme]", "show me [keyword] quotes"

@@ -4,30 +4,7 @@ description: Process and extract content from a large PDF using Gemini 3 Pro.
 status: STABLE
 ---
 
----
-name: process-large-pdf-gemini-3
-description: Process large, complex PDFs using Gemini 3 Pro's native multimodal capabilities and 1M context window for comprehensive extraction, analysis, and structured data output
-trigger: "analyze large PDF", "extract from complex PDF", "process research paper", "multimodal PDF analysis", "Gemini 3 Pro PDF"
-use_cases:
-  - Research paper analysis and extraction
-  - Technical manual processing
-  - Legal document review
-  - Financial report extraction
-  - Newsletter content extraction
-  - Complex multi-format document processing
----
-
 # Process Large PDF with Gemini 3 Pro
-
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ProcessLargePdfGemini3 workflow in the Documents skill to process PDF"
-```
-
-Running the **ProcessLargePdfGemini3** workflow in the **Documents** skill to process PDF...
-
----
 
 ## Port form (RFC-0031 Phase 2 walking skeleton — Adapters STUBBED)
 

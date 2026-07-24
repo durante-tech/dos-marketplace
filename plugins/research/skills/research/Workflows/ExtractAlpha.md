@@ -3,6 +3,10 @@ name: Extract Alpha
 description: Extract 24-30 highest-alpha insights from content via deep-thinking analysis — surprise-prioritized, Paul Graham-style output
 status: STABLE
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "Research ExtractAlpha workflow has bespoke Output section with workflow-specific shape"

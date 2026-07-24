@@ -35,12 +35,6 @@ This workflow shells out to `bun ~/Durante/Tools/track-dag-walker.ts`. Map opera
 
 If a flag's value cannot be inferred from operator prompt, surface as decision artifact + AskUserQuestion at G-PLAN (Phase 2).
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running DeliverTrack workflow in TrackBootstrap skill to walk the track's sub-track PRDs through delivery"
-```
-
 ## Pipeline
 
 ### Phase 0 — PRE-FLIGHT

@@ -14,6 +14,11 @@ bestPath:
     description: "Extract key insights, quotes, and actionable takeaways from content."
   - title: "Structured Output"
     description: "Format findings into structured report with depth-calibrated sections."
+divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
 ---
 
 # YouTube Extraction Workflow

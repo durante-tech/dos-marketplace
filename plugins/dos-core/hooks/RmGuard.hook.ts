@@ -12,6 +12,12 @@
  *       ~/.claude (the symlink itself or the resolved target),
  *       Packs/, Plans/, Platform/studio (load-bearing source trees)
  *
+ * Matching is segment-scoped (dos#599): the destructive pattern and the
+ * protected path must occur in the SAME simple-command segment (pipelines
+ * count as one segment — piped input feeds the delete), quoted prose after
+ * data flags (--body/-m/...) never dispatches, and shell-executor strings
+ * (sh -c, eval, xargs, ...) are analyzed recursively.
+ *
  * Override: DOS_ALLOW_MEMORY_RM=1 allows through with a stderr warning.
  *
  * Mirror pattern: IntelFirstGuard.hook.ts (PreToolUse, exit-2 block, env override)
@@ -122,7 +128,141 @@ const PROTECTED_PATTERNS = [
   /(?:^|[\s'"])(?:~|\$HOME|\/Users\/[^/\s]+)[\\/]Durante[\\/]\S/,
 ];
 
-const matched = PROTECTED_PATTERNS.some(p => p.test(cmd));
+// ── dos#599: segment-scoped matching ──────────────────────────────────────
+// The pre-fix matcher tested DESTRUCTIVE_PATTERN and PROTECTED_PATTERNS
+// against the whole command string independently, so an rm in one segment
+// combined with a protected-path token in another (an unrelated git-clone
+// argument, prose inside a --body string) into a false block — three
+// independent classes in one session. Rules, fail-closed by construction:
+//   - quoted spans are invisible to destructive DISPATCH but stay visible to
+//     the protection test of their own segment (a quoted delete target still
+//     blocks);
+//   - a quoted span that itself contains a destructive command is DATA after
+//     a known prose flag, EXECUTABLE (recursed) when the segment's command
+//     word is a shell executor, and conservatively kept dispatch-visible
+//     otherwise;
+//   - segments split at && || ; & and newline, NEVER at a single | — piped
+//     input feeds the downstream delete, so a pipeline is one segment;
+//   - double-quoted spans containing $( or ` are never masked — command
+//     substitution executes regardless of the quotes around it.
+
+// String-valued flags whose argument is prose, never executed by the shell.
+const DATA_STRING_FLAGS = new Set([
+  '--body', '-b', '--body-file', '-f', '--message', '-m', '--title', '-t',
+  '--notes', '--notes-file', '--description', '--comment', '--jq', '-q',
+  '--data', '--data-raw', '--data-binary', '--data-urlencode', '-d',
+]);
+
+// Command words whose string arguments the shell (or the tool itself) executes.
+const SHELL_EXEC_WORDS = new Set([
+  'sh', 'bash', 'zsh', 'ksh', 'dash', 'fish', 'eval', 'xargs', 'parallel', 'su',
+]);
+
+// Prefix words that wrap another command without changing what executes.
+const COMMAND_WRAPPERS = new Set([
+  'sudo', 'env', 'command', 'nohup', 'timeout', 'nice', 'time', 'caffeinate',
+]);
+
+interface Segment {
+  raw: string;                                  // segment text, quotes intact
+  masked: string;                               // quoted contents blanked
+  quoted: { content: string; flag: string }[];  // spans + preceding token
+}
+
+function splitSegments(command: string): Segment[] {
+  const segments: Segment[] = [];
+  let raw = '';
+  let masked = '';
+  let quoted: Segment['quoted'] = [];
+
+  const flush = () => {
+    if (raw.trim()) segments.push({ raw, masked, quoted });
+    raw = '';
+    masked = '';
+    quoted = [];
+  };
+  // `--body "…"` and `--body="…"` both resolve to --body as the span's flag.
+  const prevFlag = () => {
+    const m = raw.trimEnd().match(/(\S+)$/);
+    let tok = m ? m[1] : '';
+    const eq = tok.indexOf('=');
+    if (eq > 0) tok = tok.slice(0, eq);
+    return tok;
+  };
+
+  let i = 0;
+  while (i < command.length) {
+    const ch = command[i];
+    if (ch === '\\' && i + 1 < command.length) {
+      raw += command.slice(i, i + 2);
+      masked += command.slice(i, i + 2);
+      i += 2;
+      continue;
+    }
+    if (ch === "'" || ch === '"') {
+      let j = i + 1;
+      while (j < command.length && !(command[j] === ch && command[j - 1] !== '\\')) j++;
+      const content = command.slice(i + 1, j);
+      quoted.push({ content, flag: prevFlag() });
+      raw += ch + content + ch;
+      // $() and backticks expand inside double quotes — keep those visible.
+      masked += ch === '"' && /[$`]/.test(content) ? ch + content + ch : ch + ch;
+      i = Math.min(j + 1, command.length);
+      continue;
+    }
+    if (ch === ';' || ch === '\n' || (ch === '&' && command[i - 1] !== '>')) {
+      flush();
+      i += command[i + 1] === '&' ? 2 : 1;
+      continue;
+    }
+    if (ch === '|' && command[i + 1] === '|') {
+      flush();
+      i += 2;
+      continue;
+    }
+    raw += ch;
+    masked += ch;
+    i++;
+  }
+  flush();
+  return segments;
+}
+
+// First token that is not a VAR=val assignment, a wrapper, or a leading flag.
+// Misidentification is safe: unknown words fall to the conservative branch in
+// commandTargetsProtected, which keeps the pre-fix whole-segment behavior.
+function commandWord(raw: string): string {
+  for (const t of raw.trim().split(/\s+/)) {
+    const tok = t.replace(/^[('{]+/, '');
+    if (!tok || /^[A-Za-z_][A-Za-z0-9_]*=/.test(tok) || tok.startsWith('-') || /^\d/.test(tok)) continue;
+    const base = (tok.split('/').pop() || '').toLowerCase();
+    if (COMMAND_WRAPPERS.has(base)) continue;
+    return base;
+  }
+  return '';
+}
+
+function commandTargetsProtected(command: string, depth = 0): boolean {
+  if (depth > 3) return true; // pathological nesting: fail closed
+  for (const seg of splitSegments(command)) {
+    let dispatch = DESTRUCTIVE_PATTERN.test(seg.masked);
+    for (const span of seg.quoted) {
+      if (!DESTRUCTIVE_PATTERN.test(span.content)) continue;
+      // Executor check FIRST: an executor's string argument is never prose,
+      // whatever flag precedes it (sh -f '...', bash -lc '...').
+      if (SHELL_EXEC_WORDS.has(commandWord(seg.raw))) {
+        if (commandTargetsProtected(span.content, depth + 1)) return true;
+        continue;
+      }
+      if (DATA_STRING_FLAGS.has(span.flag.toLowerCase())) continue;
+      dispatch = true; // unknown quoted context: pre-fix behavior
+    }
+    if (dispatch && PROTECTED_PATTERNS.some(p => p.test(seg.raw))) return true;
+  }
+  return false;
+}
+
+const matched = commandTargetsProtected(cmd);
 
 if (!matched) {
   console.log(JSON.stringify({ continue: true }));

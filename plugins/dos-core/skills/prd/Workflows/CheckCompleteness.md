@@ -1,6 +1,10 @@
 ---
 name: CheckCompleteness
 description: Run the 13-gate PRD completeness contract via the check-completeness CLI; the verdict is COMPUTED, never asserted
+divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Hand-authored canonical mode-selection table with real flag variants (default human-readable vs `--json` for pipeline/CI) over the single check-completeness.ts gate — authored inline rather than via directive because these two rows are the complete, verified variant set."
 bestPath:
   - title: "Path Resolution"
     description: "Resolve the target PRD path from a slug or an explicit path."

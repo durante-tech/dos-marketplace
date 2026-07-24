@@ -8,16 +8,6 @@ status: STABLE
 
 **Upscale and enhance image resolution using AI models.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the UpscaleImage workflow in the ImageUpscale skill to upscale image resolution"
-```
-
-Running **UpscaleImage** in **ImageUpscale**...
-
----
-
 ## Purpose
 
 Upscale images to higher resolution using multiple AI providers. Supports:

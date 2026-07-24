@@ -4,21 +4,9 @@ description: View and analyze stored eval results for a use case.
 status: STABLE
 ---
 
-
-
 # ViewResults Workflow
 
 Query and display evaluation results, generate reports, and track trends.
-
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ViewResults workflow in the Evals skill to display eval results"
-```
-
-Running the **ViewResults** workflow in the **Evals** skill to display eval results...
-
----
 
 ## Prerequisites
 

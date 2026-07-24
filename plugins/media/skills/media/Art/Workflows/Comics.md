@@ -20,16 +20,6 @@ bestPath:
 
 **Comic strips in brand editorial illustration style, NOT cartoonish.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Comics workflow in the Art skill to create comic strips"
-```
-
-Running **Comics** in **Art**...
-
----
-
 Creates **EDITORIAL COMICS** — 3-4 panel storytelling with sophisticated drafted technical aesthetic, maintaining brand flat color and black linework.
 
 ---

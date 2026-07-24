@@ -8,16 +8,6 @@ status: STABLE
 
 **Two-phase validation: Before generation and after generation**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the YouTubeThumbnailChecklist workflow in the Art skill to validate thumbnails"
-```
-
-Running **YouTubeThumbnailChecklist** in **Art**...
-
----
-
 ## PRE-GENERATION CHECKLIST
 
 **Complete this BEFORE running any generation commands. If ANY item fails, STOP and fix it.**

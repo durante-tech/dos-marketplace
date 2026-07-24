@@ -169,9 +169,13 @@ Based on the results:
 ## Run Command
 
 ```bash
-bun run ~/.claude/Skills/Evals/EvalServer/Lib/compare.ts \
-  --config {{comparison.name}}.yaml \
-  --output results/{{comparison.name}}_$(date +%Y%m%d).json
+# Gather per-variant trials (pass@k) for each candidate
+bun run ~/.claude/skills/utilities/Evals/Tools/TrialRunner.ts \
+  -t UseCases/<domain>/{{comparison.name}}/task.yaml -n 3
+
+# The comparison itself is agent-run — follow the Evals skill's
+# ComparePrompts workflow (Steps 4-7: judge grading + Position Swapping
+# Protocol): ~/.claude/skills/utilities/Evals/Workflows/ComparePrompts.md
 ```
 
 ---

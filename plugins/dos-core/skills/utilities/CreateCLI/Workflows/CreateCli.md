@@ -8,16 +8,6 @@ status: STABLE
 
 **Generate production-quality TypeScript command-line interfaces following llcli pattern and CLI-First Architecture.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CreateCli workflow in the CreateCLI skill to generate new CLI"
-```
-
-Running the **CreateCli** workflow in the **CreateCLI** skill to generate new CLI...
-
----
-
 ## 🎯 PURPOSE
 
 This workflow generates a complete, immediately usable TypeScript CLI tool with:

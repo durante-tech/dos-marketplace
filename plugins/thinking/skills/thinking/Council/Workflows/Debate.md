@@ -8,14 +8,6 @@ status: STABLE
 
 Full structured multi-agent debate with 3 rounds and visible transcript.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Debate workflow in the Council skill to run multi-agent debate"
-```
-
-Running the **Debate** workflow in the **Council** skill to run multi-agent debate...
-
 ## Tool-Use Budget (v0.0.4)
 
 Council agents spawned by this workflow run the **Subagent Algorithm Profile** (`~/.claude/DOS/PARTIALS/_algorithm-lite.md`). Tool invocations do NOT count toward per-round word caps — prose only. When the topic references files on disk, RFC numbers, or verifiable facts, each agent MUST invoke ≥1 tool per round and ground load-bearing claims with file:line, quote, or tool output.

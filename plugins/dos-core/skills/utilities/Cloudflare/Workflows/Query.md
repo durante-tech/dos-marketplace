@@ -8,14 +8,6 @@ status: STABLE
 
 Query Cloudflare account state via Code Mode MCP — list workers, check KV data, inspect DNS, view analytics, manage R2/D1/Vectorize.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Query workflow in the Cloudflare skill to inspect Cloudflare state"
-```
-
-Running the **Query** workflow in the **Cloudflare** skill to inspect Cloudflare state...
-
 ## When to Use
 
 - "List all my workers"

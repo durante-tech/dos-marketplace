@@ -149,6 +149,12 @@
       "category": "engineering"
     },
     {
+      "name": "lifecycle",
+      "source": "./plugins/lifecycle",
+      "description": "Capability lifecycle discipline for DOS — deprecate, migrate, and retire packs, skills, hooks, tools, and adopted imports with verified closure.",
+      "category": "engineering"
+    },
+    {
       "name": "makerkit-team",
       "source": "./plugins/makerkit-team",
       "description": "Orchestrates a 13-agent delivery team (PM, SM, UX, UI, Architect, Frontend, Backend, DB, Security, QA, E2E, DevOps, Writer) for the dos-prisma-saas-kit Makerkit framework and its forks. Full dev-team motions — deliver, fix, refactor, review, validate, explore. Includes a PR review-execute loop (r..."

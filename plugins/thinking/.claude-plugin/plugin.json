@@ -3,7 +3,7 @@
   "name": "thinking",
   "displayName": "DOS thinking",
   "description": "Multi-mode analytical and creative thinking — first principles decomposition, iterative depth analysis, creative brainstorming, multi-agent council debates, adversarial red teaming, world threat modeling, and scientific hypothesis testing.",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose:** Add new aphorism to the database with proper metadata, theme tagging, and organization.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the AddAphorism workflow in the Aphorisms skill to add quotes"
-```
-
-Running **AddAphorism** in **Aphorisms**...
-
----
-
 **When to Use:**
 - User provides a quote to add to collection
 - User says "add this quote", "save this aphorism", "add to database"

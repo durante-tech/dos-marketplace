@@ -12,6 +12,10 @@ bestPath:
   - title: "Operator Triage"
     description: "Operator decides per finding: fix now, defer, or accept the risk in writing."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -84,6 +88,14 @@ Merge findings into a single redline report:
 ### Phase 3 — Operator Triage
 
 Per finding, operator picks: Fix now (spawn QuickFix or BugFix), Defer (log to follow-ons with concrete slug), Accept (sign off in writing).
+
+## Intent-to-Flag Mapping
+
+CodeReview's only bun-CLI invocation is fixed by design — Phase 0 always runs the same capability probe; which reviewer roles spawn is decided by the Auto-route rule (file-type based), not by a CLI flag.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 step 1 — capability manifest gate before auto-routing reviewers; exit 1 STOPs the run. Re-cited in Phase 1's `mcp__makerkit__run_checks` fallback note as a pointer to this same manifest, not a second invocation. |
 
 ## Operator Gates (v0.1.0)
 

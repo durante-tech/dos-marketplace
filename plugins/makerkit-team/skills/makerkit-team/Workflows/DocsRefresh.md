@@ -10,6 +10,10 @@ bestPath:
   - title: "Operator Approval"
     description: "Operator reviews and approves, edits, or rejects each proposed doc diff."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -62,6 +66,16 @@ Tech Writer agent solo to refresh `docs/`, `AGENTS.md`, `CHANGELOG`, or in-app h
 ### Phase 2 — Operator Approval
 
 Per-file diff review. Operator approves, edits, or rejects each.
+
+## Intent-to-Flag Mapping
+
+DocsRefresh's Phase 0 fires three fixed CLI invocations in sequence — none of them vary by operator phrasing; each fires unconditionally at the pipeline step named below.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 step 1 — capability manifest gate before any doc work; exit 1 STOPs the run |
+| `bun Tools/BuildDigest.ts --repo <resolved>` | flags: `[--repo <p>] [--digest <p>] [--json]` (no stdin) | Phase 0 step 3.1 — regenerates the `<!-- generated:pins -->` block in `FrameworkDigest.md` from the live kit before digest verification |
+| `bun Tools/VerifyDigest.ts` | flags: `[--kit-repo <p>] [--digest <p>] [--json]` (no stdin) | Phase 0 step 3.2 — verifies the regenerated pins against the live kit's `AGENTS.md`; exit 0 proceed, exit 1 fix drift, exit 2 VACUOUS-STOP |
 
 ## Output
 

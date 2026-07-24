@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose:** Add workflows, modify triggers, or update an existing skill while maintaining the canonical pack structure.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the UpdateSkill workflow in the CreateSkill skill to modify existing skill"
-```
-
-Running the **UpdateSkill** workflow in the **CreateSkill** skill to modify existing skill...
-
----
-
 ## Step 1: Read the Authoritative Sources
 
 **REQUIRED FIRST:**

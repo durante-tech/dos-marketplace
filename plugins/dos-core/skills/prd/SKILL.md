@@ -15,7 +15,7 @@ divergence_from_canonical:
     reason: "PRD.md authorship flows through the @durante/prd Writer library workflows, not ad-hoc artifact writes; the canonical artifacts.jsonl block does not describe this pack's write path"
     rationale_link: null
   _four-copy-footer.md:
-    partial_version: 1.0.0
+    partial_version: 1.1.0
     reason: "Bespoke Four-Copy section — documents the pack:PRD sync-manifest pair and the @durante/prd library exclusions; the canonical footer omits both"
     rationale_link: null
 ---

@@ -8,16 +8,6 @@ status: STABLE
 
 **Drafted technical side-by-side visual comparisons using brand aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Comparisons workflow in the Art skill to create side-by-side visuals"
-```
-
-Running **Comparisons** in **Art**...
-
----
-
 Creates **VISUAL COMPARISONS** — "X vs Y" split compositions, before/after transformations, and illustrated contrasts with editorial style.
 
 ---

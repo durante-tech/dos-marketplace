@@ -10,7 +10,7 @@ capabilities:
   - customization.cascade
 divergence_from_canonical:
   _four-copy-footer.md:
-    partial_version: 1.0.0
+    partial_version: 1.1.0
     reason: "B-20 mechanical derivation from the shipped SKILL.md — the authored body carries no four-copy footer section; footer adoption is a content decision, not this conversion's"
     rationale_link: null
 ---

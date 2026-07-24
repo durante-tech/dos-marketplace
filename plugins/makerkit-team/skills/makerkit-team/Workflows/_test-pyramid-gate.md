@@ -1,3 +1,13 @@
+---
+name: Test Pyramid Gate
+description: Shared test-pyramid substrate for MakerkitTeam change-producing workflows (binding fragment).
+status: STABLE
+divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
+---
 # Test Pyramid Gate (binding)
 
 Shared substrate for every change-producing MakerkitTeam workflow. Defines the two-tier test pyramid per Makerkit canon, the ships-with-tests gate, the canonical commands, file conventions, do/don't list, and the per-ISC layer-mapping rubric. Workflows reference this file rather than restating contracts inline.
@@ -162,6 +172,14 @@ When QA or E2E roles review a PR, in addition to their normal framing prompts (s
 - **E2E** — for every new user-facing flow added in the diff (signals: new `apps/web/**/page.tsx`, new `apps/web/**/_components/<form>`, new server action that mutates user-visible state), check whether `apps/e2e/tests/<feature>/` already contains a spec. If absent, emit: `(agent:e2e) (priority:high) Add Playwright spec for <flow> in apps/e2e/tests/<feature>/`.
 
 These TODOs join the existing auto-CRITICAL stream from `mcp__makerkit__run_checks` failures and follow the same TODO checklist markdown protocol from `_pr-loop-shared.md`.
+
+## Intent-to-Flag Mapping
+
+This partial's own CLI invocation is fixed by design — the QA pyramid-completeness check always runs the identical subcommand against the diff's changed paths; there is no operator-phrasing-driven variant. (The `preflight` command cited earlier in "Canonical Commands → Health" is a pointer back to the composing workflow's own Phase 0 probe, not an invocation owned by this file.)
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun Tools/MakerkitCli.ts pyramid-missing-tests` | stdin JSON: `{"changedPaths": ["packages/rbac/src/x.ts", ...]}` | QA's pyramid-completeness check during a PR review (`ReviewOpenPRs.md` Phase 4 reviewer framing) — emits one Vitest-unit TODO per changed `packages/**` source file lacking a `__tests__/<name>.test.ts` sibling; exits 3 (VACUOUS) if `changedPaths` is empty |
 
 ## Anti-Patterns to Catch
 

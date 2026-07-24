@@ -8,16 +8,6 @@ status: STABLE
 
 **Real screenshots with engineering blueprint annotations, arrows, and highlights using brand aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the AnnotatedScreenshots workflow in the Art skill to annotate images"
-```
-
-Running **AnnotatedScreenshots** in **Art**...
-
----
-
 Creates **ANNOTATED SCREENSHOTS** — actual UI screenshots or code snippets with drafted technical orange/navy commentary overlays.
 
 ---

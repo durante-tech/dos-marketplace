@@ -8,16 +8,6 @@ status: STABLE
 
 **Animate a still image into video -- bring photos, illustrations, and renders to life with motion.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Image to Video workflow in the Video skill to animate an image"
-```
-
-Running **ImageToVideo** in **Video**...
-
----
-
 ## Purpose
 
 Transform a static image into a video clip by adding camera movement, subject motion, and optionally generated audio. All 8 models support image input in different ways -- this workflow selects the right model and flags based on the animation intent.

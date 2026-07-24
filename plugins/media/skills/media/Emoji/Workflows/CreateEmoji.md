@@ -8,16 +8,6 @@ status: STABLE
 
 **Generate custom emoji-style images from text descriptions using AI.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CreateEmoji workflow in the Emoji skill to generate custom emojis"
-```
-
-Running **CreateEmoji** in **Emoji**...
-
----
-
 ## Purpose
 
 Generate custom emoji-style images:

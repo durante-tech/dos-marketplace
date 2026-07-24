@@ -1005,8 +1005,10 @@ If it already exists, skip this step.
 
 **Step 5b — Upsert .dos-projects.json (canonical):**
 
-The file at `~/Durante/Tools/.dos-projects.json` is the canonical project
-registry read by `~/.claude/hooks/lib/project-context.ts:resolveProjectSlug`.
+The registry is resolved by `~/.claude/hooks/lib/project-context.ts:resolveProjectSlug`
+along the RFC-0168 D1 chain: `DOS_PROJECTS_REGISTRY` env override →
+`~/.claude/DOS/projects/registry.json` (install-class canonical — the fork-day home)
+→ `~/Durante/{Tools/,}.dos-projects.json` (maintainer legacy, kept indefinitely).
 Without an entry here, the statusline cannot resolve the project from cwd
 and the toolbar cannot show "current project" for sessions in the wing.
 
@@ -1020,7 +1022,14 @@ is present — so the prose never re-derives the jq `if any(.[]; .id==$id)` one-
 shell-vs-code drift, and no jq dependency):
 
 ```bash
-PROJECTS_JSON="$HOME/Durante/Tools/.dos-projects.json"
+# RFC-0168 A1 target selection: write where the resolver will read.
+# Maintainer machines (~/Durante/Tools exists) keep the legacy file as SoT
+# (lineage.ts regenerates it); every other machine uses the install-class home.
+if [ -d "$HOME/Durante/Tools" ]; then
+  PROJECTS_JSON="$HOME/Durante/Tools/.dos-projects.json"
+else
+  PROJECTS_JSON="${DOS_DIR:-$HOME/.claude}/DOS/projects/registry.json"   # parent auto-created; same seam the resolver reads
+fi
 WING="{wing}"
 NAME="{project_name}"
 PATH_FIELD="{project_path}"   # absolute path, no tilde

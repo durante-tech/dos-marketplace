@@ -8,16 +8,6 @@ status: STABLE
 
 **Drafted technical classification systems, taxonomies, and reference grids using brand aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Taxonomies workflow in the Art skill to create taxonomies"
-```
-
-Running **Taxonomies** in **Art**...
-
----
-
 Creates **VISUAL TAXONOMIES** — organized classification systems like periodic tables, capability matrices, or framework grids with editorial drafted technical style.
 
 ---

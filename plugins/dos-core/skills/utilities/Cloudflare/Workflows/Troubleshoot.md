@@ -8,14 +8,6 @@ status: STABLE
 
 Diagnose and fix Cloudflare deployment issues using Code Mode MCP for API queries and Browser skill for visual verification.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Troubleshoot workflow in the Cloudflare skill to debug deployment issues"
-```
-
-Running the **Troubleshoot** workflow in the **Cloudflare** skill to debug deployment issues...
-
 ## When to Use
 
 - Deploying to Cloudflare and something goes wrong

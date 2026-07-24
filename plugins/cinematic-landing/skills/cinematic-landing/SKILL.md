@@ -30,7 +30,6 @@ capabilities:
   - artifact.write
   - customization.cascade
   - four-copy.sync
-  - voice.emit
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 # CinematicLanding -- Tiered Award-Level Page Delivery

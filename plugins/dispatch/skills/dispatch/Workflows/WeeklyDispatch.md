@@ -2,6 +2,10 @@
 name: Weekly Dispatch
 description: Author a weekly dispatch (Sunday-style retrospective on the week's events) with mandatory metered research as Step 1
 status: STABLE
+divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Step-intent -> fixed gate-tool invocations (VerifyResearchVault.ts / VerifyUrlBatch.ts / NextDispatchOrder.ts / LogArtifact.ts) — deterministic exit-code gates, no intent-variant flags to map; the section documents which tool serves which pipeline step, not the canonical Mode Selection flag-shape."
 bestPath:
   - title: "Mandatory Research Gate"
     description: "Run extensive metered research producing a cited vault; blocks the draft until it has 5+ citations."

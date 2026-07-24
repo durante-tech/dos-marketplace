@@ -2,6 +2,10 @@
 name: Review Single PR
 description: Deep review of one PR using the full 13-agent kit-native roster regardless of diff shape, producing an aggregated verdict, a grouped TODO checklist comment, and an artifact JSON, then stopping at the merge boundary.
 status: STABLE
+divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Shells `gh` + PR-loop Tools (ParsePrTodos.ts / RenderTodoComment.ts) with fixed invocations — operator intent maps to specific gh subcommands, not mode-selection flags; merge/approve intents are deliberately Gated (operator-only), not mapped."
 bestPath:
   - title: "Preflight & Resolve PR"
     description: "Verify gh auth and repo state, then fetch the full PR state including prior comments and review threads."

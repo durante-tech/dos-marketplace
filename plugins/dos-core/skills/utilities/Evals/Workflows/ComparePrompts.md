@@ -10,16 +10,6 @@ A/B test two prompt versions to determine which performs better.
 
 **This workflow implements the Science Protocol for prompt experimentation.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ComparePrompts workflow in the Evals skill to A/B test prompts"
-```
-
-Running the **ComparePrompts** workflow in the **Evals** skill to A/B test prompts...
-
----
-
 ## Science Protocol Alignment
 
 Before running any comparison, ensure you're following scientific rigor:

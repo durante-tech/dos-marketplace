@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose**: Systematically challenge every assumption and constraint, classifying each as hard constraint (physics), soft constraint (choice), or unvalidated assumption.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Challenge workflow in the FirstPrinciples skill to test assumptions"
-```
-
-Running the **Challenge** workflow in the **FirstPrinciples** skill to test assumptions...
-
----
-
 **When to Use**:
 - After Deconstruct, to evaluate what's actually fixed
 - When requirements feel overly restrictive

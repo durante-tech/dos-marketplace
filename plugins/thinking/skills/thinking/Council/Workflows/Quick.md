@@ -8,14 +8,6 @@ status: STABLE
 
 Fast single-round perspective check. Use for sanity checks and quick feedback.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Quick workflow in the Council skill to get fast perspectives"
-```
-
-Running the **Quick** workflow in the **Council** skill to get fast perspectives...
-
 ## Tool-Use Budget (v0.0.4)
 
 Council agents spawned by this workflow run the **Subagent Algorithm Profile** (`~/.claude/DOS/PARTIALS/_algorithm-lite.md`). Tool invocations do NOT count toward per-agent word caps — prose only. When the topic references files on disk, RFC numbers, or verifiable facts, each agent MUST invoke ≥1 tool and ground load-bearing claims with file:line, quote, or tool output.

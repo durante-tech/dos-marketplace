@@ -8,16 +8,6 @@ status: STABLE
 
 Check Apify API and actor ecosystem for updates.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Update workflow in the Apify skill to check updates"
-```
-
-Running **Update** in **Apify**...
-
----
-
 ## When to Use
 
 - Monthly capability check

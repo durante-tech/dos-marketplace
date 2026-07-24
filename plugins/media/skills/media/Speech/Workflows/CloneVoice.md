@@ -8,16 +8,6 @@ status: STABLE
 
 **Clone a real voice from a short audio sample — quick one-off or persistent reusable voice.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CloneVoice workflow in the Speech skill to clone a voice"
-```
-
-Running **CloneVoice** in **Speech**...
-
----
-
 ## Purpose
 
 The CloneVoice workflow replicates a real person's voice from a short audio sample. It supports two paths: quick cloning for immediate one-off use, and persistent cloning that creates a reusable voice ID for ongoing production.

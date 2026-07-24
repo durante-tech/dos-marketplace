@@ -8,16 +8,6 @@ status: STABLE
 
 **Design a new voice from a natural language description — no reference audio needed.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the VoiceDesign workflow in the Speech skill to create a custom voice"
-```
-
-Running **VoiceDesign** in **Speech**...
-
----
-
 ## Purpose
 
 The VoiceDesign workflow creates entirely new voices from text descriptions using Qwen3-TTS. Instead of cloning an existing voice or picking from a preset list, you describe the voice you want in natural language and the model synthesizes it.

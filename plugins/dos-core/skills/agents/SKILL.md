@@ -28,7 +28,7 @@ capabilities:
   - artifact.write
   - customization.cascade
   - four-copy.sync
-  - voice.emit
+composes: [Delegation]
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 ## 🚨 SCOPE BOUNDARY — This Skill vs Agent Teams
@@ -166,7 +166,25 @@ already owned by other packs. They get a routing pointer only:
 | "Fowler / UncleBob / KentBeck / SandiMetz / EricEvans / GregYoung / Cockburn / Feathers / Pragmatic / Architect / Engineer / Plan / Explore / …" | **Named subagent** | `Task(subagent_type="<Specialist>")` | Persistent persona at `~/.claude/agents/{Name}.md` — owns its voice prosody, allowlist, and quote bank |
 | "agents", "launch agents", "bunch of agents" | **SpawnParallel** (this skill) | Fan-out same prompt | Parallel grunt work, no unique identities |
 
-**Earlier "NEVER use static agent types" guidance is retired.** First-class specialist subagents at `~/.claude/agents/{Name}.md` are a peer pattern to runtime trait composition — Council/Debate.md explicitly mixes both kinds in one debate. Use ComposeAgent when you need an ad-hoc combination the catalog doesn't already name; use a named subagent when a documented catalog entry already fits. The maintained routing roster and distribution notes live in `DOS/DOSAGENTSYSTEM.md` and `DOS/CLAUDE-SUBJECT-SPECIALISTS.md`.
+**Earlier "NEVER use static agent types" guidance is retired.** First-class specialist subagents at `~/.claude/agents/{Name}.md` are a peer pattern to runtime trait composition — Council/Debate.md explicitly mixes both kinds in one debate. Use ComposeAgent when you need an ad-hoc combination the catalog doesn't already name; use a named subagent when one of the 26 catalog entries already fits.
+
+## Return contract (all three factories)
+
+**Delivery routes by TOOLSET at spawn time, not by hope.** A spawned agent whose toolset
+excludes `SendMessage` (Explore class, read-only specialist seats, restricted growth-*
+seats) CANNOT post, send, or message its report — its report IS its final transcript
+text, and the idle notification the conductor receives is a completion signal, not a
+delivery. Two rules:
+
+1. **Spawn side:** never instruct a no-SendMessage agent to "send", "post", or "message"
+   its report — the instruction is unexecutable and produces the idle-dance (the
+   conductor waits for a report that cannot arrive). Say instead: "your final message IS
+   the report."
+2. **Recovery side:** conductors recover a no-SendMessage agent's report from its
+   transcript — the newest agent jsonl in the session's project directory, last
+   assistant text block. Idle notification → read the transcript; do not re-prompt.
+
+Agents WITH SendMessage should both post the report and leave it as their final text.
 
 ## Components
 
@@ -240,7 +258,7 @@ is the **edges between them** (which the older "none supersedes the others" fram
 |-------|---------------|-------------------|---------------------|----------|
 | **Composed dynamic agents** | Composed at call time from `Data/Traits.yaml` × USER overrides | `Task(subagent_type="general-purpose")` + ComposeAgent JSON `prompt` | `voice_settings` block in JSON; parent voices it via `voice.sh` per `Templates/DynamicAgent.hbs` | Ad-hoc trait combinations, QA reviewers, mining loops, parallel councils — the bottom rung, where every agent starts |
 | **Named (USER) agents** | `USER/SKILLCUSTOMIZATIONS/Agents/NamedAgents.md` / `saved/<slug>.json` | `--load <slug>` for persisted compositions | USER config | A composition that proved useful and was `--save`d for reuse — the middle rung |
-| **Specialist subagents** | `~/.claude/agents/{Name}.md` (current roster: `DOS/DOSAGENTSYSTEM.md`) | `Task(subagent_type="<Name>")` | File-level frontmatter; agent has its own prosody | Recurring named personas and subject specialists that **earned a permanent seat** — the top rung |
+| **Specialist subagents** | `~/.claude/agents/{Name}.md` (26 today) | `Task(subagent_type="<Name>")` | File-level frontmatter; agent has its own prosody | Recurring named personas (Fowler, UncleBob, KentBeck, Engineer, Plan, …) that **earned a permanent seat** — the top rung |
 
 #### The ladder edges (the transitions the engine implements)
 

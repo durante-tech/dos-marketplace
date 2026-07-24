@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose:** Deep research on specific philosopher/thinker to discover relevant aphorisms aligned with TELOS philosophy, then add to database.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ResearchThinker workflow in the Aphorisms skill to research quotes"
-```
-
-Running **ResearchThinker** in **Aphorisms**...
-
----
-
 **When to Use:**
 - User requests research on specific thinker (Hitchens, Deutsch, Harris, Spinoza, Feynman)
 - User says "research [thinker] quotes", "find [author] aphorisms", "what did [thinker] say about [topic]"

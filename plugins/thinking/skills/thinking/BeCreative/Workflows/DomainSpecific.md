@@ -6,16 +6,6 @@ status: STABLE
 
 # DomainSpecific Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the DomainSpecific workflow in the BeCreative skill to apply domain creativity"
-```
-
-Running **DomainSpecific** in **BeCreative**...
-
----
-
 **When to use:** Creativity within specific domains (artistic, business, technical)
 
 ---

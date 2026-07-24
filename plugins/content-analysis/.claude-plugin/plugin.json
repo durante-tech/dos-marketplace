@@ -3,7 +3,7 @@
   "name": "content-analysis",
   "displayName": "DOS content-analysis",
   "description": "Content extraction and analysis — wisdom extraction from videos, podcasts, articles, and YouTube.",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

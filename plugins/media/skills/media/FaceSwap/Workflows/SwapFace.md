@@ -8,16 +8,6 @@ status: STABLE
 
 **Swap one person's face onto another image using AI.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the SwapFace workflow in the FaceSwap skill to swap faces"
-```
-
-Running **SwapFace** in **FaceSwap**...
-
----
-
 ## Purpose
 
 Replace faces between images:

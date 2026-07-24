@@ -8,16 +8,6 @@ status: STABLE
 
 **Drafted technical conceptual maps showing idea territories and domain landscapes using brand aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Maps workflow in the Art skill to create conceptual maps"
-```
-
-Running **Maps** in **Art**...
-
----
-
 Creates **CONCEPTUAL MAPS** — illustrated maps of idea territories, not geographic locations, with editorial drafted technical style.
 
 ---

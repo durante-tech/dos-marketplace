@@ -2,7 +2,8 @@
 /**
  * mempalace-prewarm-worker.ts — RFC-0122 ISC-12 detached daemon pre-warm worker.
  *
- * Spawned (detached, unref'd) by MemPalaceDaemonPrewarm.hook.ts at SessionStart.
+ * Spawned (detached, unref'd) by MemPalaceDaemonEnsure's warm tail at SessionStart
+ * (originally by the MemPalaceDaemonPrewarm shim — retired 2026-07-21, RFC-0157 F6).
  * Runs OUTSIDE the hook's lifetime so the hook returns instantly and never
  * blocks session startup. Its job: trigger the one-time ~11s daemon cold-load
  * NOW (during session boot) so it is NOT paid on the user's first prompt.

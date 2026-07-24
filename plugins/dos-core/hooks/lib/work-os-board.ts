@@ -21,6 +21,7 @@
  */
 
 import { existsSync, readFileSync, statSync } from 'fs';
+import { dirname, join } from 'path';
 
 /** Cap what the wake path will parse. */
 export const BOARD_SNAPSHOT_MAX_BYTES = 256 * 1024;
@@ -65,6 +66,7 @@ export function buildWorkOsBoardSection(snapshotFile: string, nowMs: number): st
       stale_after_ms?: unknown;
       counts?: Record<string, unknown>;
       open?: unknown;
+      proposals?: unknown;
     };
     const generatedMs = Date.parse(String(snap?.generated_at ?? ''));
     if (!Number.isFinite(generatedMs) || !Array.isArray(snap?.open)) return '';
@@ -107,6 +109,39 @@ export function buildWorkOsBoardSection(snapshotFile: string, nowMs: number): st
       ].filter(Boolean);
       parts.push(`- [${String(t.status)}] ${String(t.title ?? '')}${extras.length ? ` · ${extras.join(' · ')}` : ''}`);
     }
+
+    // RFC-0165 §6b (proactive harness A1): the snapshot's deterministic top-3
+    // Backlog proposals — the system offers before the operator asks. Absent or
+    // malformed proposals render nothing (older snapshots stay valid).
+    if (Array.isArray(snap.proposals) && snap.proposals.length > 0) {
+      parts.push(`▶ Proposed next (machine-filed Backlog — say the word or let Prospector stake it):`);
+      for (const pr of (snap.proposals as SnapshotItem[]).slice(0, 3)) {
+        parts.push(`- ${String(pr?.title ?? '')}`);
+      }
+    }
+
+    // RFC-0165 §6b (A2): backlog-sweep digest — per-class counts from the last
+    // sweep, rendered as the per-wake backlog brief. Fail-silent by design.
+    try {
+      const reportFile = join(dirname(snapshotFile), 'backlog-sweep-report.json');
+      if (existsSync(reportFile) && statSync(reportFile).size < 512 * 1024) {
+        const rep = JSON.parse(readFileSync(reportFile, 'utf-8')) as {
+          ts?: unknown; by_class?: Record<string, unknown>;
+        };
+        const by = rep?.by_class ?? {};
+        const bits = Object.keys(by)
+          .sort()
+          .filter((k) => typeof by[k] === 'number' && (by[k] as number) > 0)
+          .map((k) => `${k}: ${by[k]}`);
+        if (bits.length) {
+          const d = String(rep?.ts ?? '').slice(0, 10);
+          parts.push(`_backlog sweep${d ? ` ${d}` : ''}: ${bits.join(' · ')}_`);
+        }
+      }
+    } catch {
+      /* sweep digest is best-effort — never break the banner */
+    }
+
     parts.push('');
     return parts.join('\n');
   } catch {

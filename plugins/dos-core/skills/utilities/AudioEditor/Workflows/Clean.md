@@ -8,14 +8,6 @@ status: STABLE
 
 Clean, edit, and polish audio files by removing filler words, stutters, false starts, dead air, and edit markers.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Clean workflow in the AudioEditor skill to clean audio"
-```
-
-Running the **Clean** workflow in the **AudioEditor** skill to clean audio...
-
 ## Step 1: Locate the Audio File
 
 Identify the audio file from the user's request. Check common locations:

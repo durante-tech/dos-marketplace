@@ -6,20 +6,6 @@ status: STABLE
 
 # YouTube Video Extraction Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ExtractYoutube workflow in the Parser skill to parse videos"
-```
-
-Running the **ExtractYoutube** workflow in the **Parser** skill to parse videos...
-
-**Purpose:** Extract transcript, metadata, and entities from YouTube videos
-
-**When to Use:** Content type detected as "video" from YouTube domains
-
----
-
 ## Extraction Steps
 
 ### 1. Transcript Extraction (Fabric)

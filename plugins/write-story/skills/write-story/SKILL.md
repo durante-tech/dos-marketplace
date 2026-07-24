@@ -15,7 +15,6 @@ capabilities:
   - artifact.write
   - customization.cascade
   - four-copy.sync
-  - voice.emit
 elevator: 7-layer narrative science for fiction writing
 highlightWorkflows:
   - name: Write Story

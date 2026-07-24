@@ -2,6 +2,15 @@
 name: Measurement
 description: Phase 6 — the measurement harness (social insights + Share-of-AI-Voice), both lenses, one feedback edge
 status: STABLE
+divergence_from_canonical:
+  _workflow-output-shape.md:
+    partial_version: 1.0.0
+    reason: "Bespoke Output section with workflow-specific shape (growth-program 7-phase pipeline emits per-phase document sets, not the canonical output shape)"
+    rationale_link: null
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Hand-authored variant table over the real EmitProgram.ts flag surface; the canonical generator directive does not expand in workflow docs, so the table is maintained inline"
+    rationale_link: null
 bestPath:
   - title: "Scope the Metric Set"
     description: "Select KPIs from the canonical set that match the actual live channel mix — no vanity metrics."

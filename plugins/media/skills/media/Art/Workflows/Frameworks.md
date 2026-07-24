@@ -8,16 +8,6 @@ status: STABLE
 
 **Drafted technical frameworks, mental models, and conceptual diagrams using brand aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Frameworks workflow in the Art skill to create diagrams"
-```
-
-Running **Frameworks** in **Art**...
-
----
-
 Creates **VISUAL FRAMEWORKS** — signature mental models illustrated as memorable diagrams with editorial drafted technical style.
 
 ---

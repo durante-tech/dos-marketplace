@@ -1,5 +1,16 @@
 # Archetypes — Changelog
 
+## v0.0.5 — 2026-07-22 (corpus #6 — feature-flags FIELD mint, archer gen-54)
+
+- Sixth archetype: `feature-flags` v0.1.0 — 46 rows / 5 dimensions / 6 anti-criteria, two-cohort live grounding (GitLab/PostHog/Firebase/AWS AppConfig/Azure/Vercel/Harness/Optimizely × LaunchDarkly/Flagsmith/Unleash/ConfigCat/Split/Statsig, 34 sources), full gen-39 recipe. Zero validator findings at first encoding (2nd consecutive field-clean). Step-4b blind skeptic: 43/45 tiers exact, 0 confirmed re-tiers, 11 findings ALL applied (1 silent-absence row added, 4 inferred-flag corrections, 1 carved-count removal, 2 context riders, 1 new anti-criterion `a-eval-without-default`, 1 why-provenance fix). 8 rows are T1 via the services-universality override. Longitudinal note: same domain as the gen-4 probe (24 validator/17 skeptic/12 absences under gen-3 law) — now 0/11/1 under gen-39 law.
+- Changelog backfill note: Stage-1/Run-3 field mints (auth-session v0.1.1, notifications v0.1.1 confirmed-field enrichment; audit-log v0.1.0, corpus #5, gen-40) shipped while this changelog was not maintained — their receipts live in the archer ledger fitness table.
+
+## v0.0.4 — 2026-07-22 (Stage-2 ratification — RFC-0164, archer gen-50)
+
+- Sub-ISC relation RATIFIED (RFC-0164 D-C): the `[T<tier> <row-id>]` bracket is the parent's normative archetype-row provenance; children take dotted ids `ISC-S<n>.<m>`; VERIFY rollup law applies (a `build` parent with zero children is a finding). The v0.0.1 "bridges until ratified" framing is retired — the syntax is not (D-C.1).
+- Scope layer is a first-class PRD section with the mandatory-or-declined applicability predicate (D-A); completeness enforcement is Sentinel R101 `presence.archetype-scope-completeness` (D-B, WARN-ONLY birth tier, dos#705 + cc#332).
+- No schema/validator/corpus surface changes in this entry (obligation law unchanged — RFC-0164 §5). SeedScope.md Step 4 prose updated to cite the ratified relation.
+
 ## v0.0.3 — 2026-07-09 (Stage-1 field mints)
 
 - Third archetype: `auth-session` v0.1.0 — 39 rows / 11 anti-criteria, two-cohort live grounding (GitHub/Slack/Notion/Linear/Figma/Vercel/Shopify/Atlassian × Auth0/Clerk/WorkOS/Firebase/Stytch/Kinde), full gen-22 recipe law, Step-4b skeptic (5 findings, all applied). Corpus = 3.
@@ -21,4 +32,4 @@
 - First archetype: `media-asset-library` v0.1.0 — 42 rows across 6 dimensions, 6 anti-criteria, two-cohort live grounding (8 in-app products + 6 dedicated services, fetched 2026-07-08); migrated from the dos-repo pilot (`Docs/Research/feature-archetype-media-pilot.md`).
 - Workflows: AuthorArchetype (two-cohort mining → typed encoding), AuditFeature (evidence-cited gap ledger), SeedScope (PLAN-time scope ISCs + deferral ledger; T1 never silently absent).
 - Tools: ValidateArchetype.ts + RenderArchetype.ts — zero external deps (live-install safe).
-- Deliberately NOT in v0.0.1: the Algorithm §4.2 trigger row making SeedScope self-invoking (pending RFC, operator-gated); sub-ISC hierarchy (bracket convention `[tier row-id]` bridges until ratified).
+- Deliberately NOT in v0.0.1: the Algorithm §4.2 trigger row making SeedScope self-invoking (pending RFC, operator-gated); sub-ISC hierarchy (the bracket convention `[tier row-id]` bridged the join until RFC-0164 D-C ratified it normative, 2026-07-22 — see v0.0.4).

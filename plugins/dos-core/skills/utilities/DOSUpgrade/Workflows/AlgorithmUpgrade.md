@@ -6,20 +6,6 @@ status: STABLE
 
 # AlgorithmUpgrade Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Algorithm Upgrade workflow to analyze and propose improvements to the DOS Algorithm"
-```
-
-Running the **AlgorithmUpgrade** workflow in the **DOSUpgrade** skill to propose Algorithm improvements...
-
-**Dedicated self-improvement workflow for the DOS Algorithm.** Combines internal reflection mining with Algorithm spec analysis to produce concrete, section-targeted upgrade proposals.
-
-**Trigger:** "algorithm upgrade", "upgrade algorithm", "improve the algorithm", "algorithm improvements", "what should we fix in the algorithm"
-
----
-
 ## Overview
 
 This workflow closes the ultimate feedback loop: the Algorithm reflects on its own performance after every run, and this workflow mines those reflections to propose upgrades to the Algorithm itself.

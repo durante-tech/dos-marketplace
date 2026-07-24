@@ -46,7 +46,7 @@ export interface SyncToolSpec {
 }
 
 export const SYNC_TOOLS: ReadonlyArray<SyncToolSpec> = [
-  // ─── queue-mode (full registry total is 23 queue + 3 special = 26) ─
+  // ─── queue-mode (full registry total is 23 queue + 4 special = 27) ─
   // These match the existing StudioSync.hook.ts:142-160 spawn order
   // 1:1 — preserve the sequence so iteration is observably identical
   // to the prior hardcoded fleet when DOS_DLQ_QUEUE_ONLY=1 is the env.
@@ -117,7 +117,7 @@ export const SYNC_TOOLS: ReadonlyArray<SyncToolSpec> = [
   // canonical .dos-projects.json on its own.
   { filename: 'SaveProjectsToStudio.ts',          dlqTool: null,                  endpoint: 'projects',                 mode: 'special' },
 
-  // ─── special-mode: local spawn, no Studio POST (2) ─────────────────
+  // ─── special-mode: local spawn, no Studio POST (3) ─────────────────
   // WorkOsReconcile is NOT a Save*ToStudio producer — it POSTs nothing to
   // Studio. It rides the SessionEnd detached fan-out (RFC-0133 P2 / RFC-0151
   // council §8 P3 "special-mode SYNC_TOOLS entry") to fire
@@ -141,4 +141,9 @@ export const SYNC_TOOLS: ReadonlyArray<SyncToolSpec> = [
   // (session_id, turn_uuid) — added the same gen — so overlap is free.
   // POSTs nothing; endpoint is a LOCAL route label; dlqTool null.
   { filename: 'BannerFireCollect.ts',             dlqTool: null,                  endpoint: 'banner-fire/collect',      mode: 'special' },
+
+  // FleetDispatch gives the RFC-0161 fleet-intake claim ledger its dispatch
+  // cadence (RFC-0161 §4): thin cc-side shim spawning the dos-side engine
+  // (Tools/fleet-dispatch-cycle.ts --once), debounced 30 min, no-op sans repo.
+  { filename: 'FleetDispatch.ts',                 dlqTool: null,                  endpoint: 'fleet/dispatch',           mode: 'special' },
 ];

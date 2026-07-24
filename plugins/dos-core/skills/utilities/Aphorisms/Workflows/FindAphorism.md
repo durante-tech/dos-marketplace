@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose:** Analyze newsletter or article content to recommend the perfect thematically-aligned aphorism from the database.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the FindAphorism workflow in the Aphorisms skill to find quotes"
-```
-
-Running **FindAphorism** in **Aphorisms**...
-
----
-
 **When to Use:**
 - User provides newsletter draft or URL and requests aphorism
 - User describes newsletter theme and wants quote recommendation

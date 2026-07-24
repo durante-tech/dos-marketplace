@@ -14,8 +14,6 @@ marketingDescription: Multi-agent parallel research with 12 agents, YouTube extr
 capabilities:
   - artifact.write
   - customization.cascade
-  - four-copy.sync
-  - voice.emit
 elevator: 12 parallel agents, 4 depth modes, 242+ Fabric patterns
 highlightWorkflows:
   - name: Quick Research
@@ -32,6 +30,7 @@ feature_capabilities:
   - Parallel agents drawn from the provider pool in Router.DEFAULT_RESEARCH_POOL (SoT) — claude, perplexity, gemini, brave, grok, codex; codex is agent-only (no direct-CLI adapter yet)
   - 242+ Fabric analysis patterns
   - Quick/standard/extensive/deep depth modes
+composes: [Ref, deep-research, Quick]
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 ## ⚠️ MANDATORY TRIGGER
@@ -202,5 +201,27 @@ See `Workflows/DeepInvestigation.md` for full workflow details.
 - This ties research artifacts to the work item for learning and context
 
 **Research vault (permanent):** `MEMORY/RESEARCH/{YYYY-MM}/{YYYY-MM-DD}_{topic-slug}/` (project-level, global fallback)
+
+## Artifact Tracking
+
+**MANDATORY for any workflow in this skill that writes output files via the Write tool.**
+
+After writing any output file, resolve the ARTIFACTS path and append a JSONL log entry:
+
+```bash
+# Resolve ARTIFACTS dir (project-level first)
+if [ -d "${CLAUDE_PROJECT_DIR}/MEMORY/ARTIFACTS" ]; then
+  ARTIFACTS_DIR="${CLAUDE_PROJECT_DIR}/MEMORY/ARTIFACTS"
+elif [ -d "$(pwd)/MEMORY/ARTIFACTS" ]; then
+  ARTIFACTS_DIR="$(pwd)/MEMORY/ARTIFACTS"
+else
+  ARTIFACTS_DIR="$HOME/.claude/MEMORY/ARTIFACTS"
+fi
+mkdir -p "$ARTIFACTS_DIR"
+
+echo '{"timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","pack":"Research","workflow":"WORKFLOW_NAME","type":"ARTIFACT_TYPE","title":"TITLE","path":"ABSOLUTE_PATH","contentPreview":"FIRST_500_CHARS_ESCAPED","wing":"WING_OR_GENERAL","sessionId":"'$CLAUDE_SESSION_ID'"}' >> "$ARTIFACTS_DIR/artifacts.jsonl"
+```
+
+If this skill is read-only (no Write tool usage), this section is informational only.
 
 **Four-copy note:** this skill exists in multiple copies — after editing any file here, verify parity with `bun ~/Durante/Tools/sync-check.ts` (full rule: Durante/CLAUDE.md "The Four Copies"). Artifact writes are auto-logged by ArtifactAutoLogger.hook.ts.

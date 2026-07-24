@@ -6,16 +6,6 @@ status: STABLE
 
 # IdeaGeneration Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the IdeaGeneration workflow in the BeCreative skill to brainstorm solutions"
-```
-
-Running **IdeaGeneration** in **BeCreative**...
-
----
-
 **When to use:** Brainstorming, problem-solving, innovation
 
 ---

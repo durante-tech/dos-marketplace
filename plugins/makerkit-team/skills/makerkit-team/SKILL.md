@@ -23,6 +23,7 @@ artifact_tracking:
 capabilities:
   - customization.cascade
   - four-copy.sync
+composes: [FeatureDelivery, FastAPIStarterTeam]
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 ## Customization

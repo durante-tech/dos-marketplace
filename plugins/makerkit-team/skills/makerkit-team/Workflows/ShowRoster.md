@@ -12,6 +12,10 @@ bestPath:
   - title: "Show Pipeline Summary"
     description: "Display the 8-phase pipeline summary and which workflows exist."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -35,6 +39,14 @@ Display the team roster. Read-only — no agent spawning.
 3. Output a compact table per role: id · role · traits · owns · composed_skills
 4. Verify each saved composition exists at `~/.claude/custom-agents/<slug>.md` — flag any missing (remediation: `RosterBootstrap.md`). `bun Tools/MakerkitCli.ts preflight` runs the same roster health check as part of its capability manifest.
 5. Show pipeline summary (8 phases) and which workflows exist
+
+## Intent-to-Flag Mapping
+
+ShowRoster's only CLI invocation is fixed by design — a read-only display workflow with no agent spawning and no operator-selected variant.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Pipeline step 1 — capability manifest gate; step 4 re-cites the same command, noting its roster-health check duplicates the manual saved-composition verification, not a second invocation |
 
 ## Output
 

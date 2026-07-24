@@ -8,16 +8,6 @@ status: STABLE
 
 Create branded desktop, social, or presentation wallpaper from a supplied logo, brand mark, or identity direction.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the BrandWallpaper workflow in the Art skill to create branded wallpaper"
-```
-
-Running **BrandWallpaper** in **Art**...
-
----
-
 ## Purpose
 
 Use this workflow when the user wants a brand-centered background rather than a general illustration. The output should make the brand mark the first read, keep enough negative space for icons or overlays, and preserve brand colors without turning the wallpaper into an ad.

@@ -13,14 +13,6 @@ Consumes an operator-approved `DELIVERY-PLAN.md` (plus its machine-side `PLAN-ME
 
 **Strict Gaps policy:** If any `- [ ]` item remains unchecked in the plan's `## Gaps` section, Emit exits non-zero and writes nothing. No warnings, no soft mode.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Emit workflow in the Ensemble skill to render the delivery prompt and rollout state"
-```
-
-Running the **Emit** workflow in the **Ensemble** skill to render the delivery prompt and rollout state...
-
 ## CLI Invocation
 
 ```bash

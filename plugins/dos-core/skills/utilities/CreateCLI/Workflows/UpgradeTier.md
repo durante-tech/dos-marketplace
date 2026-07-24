@@ -8,16 +8,6 @@ status: STABLE
 
 **Migrate from manual parsing to Commander.js when CLI grows complex.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the UpgradeTier workflow in the CreateCLI skill to upgrade CLI tier"
-```
-
-Running the **UpgradeTier** workflow in the **CreateCLI** skill to upgrade CLI tier...
-
----
-
 ## 🎯 PURPOSE
 
 Convert Tier 1 CLI (llcli-style) to Tier 2 (Commander.js) when complexity demands it.

@@ -6,16 +6,6 @@ status: STABLE
 
 # ReviewStories Workflow — Parallel User Story Validation
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ReviewStories workflow in the Browser skill to validate user stories"
-```
-
-Running **ReviewStories** in **Browser**...
-
----
-
 Fan out YAML user stories to parallel UIReviewer agents and aggregate results.
 
 ## When to Use

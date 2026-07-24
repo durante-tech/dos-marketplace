@@ -8,16 +8,6 @@ status: STABLE
 
 **Generate platform-correct social media images using the Art skill's infrastructure.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the GeneratePost workflow in the social-media skill to create a platform-specific image"
-```
-
-Running **GeneratePost** in **SocialMedia**...
-
----
-
 ## Step 1: Identify Platform & Format
 
 Determine from the user's request:

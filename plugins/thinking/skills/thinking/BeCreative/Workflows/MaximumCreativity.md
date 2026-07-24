@@ -6,16 +6,6 @@ status: STABLE
 
 # MaximumCreativity Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the MaximumCreativity workflow in the BeCreative skill to explore unconventional ideas"
-```
-
-Running **MaximumCreativity** in **BeCreative**...
-
----
-
 **When to use:** Need maximum creative diversity and unconventional thinking
 
 ---

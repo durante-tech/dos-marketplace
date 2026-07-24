@@ -2,6 +2,11 @@
 name: CampaignCalendar
 description: Wedge + pillars → a campaign set (C*) + a dated, multi-channel content calendar with pillar-mix ratios
 status: STABLE
+divergence_from_canonical:
+  _workflow-output-shape.md:
+    partial_version: 1.0.0
+    reason: "Bespoke Output section with workflow-specific shape (growth-program 7-phase pipeline emits per-phase document sets, not the canonical output shape)"
+    rationale_link: null
 bestPath:
   - title: "Load Upstream Contract"
     description: "Read strategy.md and any GEO roadmap, and recall prior campaigns to seed C* numbering."

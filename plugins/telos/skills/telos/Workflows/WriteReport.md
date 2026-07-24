@@ -12,6 +12,10 @@ bestPath:
   - title: "Render"
     description: "Start the dev server and hot-reload the McKinsey-style report."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Hand-authored variant table for the four per-engagement meta flags; the canonical generator directive does not expand in workflow docs, so the table is maintained inline"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "Telos WriteReport workflow has bespoke Output section with workflow-specific shape"
@@ -225,6 +229,18 @@ When {PRINCIPAL.NAME} edits source files and says "regenerate the report":
 3. Dev server hot-reloads automatically
 
 ---
+
+## Intent-to-Flag Mapping
+
+The `render-report-data` subcommand's variant surface is the four per-engagement meta flags (`TelosRender.ts` argv parsing); report content itself comes deterministically from the artifacts.
+
+| User Says | Flag | Effect |
+|-----------|------|--------|
+| "for client X", "the Acme report" | `--client "X"` | Sets the client name on the cover + headers |
+| "title it ...", "call the report ..." | `--title "..."` | Overrides the default report title |
+| "dated ...", "for the March review" | `--date "..."` | Sets the report date line |
+| "confidential", "internal only", "public" | `--classification "..."` | Sets the classification banner |
+| (default) | none | Title/date/classification fall back to the tool's pinned defaults |
 
 ## Report Structure
 

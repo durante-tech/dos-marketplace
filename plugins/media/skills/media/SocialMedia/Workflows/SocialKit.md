@@ -8,16 +8,6 @@ status: STABLE
 
 **Generate a complete social media content kit from one piece of content: platform-specific images + audio clips for Reels/TikTok.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the SocialKit workflow to generate platform images and audio clips from content"
-```
-
-Running **SocialKit** in **SocialMedia**...
-
----
-
 ## Purpose
 
 Transform a single piece of content (article, essay, product launch, announcement) into a complete social media distribution kit. Produces correctly-sized images for each platform plus short audio clips for Reels and TikTok -- all from one source input. This eliminates the manual work of reformatting content across platforms.

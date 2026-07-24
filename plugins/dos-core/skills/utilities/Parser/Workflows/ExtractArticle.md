@@ -6,20 +6,6 @@ status: STABLE
 
 # Article Extraction Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ExtractArticle workflow in the Parser skill to parse articles"
-```
-
-Running the **ExtractArticle** workflow in the **Parser** skill to parse articles...
-
-**Purpose:** Extract content, metadata, and entities from web articles and generic web pages
-
-**When to Use:** Content type detected as "article" or "generic" web content
-
----
-
 ## Extraction Steps
 
 ### 1. Content Scraping (Gemini Researcher)

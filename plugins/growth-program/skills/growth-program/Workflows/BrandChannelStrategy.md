@@ -2,6 +2,11 @@
 name: BrandChannelStrategy
 description: Phase 1 — establish brand voice + visual tokens, an ICP framework, a channel-selection decision matrix, per-channel cadence rationale, and the wedge/positioning-axis table. Writes strategy.md.
 status: STABLE
+divergence_from_canonical:
+  _workflow-output-shape.md:
+    partial_version: 1.0.0
+    reason: "Bespoke Output section with workflow-specific shape (growth-program 7-phase pipeline emits per-phase document sets, not the canonical output shape)"
+    rationale_link: null
 bestPath:
   - title: "Baseline Recall"
     description: "Recall prior brand/ICP/channel decisions and locate or extract the brand voice + token baseline."

@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose**: Break down any problem, system, or concept into its fundamental constituent parts and irreducible truths.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Deconstruct workflow in the FirstPrinciples skill to break down components"
-```
-
-Running the **Deconstruct** workflow in the **FirstPrinciples** skill to break down components...
-
----
-
 **When to Use**:
 - Starting any first principles analysis
 - When a problem seems intractable

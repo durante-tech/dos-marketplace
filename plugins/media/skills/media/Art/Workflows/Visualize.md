@@ -8,16 +8,6 @@ status: STABLE
 
 **Intelligent multi-modal visualization combining optimal approaches based on content analysis.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Visualize workflow in the Art skill to create visualizations"
-```
-
-Running **Visualize** in **Art**...
-
----
-
 Creates **ADAPTIVE VISUALIZATIONS** — analyzes content to select and orchestrate the best combination of visualization techniques, from pure data viz to mixed-media infographics to multi-panel compositions.
 
 ---

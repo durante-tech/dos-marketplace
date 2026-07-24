@@ -12,6 +12,10 @@ bestPath:
   - title: "E2E (conditional)"
     description: "E2E adds or updates a Playwright spec when the fix is user-facing; skipped for non-user-facing changes."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -81,6 +85,14 @@ QuickFix is **solo-by-design** — rung L3 of the `Workflows/_algorithm-team-spa
 ## Commit (per `Workflows/_commit-merge.md`)
 
 Single concise commit per the partial. Subject: `fix(<scope>): <terse ≤72>` (kit AGENTS.md concision rule). Subject alone is fine for one-file fixes; HEREDOC body for multi-file. Always include the regression test in the same commit when feasible. `Co-Authored-By: DuranteOS <tech@duranteos.com>` trailer. Stage modified files explicitly (never `-A`).
+
+## Intent-to-Flag Mapping
+
+QuickFix's only CLI invocation is fixed by design — the Phase-0 capability probe; fix scope is auto-classified, so no operator phrasing selects flags.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun ~/.claude/skills/makerkit-team/Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 step 1 — capability manifest + roster health; exit 1 = STOP and remediate |
 
 ## Operator Gates (v0.1.0)
 

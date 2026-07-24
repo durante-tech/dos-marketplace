@@ -8,16 +8,6 @@ status: STABLE
 
 **Generate music tracks, songs, jingles, and soundtracks using AI models.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the GenerateMusic workflow in the Music skill to compose music"
-```
-
-Running **GenerateMusic** in **Music**...
-
----
-
 ## Purpose
 
 Generate music from text descriptions, genre tags, and optional lyrics. Supports:

@@ -8,16 +8,6 @@ status: STABLE
 
 Create a custom LLM-as-Judge using templates.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CreateJudge workflow in the Evals skill to create LLM judge"
-```
-
-Running the **CreateJudge** workflow in the **Evals** skill to create LLM judge...
-
----
-
 ## Prerequisites
 
 - Use case exists or being created

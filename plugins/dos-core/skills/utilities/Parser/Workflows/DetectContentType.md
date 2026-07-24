@@ -6,20 +6,6 @@ status: STABLE
 
 # Content Type Detection Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the DetectContentType workflow in the Parser skill to detect content"
-```
-
-Running the **DetectContentType** workflow in the **Parser** skill to detect content...
-
-**Purpose:** Detect content type from URL to route to appropriate extraction workflow
-
-**When to Use:** Before parsing any URL, determine what type of content it is
-
----
-
 ## Detection Logic
 
 ### 1. Domain-Based Detection (Highest Priority)

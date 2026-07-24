@@ -11,6 +11,11 @@ bestPath:
     description: "Gate every citation through verify-urls before shipping."
   - title: "Synthesis & Vault"
     description: "Synthesize findings and persist the report to MEMORY/RESEARCH."
+divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
 ---
 
 # Claude Web Research Workflow

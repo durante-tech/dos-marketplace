@@ -39,7 +39,7 @@ import { dirname } from 'path';
 import { spawn as nodeSpawn } from 'child_process';
 import { dosPath } from './lib/paths';
 import { inference } from '../DOS/Tools/Inference';
-import { updateSessionNameInWorkJson, upsertSession } from './lib/prd-utils';
+import { updateSessionNameInWorkJson, upsertSession, isAlgorithmOptIn, isMachinePrompt } from './lib/prd-utils';
 import { startTimer, stopTimer } from './lib/hook-io';
 
 interface HookInput {
@@ -142,10 +142,12 @@ BAD examples (too short or wrong count):
 
 Output ONLY the 4-word title. Nothing else.`;
 
-// ── Lightweight mode classification (same logic as RatingCapture, zero-cost) ──
-const ALGO_ACTION_RE = /\b(implement|build|create|architect|design|migrate|deploy|refactor)\b/i;
+// ── Mode classification ──────────────────────────────────────────────────────
+// Lives in lib/prd-utils (isAlgorithmOptIn / isMachinePrompt) — keyed on the
+// explicit ALGORITHM opt-in tokens, not action verbs, since the 2026-07-08
+// NATIVE-default inversion. See the flood fix rationale there.
 function isNativeMode(prompt: string): boolean {
-  return !ALGO_ACTION_RE.test(prompt.trim());
+  return !isAlgorithmOptIn(prompt);
 }
 
 // Common noise words to skip during relevance checking and keyword extraction
@@ -638,12 +640,18 @@ async function main() {
       console.error('[SessionAutoName] No meaningful keywords in prompt — skipping');
     }
 
-    // Track ALL sessions in work.json so the activity dashboard shows them immediately.
-    // Native sessions stay as-is. Algorithm sessions get a 'starting' placeholder
-    // that PRDSync replaces when the PRD.md is written (30-120s later).
-    const sessionMode = isNativeMode(rawPrompt) ? 'native' : 'starting';
-    upsertSession(sessionId, fallback || '', prompt.slice(0, 120), sessionMode);
-    console.error(`[SessionAutoName] Created ${sessionMode} session entry in work.json`);
+    // Track operator sessions in work.json so the activity dashboard shows them
+    // immediately. Native sessions stay as-is. Algorithm sessions (explicit
+    // opt-in only) get a 'starting' placeholder that PRDSync replaces when the
+    // PRD.md is written (30-120s later). Machine helper sessions (summarizers,
+    // consolidators, compaction) are NOT work — never registered.
+    if (isMachinePrompt(rawPrompt)) {
+      console.error('[SessionAutoName] Machine helper session — not registered in work.json');
+    } else {
+      const sessionMode = isNativeMode(rawPrompt) ? 'native' : 'starting';
+      upsertSession(sessionId, fallback || '', prompt.slice(0, 120), sessionMode);
+      console.error(`[SessionAutoName] Created ${sessionMode} session entry in work.json`);
+    }
 
     // Fire-and-forget: spawn detached process to upgrade name with inference
     // This runs AFTER we've already stored the deterministic name and exited
@@ -682,9 +690,12 @@ async function main() {
     storeName(sessionId, customTitle, 'custom-title');
   }
 
-  // Keep sessions alive in work.json (bump updatedAt on each prompt)
-  const sessionMode = isNativeMode(rawPrompt) ? 'native' : 'starting';
-  upsertSession(sessionId, existingNames[sessionId] || '', '', sessionMode);
+  // Keep operator sessions alive in work.json (bump updatedAt on each prompt);
+  // machine helper sessions stay unregistered here too.
+  if (!isMachinePrompt(rawPrompt)) {
+    const sessionMode = isNativeMode(rawPrompt) ? 'native' : 'starting';
+    upsertSession(sessionId, existingNames[sessionId] || '', '', sessionMode);
+  }
 
   process.exit(0);
 }

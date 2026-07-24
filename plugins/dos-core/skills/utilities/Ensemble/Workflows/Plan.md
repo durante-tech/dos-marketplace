@@ -8,14 +8,6 @@ status: STABLE
 
 Takes a source artifact (RFC, spec, session-prompt, brief, PRD) and a target project path. Produces `DELIVERY-PLAN.md` with inferred roles, dependency DAG partitioned into waves, discovered project rails, and explicit Gaps for the operator to fill. **The plan file IS the review surface** — operator edits it, then calls Emit.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Plan workflow in the Ensemble skill to derive a delivery DAG from your artifact"
-```
-
-Running the **Plan** workflow in the **Ensemble** skill to derive a delivery DAG from your artifact...
-
 ## CLI Invocation
 
 ```bash

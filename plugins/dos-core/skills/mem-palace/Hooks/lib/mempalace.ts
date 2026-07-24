@@ -166,7 +166,8 @@ function resolveBridgePythonCached(): string | null {
  *   Bun's timeout-kill hits python directly → no orphaned grandchild.
  *
  * uv fallback: bridgeAction() — used only before the cache is written
- *   (i.e., the very first session start before MemPalaceDaemonPrewarm runs).
+ *   (i.e., the very first session start before MemPalaceDaemonEnsure's warm
+ *   tail runs; the old Prewarm shim was retired 2026-07-21, RFC-0157 F6).
  *
  * The relay paths (tryDaemonRelay / relaySpawnArgs) are unaffected: they never
  * call bridgeCmd() / bridgeAction() and already carry their own timeout-kill.

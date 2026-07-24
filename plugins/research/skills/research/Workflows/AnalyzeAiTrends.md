@@ -11,6 +11,11 @@ bestPath:
     description: "Byte-stable report skeleton from ResearchRender trend-console, filled with the synthesis."
   - title: "Vault Persistence"
     description: "Save the trend report to MEMORY/RESEARCH with artifact logging."
+divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
 ---
 
 

@@ -19,9 +19,11 @@
  *      would land on the wrong tenant.
  *
  * Both surfaces share one local registry loader (no network, no Studio
- * round-trip). The loader resolves the canonical registry path:
- *   1. ~/Durante/Tools/.dos-projects.json   (canonical — pre-existing)
- *   2. ~/Durante/.dos-projects.json         (PRD-suggested fallback root)
+ * round-trip). The loader resolves the registry along the RFC-0168 D1 chain:
+ *   0. $DOS_PROJECTS_REGISTRY                          (env override — test seam)
+ *   1. $DOS_DIR|~/.claude /DOS/projects/registry.json  (install-class canonical)
+ *   2. ~/Durante/Tools/.dos-projects.json              (maintainer legacy)
+ *   3. ~/Durante/.dos-projects.json                    (legacy fallback root)
  *
  * Cache is module-level (one read per process). Thread-safe for single-
  * threaded Bun execution; no locking needed.
@@ -68,7 +70,14 @@ function registryPathCandidates(): string[] {
   const override = process.env.DOS_PROJECTS_REGISTRY;
   if (override && override.length > 0) return [override];
   const home = homedir();
+  // Install-class canonical home first (RFC-0168 D1): ships with ~/.claude so
+  // fork-day machines can register without the maintainer's ~/Durante monorepo.
+  // DOS_DIR honors relocated installs (same seam the hook config uses).
+  const dosRoot = process.env.DOS_DIR && process.env.DOS_DIR.length > 0
+    ? process.env.DOS_DIR
+    : join(home, '.claude');
   return [
+    join(dosRoot, 'DOS', 'projects', 'registry.json'),
     join(home, 'Durante', 'Tools', '.dos-projects.json'),
     join(home, 'Durante', '.dos-projects.json'),
   ];

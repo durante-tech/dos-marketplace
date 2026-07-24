@@ -6,16 +6,6 @@ status: STABLE
 
 # Automate Workflow — Recipe Template Engine
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Automate workflow in the Browser skill to execute a recipe template"
-```
-
-Running **Automate** in **Browser**...
-
----
-
 Load a parameterized recipe template, resolve its parameters, and execute it through the appropriate browser tool.
 
 ## When to Use

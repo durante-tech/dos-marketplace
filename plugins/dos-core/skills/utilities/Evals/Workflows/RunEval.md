@@ -4,21 +4,9 @@ description: Run evaluations for a specific use case and collect results.
 status: STABLE
 ---
 
-
-
 # RunEval Workflow
 
 Run evaluations for a specific use case.
-
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the RunEval workflow in the Evals skill to execute evaluation"
-```
-
-Running the **RunEval** workflow in the **Evals** skill to execute evaluation...
-
----
 
 ## Prerequisites
 

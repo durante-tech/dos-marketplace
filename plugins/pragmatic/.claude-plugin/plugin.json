@@ -3,7 +3,7 @@
   "name": "pragmatic",
   "displayName": "DOS pragmatic",
   "description": "Channel Andy Hunt + Dave Thomas (the Pragmatic Programmers) — find the right numbered Tip from the catalog of 100 (1st ed 70 / 20th anniv 100), diagnose anti-patterns through Broken Windows / Boiled Frog / Programming by Coincidence, manage your career via Knowledge Portfolio + Dreyfus model. Spe...",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

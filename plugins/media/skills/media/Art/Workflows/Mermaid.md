@@ -8,16 +8,6 @@ status: STABLE
 
 **Drafted technical technical diagrams combining Mermaid structure with Excalidraw sketchy-illustrative aesthetic and brand color scheme.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Mermaid workflow in the Art skill to create diagrams"
-```
-
-Running **Mermaid** in **Art**...
-
----
-
 Creates **EXCALIDRAW-STYLE MERMAID DIAGRAMS** — flowcharts, sequence diagrams, state machines, and other technical diagrams with whiteboard drafted technical feel, derived from content via story explanation.
 
 ---

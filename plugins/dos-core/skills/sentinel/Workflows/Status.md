@@ -30,14 +30,6 @@ Quick overview of convention tracking for the current project.
 - Fits a read-only health snapshot of stored conventions — counts, freshness, KG coverage — with no diff-checking involved.
 - NOT for checking a diff against conventions — use Guard (staged changes) or Review (branch) — Status only reports what Sentinel already knows.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Status workflow in the sentinel skill to check convention health"
-```
-
-Running the **Status** workflow in the **Sentinel** skill to check convention health...
-
 ## Intent-to-Flag Mapping
 
 | Operator intent | Command / flag pattern | Notes |

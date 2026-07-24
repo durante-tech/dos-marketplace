@@ -35,7 +35,7 @@
  *    kg_stats answer is reported as `warm` for KG purposes only.
  *
  *  - WARM TAIL ALWAYS. The detached 60s prewarm worker (absorbed from the
- *    MemPalaceDaemonPrewarm hook, now a no-op shim) fires on EVERY non-disabled
+ *    MemPalaceDaemonPrewarm hook — retired 2026-07-21) fires on EVERY non-disabled
  *    outcome — including `warm` — preserving the old hook's unconditional
  *    contract: the worker's `search` forces the ONNX-model warm-up that
  *    kg_stats cannot prove, and is a cheap ~50ms no-op when already warm. Its
@@ -214,7 +214,7 @@ export function releaseSpawnLock(lockPath: string = ENSURE_LOCK_PATH): void {
 }
 
 /**
- * Detached warm tail — the absorbed body of MemPalaceDaemonPrewarm.hook.ts.
+ * Detached warm tail — the absorbed body of the retired MemPalaceDaemonPrewarm hook.
  * Forces the ~11s palace cold-load (incl. ONNX model) in the background so the
  * next consumer finds a warm daemon. Exported so the ensure HOOK can use it as
  * a last-resort fallback when this module's heavier path fails.

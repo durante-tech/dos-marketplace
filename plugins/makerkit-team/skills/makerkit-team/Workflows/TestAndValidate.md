@@ -14,6 +14,10 @@ bestPath:
   - title: "Triage"
     description: "Operator routes non-HEALTHY items to BugFix, DocsRefresh, or both in sequence."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -101,6 +105,14 @@ For each non-HEALTHY item, operator picks:
 - Test failure → BugFix workflow with this report as input
 - Doc drift → DocsRefresh workflow
 - Both → BugFix first, then DocsRefresh after fix lands
+
+## Intent-to-Flag Mapping
+
+TestAndValidate's only bun-CLI invocation is fixed by design — Phase 0 always runs the same capability probe; the phase's test/E2E commands are `pnpm`/Playwright invocations owned by the kit, not this pack's CLI.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 step 1 — capability manifest gate before scope resolution; exit 1 STOPs the run. Re-cited in Phase 1's `mcp__makerkit__run_checks` fallback note as a pointer to this same manifest, not a second invocation. |
 
 ## Operator Gates (v0.1.0)
 

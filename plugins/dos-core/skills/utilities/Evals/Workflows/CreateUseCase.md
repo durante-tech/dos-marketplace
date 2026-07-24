@@ -4,21 +4,9 @@ description: Define a new eval use case with inputs and expected behavior.
 status: STABLE
 ---
 
-
-
 # CreateUseCase Workflow
 
 Create a new evaluation use case with test cases and scoring criteria.
-
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CreateUseCase workflow in the Evals skill to create eval use case"
-```
-
-Running the **CreateUseCase** workflow in the **Evals** skill to create eval use case...
-
----
 
 ## Prerequisites
 

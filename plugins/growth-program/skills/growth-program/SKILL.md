@@ -9,7 +9,7 @@ category: Growth
 displayLabel: GrowthProgram
 roots: []
 visibility: public
-capabilities: [artifact.write, customization.cascade, four-copy.sync, voice.emit]
+capabilities: [customization.cascade, four-copy.sync]
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 ## Customization
@@ -83,3 +83,14 @@ with `dispatch` drafting copy and the Channel + Creative seats vetting cadence a
 
 Routes to `GeoPillar` — `research`-grounded baseline + corpus supply-chain + answer-targets + gated
 sequencing, with the Skeptic refuting unsourced stats and gating the reviews pillar on a paying-customer base.
+
+## Four-Copy Compliance
+
+This skill exists in up to four locations per the DOS Four-Copy Rule (`Durante/CLAUDE.md`):
+
+1. `~/.claude/skills/growth-program/` — live install (what Claude Code runs)
+2. `Releases/<active-version>/.claude/skills/growth-program/` — active release submodule (versioned)
+3. `Packs/*/src/GrowthProgram/` — pack source (distributable)
+4. `Packs/agents/GrowthProgram/` — agent runtime (only if applicable)
+
+After editing any file in this skill, verify all copies via `bun ~/Durante/Tools/sync-check.ts`. Exit code 0 = clean. Exit code 1 = drift; resolve with `--fix` before commit.

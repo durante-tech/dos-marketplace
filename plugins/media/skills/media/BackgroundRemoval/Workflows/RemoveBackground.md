@@ -8,16 +8,6 @@ status: STABLE
 
 **Remove or replace backgrounds from images using AI models.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the RemoveBackground workflow in the BackgroundRemoval skill to remove image backgrounds"
-```
-
-Running **RemoveBackground** in **BackgroundRemoval**...
-
----
-
 ## Purpose
 
 Remove, replace, or manipulate image backgrounds. Supports:

@@ -8,16 +8,6 @@ status: STABLE
 
 **Restore, enhance, and upscale damaged or low-quality images using AI.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the RestoreImage workflow in the ImageRestoration skill to restore images"
-```
-
-Running **RestoreImage** in **ImageRestoration**...
-
----
-
 ## Purpose
 
 Fix old, damaged, blurry, or low-quality images:

@@ -16,7 +16,7 @@ capabilities:
   - customization.cascade
 divergence_from_canonical:
   _four-copy-footer.md:
-    partial_version: 1.0.0
+    partial_version: 1.1.0
     reason: "Bespoke Four-Copy section — copies 1-2 are created only on operator activation and the sync-manifest note is pack-specific; the canonical footer would misstate the activation gating"
     rationale_link: null
 elevator: PreToolUse pattern-block for catastrophic shell commands; operator-gated.

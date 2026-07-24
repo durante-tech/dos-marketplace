@@ -8,16 +8,6 @@ status: STABLE
 
 **Maintain visual style and character consistency across multiple images using reference images.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Style Transfer workflow in the Art skill for consistent style generation"
-```
-
-Running **StyleTransfer** in **Art**...
-
----
-
 ## Purpose
 
 Generate new images that maintain visual consistency with existing ones -- same character, same style, same brand aesthetic. This workflow uses reference images to anchor the generation, ensuring that a series of images looks like it came from the same artist, campaign, or universe.

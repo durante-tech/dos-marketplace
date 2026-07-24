@@ -15,7 +15,6 @@ capabilities:
   - artifact.write
   - customization.cascade
   - four-copy.sync
-  - voice.emit
 elevator: 9-agent research, logo design, StoryBrand, icon systems
 highlightWorkflows:
   - name: Brand Research
@@ -58,6 +57,7 @@ feature_capabilities:
   - Brand audit and competitive analysis
   - Logo design and icon systems
   - Three-layer token architecture (option/decision/component)
+composes: [DesignSystem]
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 # Brand -- Brand Intelligence, Definition, and Implementation

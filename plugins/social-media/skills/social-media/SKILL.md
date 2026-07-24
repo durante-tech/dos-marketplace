@@ -15,7 +15,6 @@ capabilities:
   - artifact.write
   - customization.cascade
   - four-copy.sync
-  - voice.emit
 elevator: Zero-dep REST CLIs for Facebook, Instagram, and LinkedIn — publish, insights, comments
 highlightWorkflows:
   - name: Facebook Login

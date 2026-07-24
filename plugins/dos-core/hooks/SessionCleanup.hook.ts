@@ -40,6 +40,7 @@ import { getISOTimestamp } from './lib/time';
 import { setTabState, cleanupKittySession } from './lib/tab-setter';
 import { getWorkDir } from './lib/paths';
 import { startTimer, stopTimer } from './lib/hook-io';
+import { reapPendingBaselines } from './lib/session-baseline-pending';
 
 const BASE_DIR = process.env.DOS_DIR || join(process.env.HOME!, '.claude');
 const MEMORY_DIR = join(BASE_DIR, 'MEMORY');
@@ -225,6 +226,22 @@ async function main() {
 
     // RFC-0005 §13.2 R10: prune stale next-session-context-*.md (>14d)
     pruneStaleSnapshots();
+
+    // H-012 (Forge Gen 176): reap pending session-baseline markers left by
+    // SessionBaseline spawn failures — bounded sweep (≤2 capture ATTEMPTS,
+    // 10s cap each; 15-min marker freshness window) riding this existing
+    // SessionEnd hook; zero new session-start processes (the Gen-3 revert
+    // constraint). Own-session markers are pruned.
+    try {
+      const reap = reapPendingBaselines(sessionId);
+      if (reap.reaped > 0 || reap.pruned > 0) {
+        console.error(
+          `[SessionCleanup] Baseline marker sweep: reaped ${reap.reaped}, pruned ${reap.pruned}, skipped ${reap.skipped}`,
+        );
+      }
+    } catch (e) {
+      console.error(`[SessionCleanup] Baseline marker sweep error (non-fatal): ${e}`);
+    }
 
     // Reset Kitty tab to neutral styling — no lingering colored backgrounds
     try {

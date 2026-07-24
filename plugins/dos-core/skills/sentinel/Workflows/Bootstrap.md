@@ -40,14 +40,6 @@ When Sentinel detects an empty project (< 3 source files, no CLAUDE.md, no depen
 - Fits brand-new projects with no existing code, where Discovery Mode has nothing to analyze yet.
 - NOT for repos with existing code and conventions to discover — use Scan (Bootstrap is the auto-branch Scan takes only when the project is empty).
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Empty project detected. Entering bootstrap mode to set up your project."
-```
-
-Sentinel detected an empty project. Entering **Bootstrap Mode**...
-
 ## Pipeline (6 Steps)
 
 ### Progressive Narration (MANDATORY)

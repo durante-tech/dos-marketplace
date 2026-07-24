@@ -6,24 +6,6 @@ status: STABLE
 
 # Browser Extension Security Analysis Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ExtractBrowserExtension workflow in the Parser skill to analyze extensions"
-```
-
-Running the **ExtractBrowserExtension** workflow in the **Parser** skill to analyze browser extensions...
-
-**Purpose:** Analyze browser extensions for security risks, clone detection, and malicious patterns
-
-**When to Use:**
-- Security assessment of unknown extensions
-- Incident response involving browser-based malware
-- Vetting extensions before enterprise deployment
-- Analyzing suspicious "Click Fix" or "Crash Fix" style attacks
-
----
-
 ## Extraction Steps
 
 ### 1. Extension Acquisition

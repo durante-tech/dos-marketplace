@@ -8,14 +8,6 @@ status: STABLE
 
 Scaffold a new autonomous DOS agent pack using the shared runtime.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Create workflow in the CreateAgentPack skill to scaffold new agent pack"
-```
-
-Running the **Create** workflow in the **CreateAgentPack** skill to scaffold new agent pack...
-
 ## Step 1: Read the Reference Implementation
 
 **REQUIRED FIRST:** Read the DailyBrief agent to understand the pattern:

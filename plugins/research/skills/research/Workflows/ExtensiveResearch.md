@@ -14,6 +14,11 @@ bestPath:
     description: "Merge and deduplicate findings across all perspective results."
   - title: "Structured Report"
     description: "Compile final report with citations, confidence scores, and key insights."
+divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
 ---
 
 # Extensive Research Workflow

@@ -28,6 +28,14 @@ bun Tools/MakerkitCli.ts preflight
 
 The manifest reports which orchestration primitives the running harness exposes (team primitives, Agent/Task fan-out, background execution). Cache it for the session; re-probe only if the tool surface changes. If `preflight` is unavailable, probe directly: does the tool surface include `TeamCreate` and team-addressed `SendMessage`? **Current harness ground truth: NO — there is no `TeamCreate`, and `Agent`'s `team_name` parameter is documented deprecated/ignored.**
 
+## Intent-to-Flag Mapping
+
+This partial's only CLI invocation is fixed by design — every workflow that composes `_algorithm-team-spawn.md` fires the identical capability-probe command at Phase 0, before any spawn decision; there is no operator-phrasing-driven variant.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 of every composing workflow — obtains the capability manifest (team primitives, roster health, doctrine pointer) before selecting a degradation-ladder rung; cached for the session |
+
 ## The degradation ladder
 
 | Rung | Mode | Precondition | Rendezvous |

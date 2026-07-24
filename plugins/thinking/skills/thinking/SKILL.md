@@ -14,7 +14,6 @@ marketingDescription: "7 thinking modes: first principles, council debates, red 
 capabilities:
   - customization.cascade
   - four-copy.sync
-  - voice.emit
 elevator: "7 modes: first principles, council, red team, threat modeling"
 highlightWorkflows:
   - name: First Principles

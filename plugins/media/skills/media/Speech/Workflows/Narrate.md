@@ -8,16 +8,6 @@ status: STABLE
 
 **Convert text content — blog posts, essays, documentation — into professionally narrated audio.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Narrate workflow in the Speech skill to generate narrated audio"
-```
-
-Running **Narrate** in **Speech**...
-
----
-
 ## Purpose
 
 The Narrate workflow transforms written content into high-quality spoken audio. It handles everything from short paragraphs to full-length articles, automatically selecting the best model based on content length, language, and desired tone.

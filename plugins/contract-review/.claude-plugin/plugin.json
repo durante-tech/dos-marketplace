@@ -3,7 +3,7 @@
   "name": "contract-review",
   "displayName": "DOS contract-review",
   "description": "Multi-agent legal contract analysis team for SaaS/service agreements. 4 specialized agents (Risk, Commercial, Compliance, Synthesis) review contracts in parallel and produce a traffic-light redline report.",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

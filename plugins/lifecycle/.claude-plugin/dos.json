@@ -1,0 +1,9 @@
+{
+  "pack": "lifecycle",
+  "visibility": "public",
+  "requires": [
+    "dos-core"
+  ],
+  "emitter": "plugin-marketplace",
+  "compiledFrom": "Packs/lifecycle/src/"
+}

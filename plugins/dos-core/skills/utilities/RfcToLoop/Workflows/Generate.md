@@ -8,14 +8,6 @@ status: STABLE
 
 Generates a copy-paste `/loop` block (RFC slice + ISC + rails + gates) and a PRD stub from any RFC in `Plans/Specs/`.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Generate workflow in the RfcToLoop skill to pack an RFC slice for delivery"
-```
-
-Running the **Generate** workflow in the **RfcToLoop** skill to pack an RFC slice for delivery...
-
 ## Step 1: Resolve the RFC
 
 Ask the caller for the RFC identifier if not already provided. Acceptable forms:

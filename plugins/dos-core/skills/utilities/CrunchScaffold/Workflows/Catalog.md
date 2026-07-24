@@ -6,22 +6,6 @@ status: STABLE
 
 # Catalog Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Catalog workflow in the CrunchScaffold skill to inspect the Surface Crunch family"
-```
-
-Running the **Catalog** workflow in the **CrunchScaffold** skill...
-
-Lists and inspects the **Surface Crunch** instance family — the skills that share the
-meta-pattern. Pattern doctrine: `MEMORY/CANONICAL/surface-crunch-pattern.md`.
-
-**Trigger:** "list crunch skills", "surface crunch family", "crunch catalog", "what
-Surface Crunch skills exist".
-
----
-
 ## Step 1: Read the canonical roster
 
 Read `MEMORY/CANONICAL/surface-crunch-pattern.md` → the "4 instances" tables. These

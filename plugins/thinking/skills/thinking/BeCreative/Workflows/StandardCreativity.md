@@ -6,16 +6,6 @@ status: STABLE
 
 # StandardCreativity Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the StandardCreativity workflow in the BeCreative skill to apply creative thinking"
-```
-
-Running **StandardCreativity** in **BeCreative**...
-
----
-
 **When to use:** Most creative tasks requiring depth and quality
 
 ---

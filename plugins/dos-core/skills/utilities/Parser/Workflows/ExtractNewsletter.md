@@ -6,20 +6,6 @@ status: STABLE
 
 # Newsletter Extraction Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ExtractNewsletter workflow in the Parser skill to parse newsletters"
-```
-
-Running the **ExtractNewsletter** workflow in the **Parser** skill to parse newsletters...
-
-**Purpose:** Extract structured content from newsletter HTML (Substack, Beehiiv, ConvertKit, etc.)
-
-**When to Use:** Content type detected as "newsletter" from known newsletter domains
-
----
-
 ## Extraction Steps
 
 ### 1. Newsletter Platform Detection

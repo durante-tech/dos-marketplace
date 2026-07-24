@@ -6,27 +6,6 @@ status: STABLE
 
 # Adversarial Validation Pattern (Battle of Bots)
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the AdversarialValidation workflow in the RedTeam skill to validate decisions"
-```
-
-Running the **AdversarialValidation** workflow in the **RedTeam** skill to validate decisions...
-
-**Purpose:** Use competing agents + critic to produce superior synthesis through adversarial refinement.
-
-**When to Use:**
-- Feature specifications that need stress-testing
-- Architectural decisions before implementation
-- Code reviews where multiple approaches exist
-- Content that needs to withstand scrutiny
-- Any output where quality matters more than speed
-
-**Source:** Network Chuck prompting video (2025) - "AI is normally better at critiquing or editing than original writing"
-
----
-
 ## The Three-Round Protocol
 
 ### Round 1: Competing Proposals

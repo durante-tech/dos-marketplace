@@ -8,16 +8,6 @@ status: STABLE
 
 **Edit existing images using natural language instructions via reference-image models.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Image Edit workflow in the Art skill to edit images"
-```
-
-Running **ImageEdit** in **Art**...
-
----
-
 ## Purpose
 
 Edit, modify, or remix existing images using natural language descriptions. This workflow routes to the correct model based on edit type: single-image edits use `grok-imagine` (fast, 1 reference), multi-reference compositing uses `flux-2-pro` (up to 8 refs), and style transformations use `seedream` (up to 14 refs).

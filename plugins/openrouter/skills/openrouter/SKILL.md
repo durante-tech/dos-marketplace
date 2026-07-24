@@ -25,7 +25,6 @@ capabilities:
   - artifact.write
   - customization.cascade
   - four-copy.sync
-  - voice.emit
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 ## Customization
@@ -167,4 +166,35 @@ Per-model pricing lives on OpenRouter's side; the DOS Pack deliberately does not
 - **Provider-side prompt caching** is passed through but only works when OpenRouter routes directly to Anthropic (not Bedrock / Vertex). Usage returns `cacheCreationTokens` + `cacheReadTokens` when the cache hits.
 - **Function calling / tool use** — schema is OpenAI-compat. Pack passes `tools[]` + `tool_choice` through verbatim; response returns any `toolCalls` the model emits. The Pack does NOT execute tools — that's the caller's job.
 
-**Four-copy note:** this skill exists in multiple copies — after editing any file here, verify parity with `bun ~/Durante/Tools/sync-check.ts` (full rule: Durante/CLAUDE.md "The Four Copies"). Artifact writes are auto-logged by ArtifactAutoLogger.hook.ts.
+## Artifact Tracking
+
+**MANDATORY for any workflow in this skill that writes output files via the Write tool.**
+
+After writing any output file, resolve the ARTIFACTS path and append a JSONL log entry:
+
+```bash
+# Resolve ARTIFACTS dir (project-level first)
+if [ -d "${CLAUDE_PROJECT_DIR}/MEMORY/ARTIFACTS" ]; then
+  ARTIFACTS_DIR="${CLAUDE_PROJECT_DIR}/MEMORY/ARTIFACTS"
+elif [ -d "$(pwd)/MEMORY/ARTIFACTS" ]; then
+  ARTIFACTS_DIR="$(pwd)/MEMORY/ARTIFACTS"
+else
+  ARTIFACTS_DIR="$HOME/.claude/MEMORY/ARTIFACTS"
+fi
+mkdir -p "$ARTIFACTS_DIR"
+
+echo '{"timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","pack":"OpenRouter","workflow":"WORKFLOW_NAME","type":"ARTIFACT_TYPE","title":"TITLE","path":"ABSOLUTE_PATH","contentPreview":"FIRST_500_CHARS_ESCAPED","wing":"WING_OR_GENERAL","sessionId":"'$CLAUDE_SESSION_ID'"}' >> "$ARTIFACTS_DIR/artifacts.jsonl"
+```
+
+If this skill is read-only (no Write tool usage), this section is informational only.
+
+## Four-Copy Compliance
+
+This skill exists in up to four locations per the DOS Four-Copy Rule (`Durante/CLAUDE.md`):
+
+1. `~/.claude/skills/openrouter/` — live install (what Claude Code runs)
+2. `Releases/<active-version>/.claude/skills/openrouter/` — active release submodule (versioned)
+3. `Packs/*/src/OpenRouter/` — pack source (distributable)
+4. `Packs/agents/OpenRouter/` — agent runtime (only if applicable)
+
+After editing any file in this skill, verify all copies via `bun ~/Durante/Tools/sync-check.ts`. Exit code 0 = clean. Exit code 1 = drift; resolve with `--fix` before commit.

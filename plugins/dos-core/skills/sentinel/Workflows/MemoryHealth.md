@@ -29,12 +29,6 @@ Operationalizes the post-tragedy 4-domain memory audit (statusbar / bridge / git
 
 Phase 8 (Registry consistency) was added 2026-05-09 after the empty-status-bar incident. It invokes R39, R40, R42 from the v3-resilience profile and supports `--fix --apply` for mechanical resolution.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the MemoryHealth workflow in the sentinel skill to audit the memory subsystem"
-```
-
 ## Intent-to-Flag Mapping
 
 | User Says | Tool | Flag | When to Use |

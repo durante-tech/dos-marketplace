@@ -25,7 +25,7 @@ visibility: public
 capabilities:
   - customization.cascade
   - four-copy.sync
-  - voice.emit
+composes: [ContextSearch]
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 ## Customization
@@ -158,7 +158,7 @@ DOS mechanizes the same rule. The **INTEL-FIRST guard** (Sentinel R14, implement
 
 ## MCP Tools Available
 
-29 tools on the upstream PyPI MCP server (`python -m mempalace.mcp_server`). The bridge.py wrapper at `~/.claude/DOS/Tools/mempalace_bridge.py` adds one DOS-side action — `last_checkpoint` — as a clearer alias for `memories_filed_away` (same handler). AI clients that go through MCP must use the upstream tool name `mempalace_memories_filed_away`; DOS hooks calling the bridge directly may use either.
+33 tools on the upstream PyPI MCP server (`python -m mempalace.mcp_server`). The bridge.py wrapper at `~/.claude/DOS/Tools/mempalace_bridge.py` adds one DOS-side action — `last_checkpoint` — as a clearer alias for `memories_filed_away` (same handler). AI clients that go through MCP must use the upstream tool name `mempalace_memories_filed_away`; DOS hooks calling the bridge directly may use either.
 
 ### Palace Read (8)
 
@@ -173,13 +173,14 @@ DOS mechanizes the same rule. The **INTEL-FIRST guard** (Sentinel R14, implement
 | `mempalace_get_drawer` | Fetch full drawer body by ID |
 | `mempalace_list_drawers` | Enumerate drawers (ISO-only `since`/`before` bounds on `filed_at` — upstream 3.6.0, relative forms like `24h` NOT accepted; `sort=recent` orders by coalesce(`authored_at`,`filed_at`,`timestamp`) — DOS P1r; recency keys live under `metadata`, no top-level `timestamp`; the MCP shape takes NO `preview_chars` — that argument is bridge-only, see W-2) |
 
-### Palace Write (3)
+### Palace Write (4)
 
 | Tool | Purpose |
 |------|---------|
 | `mempalace_add_drawer` | File verbatim content with duplicate check |
 | `mempalace_update_drawer` | Modify an existing drawer in place |
 | `mempalace_delete_drawer` | Remove a drawer by ID (irreversible) |
+| `mempalace_delete_by_source` | Remove every drawer filed from a given source (bulk, irreversible) |
 
 ### Status (3)
 
@@ -189,13 +190,14 @@ DOS mechanizes the same rule. The **INTEL-FIRST guard** (Sentinel R14, implement
 | `mempalace_kg_stats` | Graph overview (entities, triples, types) |
 | `mempalace_memories_filed_away` | Check whether a recent SessionStop checkpoint was filed (upstream-canonical MCP name; bridge.py also exposes a `last_checkpoint` action — same handler, clearer DOS-side name) |
 
-### Knowledge Graph (4)
+### Knowledge Graph (5)
 
 | Tool | Purpose |
 |------|---------|
 | `mempalace_kg_query` | Entity relationships with temporal filtering |
 | `mempalace_kg_add` | Add temporal facts (triples) |
 | `mempalace_kg_invalidate` | Mark facts as no longer true |
+| `mempalace_kg_supersede` | Replace a fact with its successor (invalidate old + add new, linked) |
 | `mempalace_kg_timeline` | Chronological entity history |
 
 ### Tunnels (4)
@@ -206,6 +208,13 @@ DOS mechanizes the same rule. The **INTEL-FIRST guard** (Sentinel R14, implement
 | `mempalace_list_tunnels` | List tunnels (filterable by wing/room) |
 | `mempalace_delete_tunnel` | Remove a tunnel by ID |
 | `mempalace_follow_tunnels` | Walk tunnel edges from a starting room |
+
+### Hallways (2)
+
+| Tool | Purpose |
+|------|---------|
+| `mempalace_list_hallways` | List hallways (ordered room sequences within a wing) |
+| `mempalace_delete_hallway` | Remove a hallway by ID |
 
 ### Navigation (3)
 

@@ -6,20 +6,6 @@ status: STABLE
 
 # AlgorithmFlip Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Algorithm Flip workflow to switch the active DOS Algorithm version"
-```
-
-Running the **AlgorithmFlip** workflow in the **DOSUpgrade** skill to switch the active Algorithm version...
-
-**Flips the active DOS Algorithm version pointer across every file in the four-copy universe** (live + submodule + pack source). Replaces the bespoke sed-based flip with a single reproducible command.
-
-**Trigger:** "flip algorithm", "switch algorithm version", "activate algorithm vX.Y.Z", "point to algorithm vX.Y.Z", "cut over algorithm"
-
----
-
 ## Overview
 
 After `AlgorithmUpgrade` proposes a new version and the principal has drafted the new `vX.Y.Z.md` file, this workflow handles the cross-cutting pointer flip so every consumer (CLAUDE.md, native agents, hooks, DynamicAgent.hbs, Delegation SKILL, Ensemble prompt renderer, etc.) loads the new version.

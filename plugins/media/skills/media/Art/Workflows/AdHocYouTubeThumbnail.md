@@ -8,16 +8,6 @@ status: STABLE
 
 Generate a YouTube thumbnail from content when the user has not supplied a complete asset kit.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the AdHocYouTubeThumbnail workflow in the Art skill to generate a thumbnail from content"
-```
-
-Running **AdHocYouTubeThumbnail** in **Art**...
-
----
-
 ## Purpose
 
 Use this workflow when the prompt is content-first: a video topic, transcript, title, outline, or rough idea. If the user already has a finished asset kit and only needs validation, route to `Workflows/YouTubeThumbnailChecklist.md`.

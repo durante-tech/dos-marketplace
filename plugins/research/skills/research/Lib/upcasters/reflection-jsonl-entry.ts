@@ -39,6 +39,11 @@
  * every caller MUST handle both branches. Feathers' Round 2 lesson:
  * "how you discover six months later that 14% of your corpus vanished."
  *
+ * SENTIMENT WORD ALIAS (v1.2.0, operator-signed 2026-07-22) — a string
+ * implied_sentiment with a known word mapping (positive/productive→8, neutral→7,
+ * negative→3; corpus 0-10 scale) converts at projection; unknown words still
+ * quarantine. Conversion recorded in `_upcast_defaults`.
+ *
  * ALIAS KEYS (v1.1.0) — applied BEFORE the required-field check, only when
  * the canonical key is absent on the source row:
  *
@@ -203,6 +208,22 @@ const ALIAS_KEY_MAPPINGS = [
 ] as const;
 
 /**
+ * v1.2.0 — word→number sentiment alias table (corpus 0-10 integer scale; two float
+ * outliers 0.8/0.85 exist in the corpus and are untouched — this map fires on strings
+ * only). OBSERVED corpus words: "positive" (×2), "productive" (×1); "confident" (×1,
+ * project corpus) is deliberately unmapped and still quarantines. "neutral"/"negative"
+ * are SPECULATIVE forward-cover on the same scale (adversarial-review finding d —
+ * acknowledged, not observed); remove them if strict observed-only discipline is
+ * preferred over forward-cover.
+ */
+const SENTIMENT_WORD_MAP: Record<string, number> = {
+  positive: 8,
+  productive: 8,
+  neutral: 7,   // speculative (unobserved)
+  negative: 3,  // speculative (unobserved; below observed numeric floor 6 by design)
+};
+
+/**
  * Reflection-composition families, in precedence order. First family with
  * any non-empty member wins; contributing values join with ' | ' in the
  * stable key order declared here. Array-valued members (`lessons`) are
@@ -323,6 +344,22 @@ export function upcastReflectionJsonlEntry(raw: string | Record<string, unknown>
     const composed = composeReflectionFromFamilies(obj);
     if (composed) {
       candidate.reflection = composed.reflection;
+    }
+  }
+
+  // Phase 2e0 — implied_sentiment WORD alias (v1.2.0, operator-signed 2026-07-22):
+  // 2 real 2026-05-25 engineer rows carry word sentiments ("productive", "positive")
+  // on the CANONICAL key. Convert word → corpus-scale number ONLY when the value is a
+  // string with a known mapping; unknown words still quarantine (projection honesty).
+  // SCALE NOTE (deviation from the signed sketch, recorded in gen-112): the corpus is
+  // 0-10 (observed: mode 8, neutral-default 7) — the sketched -1/0/+1 mapping would
+  // have written "very negative" numbers for positive words. Mapping follows the
+  // corpus. Conversion recorded in _upcast_defaults as "implied_sentiment:word-alias".
+  if (typeof candidate.implied_sentiment === "string") {
+    const w = SENTIMENT_WORD_MAP[(candidate.implied_sentiment as string).trim().toLowerCase()];
+    if (w !== undefined) {
+      candidate.implied_sentiment = w;
+      upcastDefaults.push("implied_sentiment:word-alias");
     }
   }
 
@@ -741,6 +778,6 @@ function checkRuntimeTypes(c: Record<string, unknown>): UpcastFailureReason | nu
 // VERSION — bumped when contract surface changes (semver-minor at minimum)
 // ---------------------------------------------------------------------------
 
-export const UPCASTER_VERSION = "1.1.0";
+export const UPCASTER_VERSION = "1.2.0";
 export const UPCASTER_CONTRACT_REF = "MEMORY/CANONICAL/upcaster-contract.md";
 export const UPCASTER_RFC_REF = "Plans/Specs/RFC-0115-schema-migration-reflection-jsonl-entry.md";

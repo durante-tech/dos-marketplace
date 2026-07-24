@@ -6,14 +6,6 @@ status: STABLE
 
 # Red Team Parallel Analysis Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ParallelAnalysis workflow in the RedTeam skill to red team arguments"
-```
-
-Running the **ParallelAnalysis** workflow in the **RedTeam** skill to red team arguments...
-
 ## Overview
 
 Military-grade adversarial analysis using parallel agent deployment. Breaks arguments into atomic components, attacks from 32 different expert perspectives simultaneously, synthesizes findings, and produces the ultimate counter-argument.

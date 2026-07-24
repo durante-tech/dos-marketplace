@@ -29,12 +29,6 @@ Parses the active Algorithm doctrine (`~/.claude/DOS/Algorithm/LATEST` → resol
 
 The output is a single coverage % — what fraction of doctrine obligations have a verifiable artifact backing them. Falling below the threshold means doctrine is drifting away from implementation (or vice versa).
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the DoctrineDrift workflow in the sentinel skill to verify doctrine coverage"
-```
-
 ## Intent-to-Flag Mapping
 
 | User Says | Tool | Flag | When to Use |

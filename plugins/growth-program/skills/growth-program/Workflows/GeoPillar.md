@@ -2,6 +2,11 @@
 name: GeoPillar
 description: Phase 5 — the GEO/AEO pillar — be the default answer when a human or an LLM asks for the best tool in the niche
 status: STABLE
+divergence_from_canonical:
+  _workflow-output-shape.md:
+    partial_version: 1.0.0
+    reason: "Bespoke Output section with workflow-specific shape (growth-program 7-phase pipeline emits per-phase document sets, not the canonical output shape)"
+    rationale_link: null
 bestPath:
   - title: "Verified Baseline"
     description: "Establish the sourced 'you are here' baseline across in-repo schema state and off-repo entity/review/corpus signals."

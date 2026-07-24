@@ -19,16 +19,6 @@ bestPath:
 
 **Interactive data visualizations and dashboards using D3.js.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the D3Dashboards workflow in the Art skill to create visualizations"
-```
-
-Running **D3Dashboards** in **Art**...
-
----
-
 ## Purpose
 
 Creates sophisticated, interactive data visualizations using D3.js for dashboards, reports, and data analysis.

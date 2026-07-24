@@ -15,6 +15,10 @@ bestPath:
   - title: "Vault Export"
     description: "Export investigation vault with full provenance and source chains."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "Research DeepInvestigation workflow has bespoke Output section with workflow-specific shape"

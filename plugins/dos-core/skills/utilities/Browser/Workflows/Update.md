@@ -6,16 +6,6 @@ status: STABLE
 
 # Update Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Update workflow in the Browser skill to sync capabilities"
-```
-
-Running **Update** in **Browser**...
-
----
-
 Verify browser tools are current and working.
 
 ## When to Use

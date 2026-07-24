@@ -8,12 +8,6 @@ status: STABLE
 
 Convert an external skill into a DOS Pack. Authored 2026-05-19 as part of the open-design → DOS Packs migration to close the loop between the Phase 1 bespoke chain and the canonical CreateSkill discipline.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the MigrateExternalSkill workflow in the CreateSkill skill"
-```
-
 ## Step 1: Classify the migration tier
 
 External skills fall into three tiers based on their capability surface. Pick ONE:

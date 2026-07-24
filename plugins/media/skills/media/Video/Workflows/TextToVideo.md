@@ -8,16 +8,6 @@ status: STABLE
 
 **Generate video from a text prompt with no image input -- pure text-to-video generation.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Text to Video workflow in the Video skill to generate video from text"
-```
-
-Running **TextToVideo** in **Video**...
-
----
-
 ## Purpose
 
 Generate video clips directly from text descriptions. No source image required. The workflow helps select the right model based on quality needs, audio requirements, and turnaround speed, then crafts a cinematic prompt optimized for video generation.

@@ -20,6 +20,12 @@
  *   - IDEMPOTENT: no-op if baseline already exists for this session_id
  *   - PERFORMANCE: foreground spawn, ~200-500ms; well under the 1s ISC-4
  *     budget. Never blocks session start (always exits 0).
+ *   - FAILURE PATH (H-012, Gen 176): on spawn-failed/spawn-error, write a tiny
+ *     pending MARKER (sync file write — ZERO new session-start processes, the
+ *     constraint the Gen-3 detached-retry revert taught). SessionCleanup's
+ *     SessionEnd sweep reaps markers for still-active sessions and stamps the
+ *     late baseline's provenance. Telemetry: event gains a '-marked' suffix
+ *     when the marker landed (H-094: state must be log-visible).
  *
  * INTER-HOOK RELATIONSHIPS:
  *   - INDEPENDENT OF: KittyEnvPersist, LoadContext, BuildCLAUDE,
@@ -31,21 +37,18 @@
 
 import { existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { join } from 'node:path';
-import { homedir } from 'node:os';
 import { readHookInput, startTimer, stopTimer } from './lib/hook-io';
-
-const BASELINE_TOOL = join(homedir(), 'Durante', 'Tools', 'session-baseline.ts');
-const STATE_DIR = join(homedir(), 'Durante', 'MEMORY', 'STATE');
-
-function baselinePath(sessionId: string): string {
-  return join(STATE_DIR, `session-${sessionId}-baseline.json`);
-}
+import {
+  baselinePath,
+  resolveBaselineTool,
+  writePendingMarker,
+} from './lib/session-baseline-pending';
 
 function captureBaseline(sessionId: string): 'spawn-ok' | 'spawn-failed' | 'spawn-error' {
-  if (!existsSync(BASELINE_TOOL)) return 'spawn-failed';
+  const tool = resolveBaselineTool();
+  if (!existsSync(tool)) return 'spawn-failed';
   try {
-    const r = spawnSync('bun', [BASELINE_TOOL, 'capture', `--session-id=${sessionId}`], {
+    const r = spawnSync('bun', [tool, 'capture', `--session-id=${sessionId}`], {
       encoding: 'utf-8',
       timeout: 5_000,
       stdio: ['ignore', 'pipe', 'pipe'],
@@ -72,6 +75,15 @@ async function main(): Promise<void> {
       return;
     }
     event = captureBaseline(sessionId);
+    // H-012 (Gen 176): failed capture → pending marker; the SessionCleanup
+    // sweep retries it while the session is still alive. Marker write is a
+    // sync file touch — zero new session-start processes (Gen-3 constraint).
+    if (event !== 'spawn-ok') {
+      const transcriptPath = (input as { transcript_path?: string }).transcript_path || '';
+      if (writePendingMarker(sessionId, transcriptPath, event)) {
+        event = `${event}-marked`;
+      }
+    }
   } catch {
     event = 'error-unhandled';
   } finally {

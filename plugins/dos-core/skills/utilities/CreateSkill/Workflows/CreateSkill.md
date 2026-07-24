@@ -8,14 +8,6 @@ status: STABLE
 
 Create a new skill following the canonical structure with proper TitleCase naming.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CreateSkill workflow in the CreateSkill skill to create new skill"
-```
-
-Running the **CreateSkill** workflow in the **CreateSkill** skill to create new skill...
-
 ## Step 1: Read the Authoritative Sources
 
 **REQUIRED FIRST:**
@@ -180,7 +172,7 @@ The directives are expanded by `bun ~/Durante/Tools/dos-build.ts skill <pack-pat
 
 ### 5c. Inlined-mode (legacy fallback for non-canonical packs)
 
-If the new pack will need a non-canonical voice/customization shape (compact one-liner voice block, non-`🚨`-prefixed heading, `Full documentation:` footer, `PREFERENCES.md` bullet, etc.), keep boilerplate inlined and SKIP authoring `SKILL.partials.md`. Document the divergence per `Phase3/Verification/slice-1-not-partializable.md` precedent. The legacy inlined template is preserved here for reference:
+If the new pack will need a non-canonical customization shape (non-`🚨`-prefixed heading, `Full documentation:` footer, `PREFERENCES.md` bullet, etc.), keep boilerplate inlined and SKIP authoring `SKILL.partials.md`. Document the divergence per `Phase3/Verification/slice-1-not-partializable.md` precedent. The legacy inlined template is preserved here for reference:
 
 ```yaml
 ---
@@ -191,22 +183,6 @@ description: [What it does]. USE WHEN [intent triggers using OR]. [Additional ca
 # SkillName
 
 [Brief description]
-
-## Voice Notification
-
-**When executing a workflow, do BOTH:**
-
-1. **Send voice notification**:
-   ```bash
-   bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running WORKFLOWNAME in SKILLNAME"
-   ```
-
-2. **Output text notification**:
-   ```
-   Running **WorkflowName** in **SkillName**...
-   ```
-
-**Full documentation:** `~/.claude/DOS/THENOTIFICATIONSYSTEM.md`
 
 ## Workflow Routing
 
@@ -239,7 +215,7 @@ User: "[Different request]"
 
 ## Step 6: Create Workflow Files
 
-**Canonical generator (recommended):** use `scaffold-workflow.ts` to scaffold each workflow in the routing section. The tool reads pack frontmatter and emits a body shape with Voice + Steps + (Intent-to-Flag block if `--has-cli`) + Output sections — preventing the empty-touch antipattern that allowed MakerkitTeam-style misses to ship.
+**Canonical generator (recommended):** use `scaffold-workflow.ts` to scaffold each workflow in the routing section. The tool reads pack frontmatter and emits a body shape with Steps + (Intent-to-Flag block if `--has-cli`) + Output sections — preventing the empty-touch antipattern that allowed MakerkitTeam-style misses to ship.
 
 ```bash
 PACK_SRC="$HOME/Durante/Packs/<SkillName>/src"
@@ -336,7 +312,6 @@ Verify ALL files use TitleCase:
 - [ ] Description is under 1024 characters
 
 ### Markdown Body
-- [ ] `## Voice Notification` section present (for skills with workflows) — R2
 - [ ] `## Workflow Routing` section with table format — R5
 - [ ] All workflow files have routing entries
 - [ ] `## Examples` section with **2-3 concrete usage patterns** — **R13** (lint-enforced)

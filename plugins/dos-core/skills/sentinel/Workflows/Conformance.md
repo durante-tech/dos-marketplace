@@ -138,6 +138,8 @@ vs RFC-0059 R17 `presence.prd-frontmatter-complete`).
 | R-ACL-2 | `pai-acl.no-pai-vocabulary-leak` | pai-acl | PAI-as-Port ACL profile (RFC-0061) |
 | R-ACL-1 | `pai-acl.pai-origin-files-declared` | pai-acl | PAI-as-Port ACL profile (RFC-0061) |
 | R45 | `presence.ac-derivable-from-oos` | presence | sentinel conformance |
+| R101 | `presence.archetype-scope-completeness` | presence | sentinel conformance |
+| R102 | `presence.archetype-scope-declared` | presence | sentinel conformance |
 | R60 | `presence.artifact-spec-body-sections` | presence | sentinel conformance |
 | R59 | `presence.artifact-spec-frontmatter-complete` | presence | sentinel conformance |
 | R61 | `presence.artifact-spec-sample-matches-producer` | presence | sentinel conformance |
@@ -168,6 +170,7 @@ vs RFC-0059 R17 `presence.prd-frontmatter-complete`).
 | R90 | `presence.drift-check-telos-anchor-section` | presence | sentinel conformance |
 | R30 | `presence.drift-telemetry-liveness` | presence | sentinel conformance |
 | R-ACL-3 | `presence.fabric-patterns-catalogued` | presence | sentinel conformance |
+| R103 | `presence.foreign-harness-artifact-audit` | presence | sentinel conformance |
 | R22 | `presence.fork-canonical-alias-parity` | presence | sentinel conformance |
 | R19 | `presence.frozen-release-invariant` | presence | sentinel conformance |
 | R27 | `presence.getmemorysubdir-compliance` | presence | sentinel conformance |

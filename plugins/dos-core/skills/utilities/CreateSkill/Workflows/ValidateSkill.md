@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose:** Check if an existing skill follows the canonical structure: R1-R15 lint rules + manifest layer (plugin.json + extension.yaml + SKILL.md) + distribution docs (INSTALL.md + README.md + VERIFY.md) + frontmatter shape + TitleCase naming.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ValidateSkill workflow in the CreateSkill skill to validate skill structure"
-```
-
-Running the **ValidateSkill** workflow in the **CreateSkill** skill to validate skill structure...
-
----
-
 ## Step 1: Read the Authoritative Sources
 
 **REQUIRED FIRST:**

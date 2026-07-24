@@ -8,16 +8,6 @@ status: STABLE
 
 **Drafted technical timelines showing evolution, trends, and transformations using brand aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Timelines workflow in the Art skill to create timelines"
-```
-
-Running **Timelines** in **Art**...
-
----
-
 Creates **ILLUSTRATED TIMELINES** — chronological progressions with visual metaphors for each stage, combining narrative arc with temporal information.
 
 ---

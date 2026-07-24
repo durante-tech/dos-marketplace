@@ -18,7 +18,7 @@ divergence_from_canonical:
     reason: "Scaffolder pack — customization surface deferred to v0.2.0+; per-operator project preferences live in dos-ios-starter repo CONFIG, not skill frontmatter"
     rationale_link: null
   _four-copy-footer*.md:
-    partial_version: 1.0.0
+    partial_version: 1.1.0
     reason: "Scaffolder pack — four-copy footer is infrastructural decoration; SCAFFOLDER skills emit project files (Xcode/Tuist), not MEMORY artifacts"
     rationale_link: null
 ---

@@ -8,16 +8,6 @@ status: STABLE
 
 **Edit existing video with natural language instructions -- modify scenes, swap backgrounds, and apply transformations.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Video Edit workflow in the Video skill to edit existing video"
-```
-
-Running **VideoEdit** in **Video**...
-
----
-
 ## Purpose
 
 Modify existing video clips using natural language descriptions. This workflow takes a source video and applies edits described in the prompt -- background replacement, style changes, element additions, or scene modifications.

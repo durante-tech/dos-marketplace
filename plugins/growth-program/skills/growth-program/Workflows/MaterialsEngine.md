@@ -2,6 +2,11 @@
 name: MaterialsEngine
 description: Phase 3 — recurring creative/materials engine (reels, carousels, statics, shorts) + a brand-locked production spec
 status: STABLE
+divergence_from_canonical:
+  _workflow-output-shape.md:
+    partial_version: 1.0.0
+    reason: "Bespoke Output section with workflow-specific shape (growth-program 7-phase pipeline emits per-phase document sets, not the canonical output shape)"
+    rationale_link: null
 bestPath:
   - title: "Work Order & Format Mix"
     description: "Parse the content calendar into a per-asset work list and roll up the format mix for the window."

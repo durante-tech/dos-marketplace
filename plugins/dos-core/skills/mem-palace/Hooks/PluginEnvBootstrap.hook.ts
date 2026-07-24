@@ -72,6 +72,7 @@ try {
   } catch {
     /* first run */
   }
+  // writeArtifact:exempt — plugin-data debug manifest (CLAUDE_PLUGIN_DATA scratch); hook is self-contained by design and the writeArtifact shim requires the live-install layout absent under plugin installs
   if (prior !== manifest) writeFileSync(manifestPath, manifest);
 
   // ── 3. uv + chromadb provisioning (detached, marker-gated) ───────────────

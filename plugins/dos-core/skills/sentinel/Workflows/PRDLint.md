@@ -25,12 +25,6 @@ divergence_from_canonical:
 
 Walks every `MEMORY/WORK/*/PRD.md` and validates against six doctrine rules drawn from RFCs R17-R24 and the v0.0.7 Algorithm's PRD template. One command answers: "are my PRDs compliant?"
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the PRDLint workflow in the sentinel skill to lint all WORK PRDs"
-```
-
 ## Intent-to-Flag Mapping
 
 | User Says | Tool | Flag | When to Use |

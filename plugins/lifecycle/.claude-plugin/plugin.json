@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "lifecycle",
+  "displayName": "DOS lifecycle",
+  "description": "Capability lifecycle discipline for DOS — deprecate, migrate, and retire packs, skills, hooks, tools, and adopted imports with verified closure.",
+  "version": "0.0.23",
+  "author": {
+    "name": "Durante Technologies",
+    "email": "tech@duranteos.com"
+  },
+  "license": "MIT",
+  "homepage": "https://durante.tech"
+}

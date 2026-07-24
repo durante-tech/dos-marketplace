@@ -6,14 +6,6 @@ status: STABLE
 
 # Batch Entity Extraction with Gemini 3 Pro
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the BatchEntityExtractionGemini3 workflow in the Parser skill to extract entities"
-```
-
-Running the **BatchEntityExtractionGemini3** workflow in the **Parser** skill to extract entities...
-
 ## Purpose
 
 Extract structured entities from multiple URLs in a single batch request using Gemini 3 Pro's 1M context window for better entity recognition, relationship extraction, and cross-article entity resolution.

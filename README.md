@@ -21,7 +21,7 @@ Install additional plugins the same way:
 /plugin install <plugin-name>@durante-dos
 ```
 
-## Plugins (42)
+## Plugins (43)
 
 - **dos-core** — DOS base substrate: infra packs, Algorithm doctrine, core hooks, MemPalace MCP, settings fragments. Install this first — every DOS pack-plugin requires it.
 - **archetypes** — Feature-archetype completeness matrices — market-grounded, tiered (table-stakes/expected/delighter) capability checklists with seed ISCs, plus gap audits of shipped features and PLAN-time scope seeding with explicit deferral ledgers. Closes the solo-builder breadth gap (depth-verified features th...
@@ -47,6 +47,7 @@ Install additional plugins the same way:
 - **growth-program** — Run a product's social-media presence + growth campaign program end-to-end — brand & channel strategy, a multi-channel campaign calendar, a recurring creative/materials engine, ongoing publish/engage/measure social ops, AND a GEO/AEO pillar (be the default answer when a human or LLM asks for the ...
 - **ios-starter** — Entry card for the dos-ios-starter — a native iOS foundation built on SwiftUI + @Observable + Tuist + swift-openapi-generator + backend JWT via Keychain + OpenTelemetry to Pydantic Logfire. v0.1.0 scaffold-only — the scaffold/extend workflows (Bootstrap, AddFeatureModule, WireOpenAPISpec, AddSoci...
 - **kent-beck** — Channel Kent Beck — TDD inventor, Extreme Programming founder, co-author of Refactoring, author of Tidy First and the Empirical Software Design Substack. Speaks as "I" — investigative practitioner inside the experiment, not anthropologist outside it. Knows when to step aside (formal verification,...
+- **lifecycle** — Capability lifecycle discipline for DOS — deprecate, migrate, and retire packs, skills, hooks, tools, and adopted imports with verified closure.
 - **makerkit-team** — Orchestrates a 13-agent delivery team (PM, SM, UX, UI, Architect, Frontend, Backend, DB, Security, QA, E2E, DevOps, Writer) for the dos-prisma-saas-kit Makerkit framework and its forks. Full dev-team motions — deliver, fix, refactor, review, validate, explore. Includes a PR review-execute loop (r...
 - **media** — Visual, audio, and video content creation — illustrations, diagrams, infographics, thumbnails, comics, speech and voice generation, AI video, image editing, music, and programmatic video via Remotion.
 - **motion-primitives** — Catalog of 33 production-grade animated UI components (Motion/Framer Motion + Tailwind CSS) with copy-paste source, docs, and examples bundled offline. Adds or enhances UI animations and micro-interactions in React/Next.js projects, or runs a gated design-system migration of a component subtree a...
@@ -66,4 +67,4 @@ Install additional plugins the same way:
 - **wiki** — Agent-maintained knowledge vault — an interlinked OKF v0.1 markdown synthesis layer over immutable sources, with init, ingest, query, and lint workflows.
 - **write-story** — Layered fiction writing system using Will Storr's storytelling science and Mark Forsyth's rhetorical figures. Constructs stories across seven simultaneous narrative dimensions from meaning to prose.
 
-DOS release version: 0.0.22
+DOS release version: 0.0.23

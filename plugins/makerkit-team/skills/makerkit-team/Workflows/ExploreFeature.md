@@ -12,6 +12,10 @@ bestPath:
   - title: "Operator Decision"
     description: "Operator continues to BugFix/Refactor/DeliverFeature with the map, archives it, or spawns DocsRefresh."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -87,6 +91,14 @@ Operator reads the feature map and chooses next move:
 - Continue to BugFix / Refactor / DeliverFeature with this map as upstream input
 - Archive map to `MEMORY/ARTIFACTS/feature-map-<slug>.md` for future reference
 - Spawn DocsRefresh if doc drift detected
+
+## Intent-to-Flag Mapping
+
+ExploreFeature's only bun-CLI invocation is fixed by design — Phase 0 always runs the same capability probe; exploration depth (skim/standard/deep) is an operator- or auto-classified parameter passed to the archaeology agents, not a CLI flag.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 step 1 — capability manifest gate before the Architect/Frontend/Backend/Database archaeology fan-out; exit 1 STOPs the run |
 
 ## Operator Gates (v0.1.0)
 

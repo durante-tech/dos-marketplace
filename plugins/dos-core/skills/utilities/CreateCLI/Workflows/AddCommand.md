@@ -8,16 +8,6 @@ status: STABLE
 
 **Extend existing CLI with new commands while maintaining code quality and consistency.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the AddCommand workflow in the CreateCLI skill to add CLI command"
-```
-
-Running the **AddCommand** workflow in the **CreateCLI** skill to add CLI command...
-
----
-
 ## 🎯 PURPOSE
 
 Add one or more commands to an existing CLI without breaking existing functionality.

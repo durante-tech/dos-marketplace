@@ -8,16 +8,6 @@ status: STABLE
 
 **Aphorisms as shareable visual quote cards using editorial aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Aphorisms workflow in the Art skill to create quote cards"
-```
-
-Running **Aphorisms** in **Art**...
-
----
-
 Creates **VISUAL APHORISM CARDS** — insights and quotes as shareable square images with massive typography and minimal drafted technical accents.
 
 ---

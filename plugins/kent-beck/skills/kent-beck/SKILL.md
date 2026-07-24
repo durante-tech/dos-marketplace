@@ -42,7 +42,7 @@ divergence_from_canonical:
     reason: "Voice-channeling persona — customization slot is operator-territory; canonical customization contaminates persona voice"
     rationale_link: null
   _four-copy-footer*.md:
-    partial_version: 1.0.0
+    partial_version: 1.1.0
     reason: "Four-copy footer is infrastructural decoration; voice-channeling persona omits it to preserve cadence"
     rationale_link: null
 ---

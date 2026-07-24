@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose:** Restructure an existing skill to match the canonical format — fix lint findings (R1-R12), add missing manifest files (plugin.json + src/extension.yaml), add missing distribution docs (INSTALL.md + README.md + VERIFY.md), enforce TitleCase + frontmatter shape.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CanonicalizeSkill workflow in the CreateSkill skill to restructure skill"
-```
-
-Running the **CanonicalizeSkill** workflow in the **CreateSkill** skill to restructure skill...
-
----
-
 ## Step 1: Read the Authoritative Sources
 
 **REQUIRED FIRST:**

@@ -12,6 +12,10 @@ bestPath:
   - title: "Operator Decision"
     description: "Operator chooses to proceed to DeliverFeature, revise via a solo re-spawn, or reject and archive findings."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -58,6 +62,14 @@ Operator chooses next move:
 - Proceed → spawn `DeliverFeature` workflow
 - Revise → re-spawn the relevant agent solo with revisions
 - Reject → archive findings, no further action
+
+## Intent-to-Flag Mapping
+
+DesignReview's only bun-CLI invocation is fixed by design — Phase 0 always runs the same capability probe regardless of the target surface or question under review.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 step 1 — capability manifest gate before the UX/UI/Architect council spawns; exit 1 STOPs the run |
 
 ## Output
 

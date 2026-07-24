@@ -349,10 +349,6 @@
           },
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/BashAllowlistGuard.hook.ts"
-          },
-          {
-            "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/WorktreeMemoryWriteGuard.hook.ts"
           },
           {
@@ -712,6 +708,7 @@
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/LicenseGate.hook.ts || true",
+            "timeout": 10,
             "statusMessage": "Validating license entitlement (soft)"
           }
         ]
@@ -957,8 +954,8 @@
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/NotificationNtfy.hook.ts || true",
-            "async": true,
-            "timeout": 10
+            "timeout": 10,
+            "async": true
           }
         ]
       }

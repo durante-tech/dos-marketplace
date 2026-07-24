@@ -11,7 +11,6 @@ roots: []
 visibility: public
 capabilities:
   - customization.cascade
-  - voice.emit
   - artifact.write
   - four-copy.sync
 artifact_tracking:

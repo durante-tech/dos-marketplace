@@ -57,12 +57,12 @@ interface Transition {
 
 const ISA_PATH_PATTERNS: RegExp[] = [
   /Plans\/Specs\/RFC-\d{4}[^/]*\.md$/,
-  // Matches both legacy flat layout (MEMORY/WORK/<slug>/PRD.md) and the
-  // RFC-0037 Phase 0a structural split (MEMORY/WORK/active/<slug>/PRD.md
-  // and MEMORY/WORK/archived/<slug>/PRD.md). Without the optional bucket
-  // segment, vNext PRDs under active/ silently fall through and the
-  // auto-commit-on-ISC-flip never fires.
-  /MEMORY\/WORK\/(?:active\/|archived\/)?[^/]+\/(PRD|ISA)\.md$/,
+  // MEMORY/WORK patterns REMOVED 2026-07-22 (recursion-circle trace, RFC-0037
+  // reconciliation): .gitignore deliberately excludes MEMORY/WORK/ (Studio is
+  // SoT — 4-voice council 2026-04-21), so every ISA auto-commit on those paths
+  // failed silently — 477 checkpoint-errors.jsonl entries, zero contract
+  // commits since 2026-05-14. RFC-0063 provenance commits apply to TRACKED
+  // ISA surfaces only; PRD provenance flows through SaveWorkToStudio instead.
   /(^|\/)ISA\.md$/,
 ];
 

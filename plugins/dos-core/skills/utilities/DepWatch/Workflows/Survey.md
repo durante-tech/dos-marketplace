@@ -8,20 +8,6 @@ status: STABLE
 
 # Survey Workflow — a Surface Crunch over dependency releases, CVEs and breaking changes in a project dependency tree
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Survey workflow in the DepWatch skill to crunch dependency releases, CVEs and breaking changes in a project dependency tree"
-```
-
-Running the **Survey** workflow in the **DepWatch** skill...
-
-This workflow runs the **Surface Crunch** pattern: enumerate Surfaces → fan out
-extraction Threads under contract → converge into a 4-tier ranked report.
-Pattern doctrine: `MEMORY/CANONICAL/surface-crunch-pattern.md`.
-
----
-
 ## Step 1: Launch Threads in parallel
 
 Spawn parallel extraction Threads (`Task`, `subagent_type: general-purpose`), up to

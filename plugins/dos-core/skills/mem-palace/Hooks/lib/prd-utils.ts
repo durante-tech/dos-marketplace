@@ -223,21 +223,69 @@ export function syncToWorkJson(fm: Frontmatter, prdPath: string, content?: strin
     ...(iterationStr ? { iteration: parseInt(iterationStr) || 1 } : {}),
   };
 
-  // Clean stale sessions:
-  // - Completed sessions older than 24h
-  // - Any non-complete session older than 7 days (prevents unbounded growth)
+  gcStaleSessions(registry);
+
+  writeRegistry(registry);
+}
+
+// ── Session-registry hygiene (2026-07-21 starting-row flood fix) ─────────────
+
+/** Orphaned 'starting' placeholders: PRDSync replaces real ones within
+ *  30-120s of OBSERVE; a 2h-old 'starting' row will never resolve. */
+const STARTING_TTL_MS = 2 * 3600000;
+
+/**
+ * Clean stale sessions:
+ * - Terminal sessions older than 24h
+ * - 'starting' placeholders older than 2h (orphaned — no PRD ever arrived)
+ * - Any session older than 7 days (prevents unbounded growth)
+ * Runs on BOTH the PRD-sync path and upsertSession — GC previously ran only
+ * when a PRD was written, which post NATIVE-default rarely happens, so
+ * orphaned placeholders structurally outlived their window.
+ */
+function gcStaleSessions(registry: any): void {
   const now = Date.now();
   const SEVEN_DAYS = 7 * 86400000;
   for (const [slug, session] of Object.entries(registry.sessions) as [string, any][]) {
     const updated = new Date(session.updatedAt || session.started || 0).getTime();
     if (isTerminalPhase(session.phase) && now - updated > 86400000) {
       delete registry.sessions[slug];
+    } else if (session.phase === 'starting' && now - updated > STARTING_TTL_MS) {
+      delete registry.sessions[slug];
     } else if (now - updated > SEVEN_DAYS) {
       delete registry.sessions[slug];
     }
   }
+}
 
-  writeRegistry(registry);
+/**
+ * Machine-spawned helper sessions (session summarizers, memory consolidators,
+ * compaction agents) must never register as operator work in work.json — they
+ * were 96% of the phase:'starting' noise (259/269 measured 2026-07-21).
+ * Writer-side gate; readers no longer need to filter them.
+ */
+export const MACHINE_PROMPT_PREFIXES = [
+  'You are summarizing a Claude Code session',
+  'You are a memory consolidation agent',
+  'Apply maximum non-destructive compression',
+] as const;
+
+export function isMachinePrompt(prompt: string): boolean {
+  const p = (prompt || '').trimStart();
+  return MACHINE_PROMPT_PREFIXES.some((pre) => p.startsWith(pre));
+}
+
+/**
+ * Post 2026-07-08 harness realignment NATIVE is the default and ALGORITHM is
+ * principal opt-in — a 'starting' (PRD-coming) placeholder is only honest when
+ * the prompt carries an explicit opt-in token. The old action-verb heuristic
+ * (implement|build|create|…) stranded verb-y NATIVE prompts in phase:'starting'
+ * forever, since no PRD ever arrived to replace the placeholder.
+ */
+const ALGO_OPTIN_RE = /(^|\s)\/(algo|e[3-5])\b|\/effort\s+(xhigh|max)\b|\bfull ceremony\b|\brun (the )?algorithm\b/i;
+
+export function isAlgorithmOptIn(prompt: string): boolean {
+  return ALGO_OPTIN_RE.test((prompt || '').trim());
 }
 
 /** Update sessionName in work.json for a given session UUID. Called by SessionAutoName on name upgrade.
@@ -315,6 +363,7 @@ export function upsertSession(sessionUUID: string, sessionName: string, task: st
       };
     }
 
+    gcStaleSessions(registry);
     writeRegistry(registry);
   } catch {}
 }

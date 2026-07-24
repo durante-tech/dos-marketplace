@@ -34,7 +34,7 @@ Running the **SeedScope** workflow in the **Archetypes** skill...
 cd ~/.claude/skills/archetypes && bun Tools/RenderArchetype.ts --list
 ```
 
-No match → note "no archetype coverage" in the PRD (that absence is itself signal — consider AuthorArchetype after delivery) and stop. Partial match → proceed with the closest archetype and record the mismatch.
+No match → write a `Declined: <reason>` line in the PRD's Decisions section (RFC-0164 D-A.2 — the mandatory-or-declined predicate; the same line records an explicit operator decline, and silence is a lint finding, never a valid state) and stop; the absence is itself signal — consider AuthorArchetype after delivery. Partial match → proceed with the closest archetype and record the mismatch.
 
 ### Step 2 — Resolve applicable rows
 
@@ -64,7 +64,7 @@ Anti-criteria rows (`a-` prefixed) become ISC-A entries for every capability act
 
 ### Step 4 — Splitting
 
-Scope ISCs marked "build" then decompose into implementation ISCs per the Algorithm's §3 Splitting Test — the scope line stays as the parent claim; its children are the atomic criteria. (Formal sub-ISC hierarchy is a pending doctrine RFC; until then the `[tier row-id]` bracket convention keeps the join greppable.)
+Scope ISCs marked "build" then decompose into implementation ISCs per the Algorithm's §3 Splitting Test — the scope line stays as the parent claim; its children are the atomic criteria. (Ratified doctrine — RFC-0164 D-C: the scope parent `ISC-S<n>` carries the `[T<tier> <row-id>]` bracket as its normative archetype-row provenance; children take dotted ids `ISC-S<n>.<m>`, each individually subject to the Splitting Test; parents never split at scope altitude — they build, defer, or waive. At VERIFY a `build` parent passes iff every child passes and its own seeded claim text is evidenced; a `build` parent with zero children is a finding — the silent decomposition gap.)
 
 ### Step 5 — Close the loop at VERIFY
 

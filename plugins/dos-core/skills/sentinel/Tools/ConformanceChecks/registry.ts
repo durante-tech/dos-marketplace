@@ -133,6 +133,16 @@ import { r99VisibilityRosterParity } from "./handlers/R99-visibility-roster-pari
 // presence tripwire (scaffold + lint + baseline + generated catalog + gate/CI
 // wiring; an unwired checker is prose with extra steps).
 import { r100ToolsLintWired } from "./handlers/R100-tools-lint-wired.ts";
+// Archer Stage-2 (WRIT_RUN4 scope #5, 2026-07-22) — R101 archetype scope-block
+// completeness over the recent PRD corpus (ISC-A2 mechanical owner).
+import { r101ArchetypeScopeCompleteness } from "./handlers/R101-archetype-scope-completeness.ts";
+// Archer Run 4 gen-52 (RFC-0164 D-A.2, 2026-07-22) — R102 archetype scope
+// applicability predicate over the recent post-ratification PRD corpus.
+import { r102ArchetypeScopeDeclared } from "./handlers/R102-archetype-scope-declared.ts";
+// Archer Run 5 gen-62 (fold finding 7c1ae69c) — R103 git-level foreign-harness
+// artifact audit over the tracked set (git ls-files). WARN-only, committed-class
+// f(HEAD) + force-advisory (never gates; the baseline sweep only snapshots it).
+import { r103ForeignHarnessArtifactAudit } from "./handlers/R103-foreign-harness-artifact-audit.ts";
 // Amendment H §H.6 J4 (2026-05-25) — R74 QATesterGate contract guardian.
 // Reads Docs/Contracts/qatester-gate-contract.md and asserts the 3-piece
 // extract-interface holds against agents/QATester.md when Amendment H is
@@ -458,6 +468,33 @@ export const HANDLERS: Record<string, CheckHandler> = {
   // substep invokes, is not silently deleted. Presence guard (f(HEAD),
   // committed-class), WARN-ONLY (always pass; missing artifacts in evidence).
   "presence.task-projection-wired": r98TaskProjectionWired,
+  // R101 — presence.archetype-scope-completeness (Archer Stage-2, WRIT_RUN4
+  // scope #5). PRDs whose scope block records "seeded from archetype <name>"
+  // are audited against the archetype's T1 obligation set via the archetypes
+  // pack's ValidateScopeBlock CLI (single SoT for the law; install-read is
+  // advisory-class per the R90 resolution). Two live ISC-A2 catches are the
+  // evidence base. AUDIT-tier, WARN-ONLY (always pass; violations in
+  // evidence). Promote after FP-rate soak — operator call; ship itself was
+  // operator-gated per WRIT_RUN4.
+  "presence.archetype-scope-completeness": r101ArchetypeScopeCompleteness,
+  // R102 — presence.archetype-scope-declared (Archer Run 4 gen-52; RFC-0164
+  // D-A.2). Feature-shaped PRDs authored after ratification must carry the
+  // SeedScope scope section OR a Declined: line — silence is the finding
+  // class (the EXISTENCE side of the predicate; R101 audits the content of
+  // blocks that exist). Pure text predicate, no CLI spawn, no install-state
+  // read. AUDIT-tier, WARN-ONLY (always pass; silence in evidence). Shares
+  // R101's promotion ladder (RFC-0164 §3.3). Ship operator-gated per the
+  // Run-4 launch directive (R102 verified next-free, both copies + open PRs).
+  "presence.archetype-scope-declared": r102ArchetypeScopeDeclared,
+  // R103 — presence.foreign-harness-artifact-audit (Archer Run 5 gen-62; fold
+  // finding 7c1ae69c). Git-level guard over `git ls-files`: no foreign-harness
+  // runtime artifact (job dir, worktree, driver lock, session/agent journal,
+  // shell-snapshot, tool-results, runlog) is tracked outside declared
+  // baseline/fixture allowlists. The gitignore re-include (!/Releases/<ver>/
+  // .claude) can't carve out harness classes without breaking fixture-shipping,
+  // so the guard lives here. WARN-only (always pass; hits in evidence),
+  // committed-class f(HEAD) + force-advisory (never gates — snapshot only).
+  "presence.foreign-harness-artifact-audit": r103ForeignHarnessArtifactAudit,
   // R92 (Wave D ISC-15) — advisory (work-corpus): phase:complete PRDs past the 7d
   // soak still under MEMORY/WORK (flat + active/) should be in MEMORY/ARCHIVE.
   "presence.complete-prd-past-soak": r92CompletePrdPastSoak,

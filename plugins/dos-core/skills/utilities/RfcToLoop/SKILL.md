@@ -4,7 +4,7 @@ name: RfcToLoop
 description: Generate a self-contained /loop prompt + pre-committed PRD stub from any RFC slice, so a fresh Claude Code session can paste the block and deliver end-to-end. USE WHEN rfc to loop, rfc-to-loop, generate loop prompt, rfc delivery prompt, rfc slice, next rfc slice, prepare rfc session, pack rfc for loop, ship rfc slice, rfc loop block.
 role: executor
 accepts:
-  - file:md
+  - text
 icon: Waypoints
 tier: secondary
 category: Engineering

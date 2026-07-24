@@ -2,6 +2,11 @@
 name: PresenceOps
 description: Phase 4 — ongoing social presence ops (schedule → publish → engage → pull-insights) behind a mandatory approval gate; writes social-media-plan.md
 status: STABLE
+divergence_from_canonical:
+  _workflow-output-shape.md:
+    partial_version: 1.0.0
+    reason: "Bespoke Output section with workflow-specific shape (growth-program 7-phase pipeline emits per-phase document sets, not the canonical output shape)"
+    rationale_link: null
 bestPath:
   - title: "Load & Reconcile"
     description: "Pull the next publishing window from content-calendar.md and confirm every slot's bound asset is spec-compliant."

@@ -3,7 +3,7 @@
   "name": "social-media",
   "displayName": "DOS social-media",
   "description": "Publish to and fetch analytics from Facebook Pages, Instagram Business accounts, and LinkedIn personal profiles via direct REST APIs (Graph v24.0 and LinkedIn /rest/posts).",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

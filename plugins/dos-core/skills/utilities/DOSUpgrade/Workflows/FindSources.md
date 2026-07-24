@@ -6,20 +6,6 @@ status: STABLE
 
 # Find Sources
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the FindSources workflow in the DOSUpgrade skill to discover sources"
-```
-
-Running the **FindSources** workflow in the **DOSUpgrade** skill to discover sources...
-
-Discover and evaluate new sources to add to upgrade monitoring.
-
-**Trigger:** "find upgrade sources", "find new sources", "discover channels", "expand monitoring"
-
----
-
 ## Overview
 
 This workflow helps identify new sources worth monitoring for DOS-relevant updates:

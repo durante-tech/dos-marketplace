@@ -6,16 +6,6 @@ status: STABLE
 
 # TreeOfThoughts Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the TreeOfThoughts workflow in the BeCreative skill to explore solution paths"
-```
-
-Running **TreeOfThoughts** in **BeCreative**...
-
----
-
 **When to use:** Complex creative problem-solving requiring exploration of multiple paths
 
 ---

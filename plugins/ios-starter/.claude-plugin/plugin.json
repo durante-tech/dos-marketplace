@@ -3,7 +3,7 @@
   "name": "ios-starter",
   "displayName": "DOS ios-starter",
   "description": "Entry card for the dos-ios-starter — a native iOS foundation built on SwiftUI + @Observable + Tuist + swift-openapi-generator + backend JWT via Keychain + OpenTelemetry to Pydantic Logfire. v0.1.0 scaffold-only — the scaffold/extend workflows (Bootstrap, AddFeatureModule, WireOpenAPISpec, AddSoci...",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

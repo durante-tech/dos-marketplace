@@ -8,16 +8,6 @@ status: STABLE
 
 **DOS Blueprint TECHNIQUE — Applied to DOS-system-relevant subjects.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Essay workflow in the Art skill to create header images"
-```
-
-Running **Essay** in **Art**...
-
----
-
 Uses engineering-blueprint STYLE (drafted navy lines, dimension callouts, light grid, orange focal accent) to render DOS-system concepts as engineered objects — NOT defaulting to literal architecture, NOT charcoal sketches.
 
 ---

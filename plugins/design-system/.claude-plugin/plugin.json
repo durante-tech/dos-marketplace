@@ -3,7 +3,7 @@
   "name": "design-system",
   "displayName": "DOS design-system",
   "description": "Extract, initialize, manage, and apply AI-native design systems via a DESIGN.md file. Deterministic UI generation from semantic design tokens -- colors, typography, spacing, and component blueprints. Accepts brand token specs from brand skill.",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "author": {
     "name": "Durante Technologies",
     "email": "tech@duranteos.com"

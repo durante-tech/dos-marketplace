@@ -14,6 +14,10 @@ bestPath:
   - title: "Postmortem"
     description: "Scrum Master records a 5-question postmortem citing the regression-test path added to prevent recurrence."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -122,6 +126,14 @@ After G4-bug pass, commit the fix. Subject: `fix(<scope>): <concise ≤72>` (Con
 5. What pattern, if any, should the team adopt to catch this class of bug earlier?
 
 Append to PRD `## Verification → ### Postmortem`.
+
+## Intent-to-Flag Mapping
+
+BugFix's only bun-CLI invocation is fixed by design — Phase 0 always runs the identical capability probe; severity classification and implementer selection are operator/Architect judgment calls, not CLI flags.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun ~/.claude/skills/makerkit-team/Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 step 1 — capability manifest gate before repro/scope; exit 1 STOPs the run. Re-cited in Phase 4's `mcp__makerkit__run_checks` fallback note as a pointer to this same manifest, not a second invocation. |
 
 ## Operator Gates Summary
 

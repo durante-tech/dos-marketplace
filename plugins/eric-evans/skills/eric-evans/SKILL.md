@@ -50,8 +50,12 @@ divergence_from_canonical:
     reason: "Voice-channeling persona — customization slot is operator-territory; canonical customization contaminates persona voice"
     rationale_link: null
   _four-copy-footer*.md:
-    partial_version: 1.0.0
+    partial_version: 1.1.0
     reason: "Four-copy footer is infrastructural decoration; voice-channeling persona omits it to preserve cadence"
+    rationale_link: null
+  _voice-block.md:
+    partial_version: 1.0.0
+    reason: "Voice-channeling persona — the voice contract lives in the persona prosody itself; canonical skill-voice block erases persona cadence"
     rationale_link: null
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->

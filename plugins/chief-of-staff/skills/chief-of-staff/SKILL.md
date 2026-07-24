@@ -15,7 +15,6 @@ capabilities:
   - artifact.write
   - customization.cascade
   - four-copy.sync
-  - voice.emit
 elevator: A chief of staff that remembers what you forgot you said.
 highlightWorkflows:
   - name: Triage

@@ -10,7 +10,7 @@
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, renameSync, statSync } from "fs";
-import { basename, join, resolve } from "path";
+import { basename, dirname, join, resolve } from "path";
 import { homedir } from "os";
 import { execSync } from "child_process";
 import { Glob } from "bun";
@@ -1558,6 +1558,9 @@ function runRegisterProject(args: string[]): void {
     id, name, wing, root_path: rootPath, description: description ?? "",
   });
   if (changed) {
+    // RFC-0168 A1: the install-class registry parent may not exist on a fresh
+    // machine (fork-day) — create it; legacy maintainer paths are unaffected.
+    mkdirSync(dirname(file), { recursive: true });
     const tmp = `${file}.tmp`;
     // writeArtifact:exempt — atomic tmp write of sentinel state (rename follows)
     writeFileSync(tmp, JSON.stringify(next, null, 2) + "\n");

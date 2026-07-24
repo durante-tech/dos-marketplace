@@ -6,20 +6,6 @@ status: STABLE
 
 # Twitter/X Thread Extraction Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the ExtractTwitter workflow in the Parser skill to parse tweets"
-```
-
-Running the **ExtractTwitter** workflow in the **Parser** skill to parse tweets...
-
-**Purpose:** Extract tweets, threads, and metadata from Twitter/X
-
-**When to Use:** Content type detected as "tweet_thread" from twitter.com or x.com domains
-
----
-
 ## Extraction Steps
 
 ### 1. Thread Detection and Fetching

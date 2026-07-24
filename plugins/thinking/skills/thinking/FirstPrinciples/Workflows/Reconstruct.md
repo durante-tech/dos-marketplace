@@ -8,16 +8,6 @@ status: STABLE
 
 **Purpose**: Build an optimal solution from scratch using only the fundamental truths and hard constraints identified through Deconstruct and Challenge.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Reconstruct workflow in the FirstPrinciples skill to build optimal solution"
-```
-
-Running the **Reconstruct** workflow in the **FirstPrinciples** skill to build optimal solution...
-
----
-
 **When to Use**:
 - After completing Deconstruct and Challenge workflows
 - When existing solutions are clearly suboptimal

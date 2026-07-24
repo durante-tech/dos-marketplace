@@ -8,16 +8,6 @@ status: STABLE
 
 **Generate 256x256 transparent PNG icons for DOS packs.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CreateDOSPackIcon workflow in the Art skill to generate pack icons"
-```
-
-Running **CreateDOSPackIcon** in **Art**...
-
----
-
 ## Purpose
 
 Create consistent, professional icons for DOS packs following the established visual identity.

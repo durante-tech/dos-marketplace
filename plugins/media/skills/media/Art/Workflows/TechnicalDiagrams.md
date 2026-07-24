@@ -20,16 +20,6 @@ bestPath:
 
 **Clean Excalidraw-style technical diagrams with custom typography aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the TechnicalDiagrams workflow in the Art skill to create diagrams"
-```
-
-Running **TechnicalDiagrams** in **Art**...
-
----
-
 ## Purpose
 
 Technical diagrams for system architectures, process flows, and board presentations.
@@ -49,7 +39,6 @@ Technical diagrams for system architectures, process flows, and board presentati
 3. **Custom fonts** — Specific typography hierarchy (see below)
 4. **Strategic color** — Hot Accent Orange #F97316 for key elements, Blueprint Navy #1E3A8A for flows
 5. **White primary** — 80% of elements in grey/black colors, color is accent only
-
 
 # Example image
 # Ignore for now

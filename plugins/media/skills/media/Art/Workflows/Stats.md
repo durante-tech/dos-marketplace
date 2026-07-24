@@ -8,16 +8,6 @@ status: STABLE
 
 **Single striking statistics illustrated as visual data points using brand aesthetic.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Stats workflow in the Art skill to create stat cards"
-```
-
-Running **Stats** in **Art**...
-
----
-
 Creates **ILLUSTRATED STAT CARDS** — one number/statistic made visual with simple illustration and editorial style.
 
 ---

@@ -6,20 +6,6 @@ status: STABLE
 
 # MineReflections Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the MineReflections workflow to extract upgrade candidates from algorithm reflections"
-```
-
-Running the **MineReflections** workflow in the **DOSUpgrade** skill to mine internal algorithm reflections...
-
-**Mines internal algorithm reflections for recurring patterns that suggest Algorithm or system upgrades.**
-
-**Trigger:** "mine reflections", "check reflections", "what have we learned", "internal improvements", "reflection insights"
-
----
-
 ## Overview
 
 The Algorithm writes a structured reflection after every Standard+ run to `MEMORY/LEARNING/REFLECTIONS/algorithm-reflections.jsonl`. Each entry contains three questions focused on algorithm performance:

@@ -6,23 +6,6 @@ status: STABLE
 
 # Scaffold Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Scaffold workflow in the CrunchScaffold skill to stamp a new Surface Crunch skill"
-```
-
-Running the **Scaffold** workflow in the **CrunchScaffold** skill...
-
-Stamps a new **Surface Crunch** skill from the `surface-crunch-skill` template bundle.
-Pattern doctrine: `MEMORY/CANONICAL/surface-crunch-pattern.md`. Bundle:
-`~/.claude/DOS/Scaffolds/surface-crunch-skill/` (see its `_USAGE.md`).
-
-**Trigger:** "scaffold a surface crunch skill", "new research-package skill", "build a
-DOSUpgrade-shaped skill for X".
-
----
-
 ## Step 1: Collect the domain brief
 
 A Surface Crunch is parameterized. Collect these fields — from the operator's request

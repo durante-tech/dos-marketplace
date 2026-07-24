@@ -10,6 +10,10 @@ bestPath:
   - title: "Operator Triage"
     description: "Operator picks fix-now, defer, or accept-risk for each CRITICAL/HIGH finding."
 divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
   _workflow-output-shape.md:
     partial_version: 1.0.0
     reason: "MakerkitTeam workflows have bespoke per-pipeline Output sections (artifact paths + redline reports); canonical shape doesn't fit"
@@ -65,6 +69,14 @@ Operator triages findings. Each CRITICAL/HIGH gets a remediation plan:
 - Fix now → spawn `QuickFix` or `DeliverFeature` (depending on scope)
 - Defer → log to follow-ons with concrete slug + scope
 - Accept risk → operator signs off in writing
+
+## Intent-to-Flag Mapping
+
+SecurityAudit's only bun-CLI invocation is fixed by design — Phase 0 always runs the identical capability probe regardless of audit scope.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `bun Tools/MakerkitCli.ts preflight` | flags: `[--kit-repo <p>] [--roster <p>] [--skills-dir <p>] [--doctrine <p>]` (no stdin) | Phase 0 step 1 — capability manifest gate before the Security Engineer audit + DB Engineer memo start; exit 1 STOPs the run |
 
 ## Output
 

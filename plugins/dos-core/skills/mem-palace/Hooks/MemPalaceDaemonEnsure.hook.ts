@@ -27,7 +27,7 @@
  *  - daemon-unreachable → spawn under a PID+epoch_boot lock and let the Python
  *    daemon's own startup reap handle any stale socket (never unlink here)
  *  - cold outcomes fire the detached 60s warm tail (absorbed from the
- *    MemPalaceDaemonPrewarm hook, now a no-op shim)
+ *    MemPalaceDaemonPrewarm hook — retired 2026-07-21, RFC-0157 F6)
  *  - ALWAYS exits 0 — fail-open; the session never bricks on memory (LEG-2)
  *
  * The single console line is the information radiator: operator sees daemon

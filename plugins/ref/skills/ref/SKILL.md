@@ -20,8 +20,7 @@ visibility: public
 capabilities:
   - artifact.write
   - customization.cascade
-  - four-copy.sync
-  - voice.emit
+composes: [Research]
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 ## Customization
@@ -147,5 +146,27 @@ Cache TTL (set on Studio side):
 - **Operator-only BYOK fallback (NOT shipped with the pack):** operators running the full Durante repo have a separate `bun ~/Durante/Tools/ref.ts search/read` CLI that IS BYOK (reads `REF_API_KEY` from `.gateway.env`). It is **not part of this pack** and is unavailable on a standalone install — so it is an operator escape hatch, never the pack's path and never a fallback a customer can rely on.
 - **Private docs:** Ref.tools supports private repos/PDFs at the API level. Pack passes `ref_src=private` flag through when entitled.
 - **Streaming:** Not applicable — Ref endpoints are request/response, not streaming.
+
+## Artifact Tracking
+
+**MANDATORY for any workflow in this skill that writes output files via the Write tool.**
+
+After writing any output file, resolve the ARTIFACTS path and append a JSONL log entry:
+
+```bash
+# Resolve ARTIFACTS dir (project-level first)
+if [ -d "${CLAUDE_PROJECT_DIR}/MEMORY/ARTIFACTS" ]; then
+  ARTIFACTS_DIR="${CLAUDE_PROJECT_DIR}/MEMORY/ARTIFACTS"
+elif [ -d "$(pwd)/MEMORY/ARTIFACTS" ]; then
+  ARTIFACTS_DIR="$(pwd)/MEMORY/ARTIFACTS"
+else
+  ARTIFACTS_DIR="$HOME/.claude/MEMORY/ARTIFACTS"
+fi
+mkdir -p "$ARTIFACTS_DIR"
+
+echo '{"timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","pack":"Ref","workflow":"WORKFLOW_NAME","type":"ARTIFACT_TYPE","title":"TITLE","path":"ABSOLUTE_PATH","contentPreview":"FIRST_500_CHARS_ESCAPED","wing":"WING_OR_GENERAL","sessionId":"'$CLAUDE_SESSION_ID'"}' >> "$ARTIFACTS_DIR/artifacts.jsonl"
+```
+
+If this skill is read-only (no Write tool usage), this section is informational only.
 
 **Four-copy note:** this skill exists in multiple copies — after editing any file here, verify parity with `bun ~/Durante/Tools/sync-check.ts` (full rule: Durante/CLAUDE.md "The Four Copies"). Artifact writes are auto-logged by ArtifactAutoLogger.hook.ts.

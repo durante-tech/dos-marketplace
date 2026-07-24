@@ -8,16 +8,6 @@ status: STABLE
 
 **Generate the same prompt across 3-5 models in parallel to compare quality and pick a winner.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Model Bakeoff workflow in the Art skill to compare image models"
-```
-
-Running **ModelBakeoff** in **Art**...
-
----
-
 ## Purpose
 
 When you need the best possible image for a use case, run the same prompt through multiple models simultaneously and compare the results. This eliminates model bias and gives concrete visual evidence for which model handles a given prompt best.

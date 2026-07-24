@@ -4,21 +4,9 @@ description: Compare multiple models on the same eval use case and rank their re
 status: STABLE
 ---
 
-
-
 # CompareModels Workflow
 
 Compare multiple models on the same prompt to determine the best performer.
-
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the CompareModels workflow in the Evals skill to compare model performance"
-```
-
-Running the **CompareModels** workflow in the **Evals** skill to compare model performance...
-
----
 
 ## Prerequisites
 

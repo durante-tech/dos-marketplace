@@ -8,14 +8,6 @@ status: STABLE
 
 Freeze the current version, validate everything, and open the next one. This is the one command that handles the entire release process.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Release workflow to freeze the current DOS version"
-```
-
-Running the **Release** workflow in the **Utilities** skill...
-
 ## Trigger Phrases
 
 - "release DOS", "freeze version", "ship it", "cut release", "open next version"

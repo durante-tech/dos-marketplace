@@ -2,6 +2,11 @@
 name: Deliver Tier
 description: Execute one tier of the landing page PRD (Tier 1 quick wins, Tier 2 scroll storytelling, or Tier 3 WebGL/sound), verify, and report.
 status: STABLE
+divergence_from_canonical:
+  _intent-to-flag-table.md:
+    partial_version: 1.0.0
+    reason: "Fixed-subcommand / native-tool invocations - no intent-variant flags exist to map; the section deliberately documents the fixed invocation table instead of the canonical Mode Selection shape"
+    rationale_link: null
 bestPath:
   - title: "Tier Identification"
     description: "Load the PRD, check completed tiers, and identify the next tier to deliver."
@@ -322,6 +327,14 @@ done
 ```
 
 Each successful call appends one line to the bridge invocation log. Skip silently if no MemPalace bridge is present (non-DOS host); the tier is still delivered.
+
+## Intent-to-Flag Mapping
+
+The workflow's only CLI invocation is fixed by design — MemPalace bookkeeping at tier close; no operator phrasing selects flags.
+
+| Command | Input Contract | When It Fires |
+|---------|-----------------|----------------|
+| `python3 ~/.claude/DOS/Tools/mempalace_bridge.py add_kg_fact '<json>'` | one `{"subject":"landing-page:<slug>","predicate":"composes","object":"<Component>"}` triple per delivered component | Once per Component row of the Step 6 report, after tier delivery; skipped silently on non-DOS hosts |
 
 ## Common Pitfalls
 

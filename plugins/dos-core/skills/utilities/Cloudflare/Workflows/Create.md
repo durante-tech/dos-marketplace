@@ -8,14 +8,6 @@ status: STABLE
 
 Deploy a new Cloudflare Worker or MCP server.
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Create workflow in the Cloudflare skill to deploy a new worker"
-```
-
-Running the **Create** workflow in the **Cloudflare** skill to deploy a new worker...
-
 ## Project Structure
 
 ```

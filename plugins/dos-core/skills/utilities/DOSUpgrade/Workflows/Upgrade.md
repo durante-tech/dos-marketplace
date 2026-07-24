@@ -6,20 +6,6 @@ status: STABLE
 
 # Upgrade Workflow
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the Upgrade workflow in the DOSUpgrade skill to check for upgrades"
-```
-
-Running the **Upgrade** workflow in the **DOSUpgrade** skill to check for upgrades...
-
-**Primary workflow for DOSUpgrade skill.** Generates prioritized upgrade recommendations by running two parallel agent threads: user context analysis and source collection.
-
-**Trigger:** "check for upgrades", "upgrade", "any updates", "check Anthropic", "check YouTube", "dos upgrade"
-
----
-
 ## Overview
 
 This workflow executes the core DOSUpgrade pattern:

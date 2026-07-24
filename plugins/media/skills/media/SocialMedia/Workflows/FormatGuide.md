@@ -8,16 +8,6 @@ status: STABLE
 
 **Display image format specifications for social media platforms.**
 
-## Voice Notification
-
-```bash
-bash "$DOS_DIR/DOS/Tools/voice.sh" main "Running the FormatGuide workflow in the social-media skill to show platform specifications"
-```
-
-Running **FormatGuide** in **SocialMedia**...
-
----
-
 ## Step 1: Identify What the User Wants
 
 Determine from the request:

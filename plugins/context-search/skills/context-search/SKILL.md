@@ -21,8 +21,7 @@ roots: []
 visibility: public
 capabilities:
   - customization.cascade
-  - four-copy.sync
-  - voice.emit
+composes: [MemPalace]
 ---
 <!-- generated-from: SKILL.partials.md — DO NOT EDIT directly. Run: bun Tools/dos-build.ts skill <path> -->
 ## Customization

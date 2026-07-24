@@ -219,11 +219,15 @@ Evals implements the Science Protocol for prompt engineering. Don't reinvent eva
 
 **CLI Quick Reference:**
 ```bash
-# Run prompt comparison via Evals skill
-bun run ~/.claude/skills/utilities/Evals/EvalServer/cli-run.ts \
-  --use-case <name> \
-  --compare prompts/baseline.md prompts/variant-1.md \
-  --position-swap
+# Run the eval suite against a variant (suite runner)
+bun run ~/.claude/skills/utilities/Evals/Tools/AlgorithmBridge.ts -s <suite>
+
+# Multi-trial single-task harness (pass@k per variant)
+bun run ~/.claude/skills/utilities/Evals/Tools/TrialRunner.ts \
+  -t UseCases/<domain>/<name>/task.yaml -n 3
+
+# Prompt comparison (judge grading + position swapping) is agent-run:
+# follow ~/.claude/skills/utilities/Evals/Workflows/ComparePrompts.md
 ```
 
 ### Feature Experiments

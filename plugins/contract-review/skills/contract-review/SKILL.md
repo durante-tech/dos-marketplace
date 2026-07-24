@@ -15,7 +15,6 @@ capabilities:
   - artifact.write
   - customization.cascade
   - four-copy.sync
-  - voice.emit
 elevator: Multi-agent contract review with traffic-light redlining
 highlightWorkflows:
   - name: Review Contract

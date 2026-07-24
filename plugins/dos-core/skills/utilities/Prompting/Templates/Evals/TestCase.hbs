@@ -133,15 +133,12 @@
 To run these test cases:
 
 ```bash
-# Run all test cases
-bun run ~/.claude/Skills/Evals/EvalServer/Lib/run-eval.ts \
-  --use-case {{test_suite.name}} \
-  --all
+# Run the full suite (ISC-bound standard path)
+bun run ~/.claude/skills/utilities/Evals/Tools/AlgorithmBridge.ts -s {{test_suite.name}}
 
-# Run specific test case
-bun run ~/.claude/Skills/Evals/EvalServer/Lib/run-eval.ts \
-  --use-case {{test_suite.name}} \
-  --test-id <test_id>
+# Multi-trial run of a single test case (pass@k)
+bun run ~/.claude/skills/utilities/Evals/Tools/TrialRunner.ts \
+  -t UseCases/<domain>/{{test_suite.name}}/task.yaml -n 3
 ```
 
 ---
